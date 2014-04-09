@@ -2,7 +2,7 @@ jquery.sumoselect
 =============
 
 
-jquery.sumoselect.js - A cross device SIngle/Multi Select jQuery Select plugin.
+jquery.sumoselect.js - A cross device Single/Multi Select jQuery Select plugin.
 -------------------------------------------------------------------------------
 
 Sumoselect full :  [jquery.sumoselect.js](https://github.com/HemantNegi/jquery.sumoselect/blob/master/jquery.sumoselect.js)
@@ -54,6 +54,57 @@ If you find that you need a feature that SumoSelect does not currently support, 
 
 ```javascript
  $(document).ready(function () {
-            window.asd = $('.SlectBox').SumoSelect({ csvDispCount: 3 });
+            $('.SlectBox').SumoSelect();
      });
 ```
+
+*To provide optional settings, simply pass settings object to SumoSelect()*
+
+```javascript
+ $(document).ready(function () {
+            $('.SlectBox').SumoSelect({placeholder: 'This is a placeholder', csvDispCount: 3 });
+        });
+```
+
+**Settings**
+
+The following settings are available now:
+
+-  `placeholder` ```javascript(string)```  The palceholder text to be displayed in the rendered select widget (on priority basis). *Maximum priority is given to native placeholder attribute in select tag i.e.  - `<select placeholder="this is a placeholder" />`  - Then the option with disabled and selected attribute i.e. `<option disabled selected value="foo" >`  - Last to to the given placeholder attribute in the settings. *
+
+- `csvDispCount` ```javascript(int)```  The number of items to be displayed in the widget seperated by a `,` after that the text will be warped as *3+ Selected*. Set `0` for all the options.
+
+- `floatWidth` ```javascript(int)``` Minimum screen width of device below which the options list is rendered in floating popup fashion.
+
+- `forceCustomRendering`  ```javascript(boolean)``` Force the custom modal ( Floating list ) on all devices below floatWidth resolution.
+
+- `nativeOnDevice`  ```javascript(Array[string])``` The keywords to identify a mobile device from useragent string. The system default select list is rendered on the matched device.
+
+- `outputAsCSV` ```javascript(boolean)``` `true` to POST data as csv ( false for deafault select )
+
+- `csvSepChar` ```javascript(string)```  Seperation char if `outputAsCSV`  is set to `true`
+
+- `okCancelInMulti` ```javascript(boolean)``` Displays Ok Cancel buttons in desktop mode multiselect also. 
+
+- `triggerChangeCombined` ```javascript(boolean)``` In Multiselect mode whether to trigger change event on individual selection of each item or on combined selection ( pressing of OK or Cancel button ).
+
+
+**The default settings are :**
+
+```javascript
+{
+                    placeholder: 'Select Here',
+                    csvDispCount: 3,
+                    floatWidth: 500,
+                    forceCustomRendering: false,
+                    nativeOnDevice: ['Android', 'BlackBerry', 'iPhone', 'iPad', 'iPod', 'Opera Mini', 'IEMobile', 'Silk'],
+                    outputAsCSV : true,
+                    csvSepChar : ',', 
+                    okCancelInMulti: true, 
+                    triggerChangeCombined : true
+                }
+```
+
+## License
+
+Copyright (c) 2014 Hemant Negi Licensed under the MIT license.
