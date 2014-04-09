@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Jquery.sumoselect by HemantNegi</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Jquery.sumoselect</h1>
+        <h2>A jQuery Single/Multi Select plugin to which can be used on almost any device</h2>
+        <a href="https://github.com/HemantNegi/jquery.sumoselect" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a name="jquerysumoselect" class="anchor" href="#jquerysumoselect"><span class="octicon octicon-link"></span></a>jquery.sumoselect</h1>
+
+<h2>
+<a name="jquerysumoselectjs---a-cross-device-singlemulti-select-jquery-select-plugin" class="anchor" href="#jquerysumoselectjs---a-cross-device-singlemulti-select-jquery-select-plugin"><span class="octicon octicon-link"></span></a>jquery.sumoselect.js - A cross device Single/Multi Select jQuery Select plugin.</h2>
+
+<p>Sumoselect full :  <a href="https://github.com/HemantNegi/jquery.sumoselect/blob/master/jquery.sumoselect.js">jquery.sumoselect.js</a></p>
+
+<p>Minified : <a href="https://github.com/HemantNegi/jquery.sumoselect/blob/master/jquery.sumoselect.min.js">jquery.sumoselect.min.js</a></p>
+
+<p>A jQuery plugin that progressively enhances an HTML Select Box into a Single/Multiple option dropdown list. The dropdown list can be fully customiseable using siple css properties.
+It can adapt itself according to any deveice, keeping in mind that the User Experience is not broken. </p>
+
+<p><strong>Notable Features</strong></p>
+
+<ul>
+<li><p>Single and Multi select option.</p></li>
+<li><p>Fully customizable by simple css.</p></li>
+<li><p>Supports almost all devices (Till now i didnt found one)</p></li>
+<li><p>Intelligently Renders itself according to the devices.</p></li>
+<li><p>Renders native Single/Multiple pop up on Android, ios, Windows and other devices.</p></li>
+<li><p>Custom postback data format (Multiple select data can be passed either as csv or default select)</p></li>
+<li><p>Selected, Disabled, and Placeholder Support</p></li>
+<li><p>Easily extendable to allow developers to create new widgets</p></li>
+</ul><h2>
+<a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h2>
+
+<p>jQuery 1.8.3+ (It is always recommended to use the latest version of jQuery)</p>
+
+<h2>
+<a name="desktop-browser-support" class="anchor" href="#desktop-browser-support"><span class="octicon octicon-link"></span></a>Desktop Browser Support</h2>
+
+<p>IE8+, Firefox 4+, Chrome, Safari 4+, Opera 11+ (Other browsers may work, but I did not test on them)</p>
+
+<h2>
+<a name="mobiletablet-browser-support" class="anchor" href="#mobiletablet-browser-support"><span class="octicon octicon-link"></span></a>Mobile/Tablet Browser Support</h2>
+
+<p>iOs 3+, Android 2.1+ , Windows Mobile (Other browsers may work, but I did not test on them)</p>
+
+<h2>
+<a name="forking" class="anchor" href="#forking"><span class="octicon octicon-link"></span></a>Forking</h2>
+
+<p>If you find that you need a feature that SumoSelect does not currently support, either let me know via the SelectBoxIt issue tracker, or fork SumoSelect on Github and easily extend SumoSelect to create your own widget!</p>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p><em>To just go with the default options simply do</em></p>
+
+<div class="highlight highlight-javascript"><pre> <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+            <span class="nx">$</span><span class="p">(</span><span class="s1">'.SlectBox'</span><span class="p">).</span><span class="nx">SumoSelect</span><span class="p">();</span>
+     <span class="p">});</span>
+</pre></div>
+
+<p><em>To provide optional settings, simply pass settings object to SumoSelect()</em></p>
+
+<div class="highlight highlight-javascript"><pre> <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+            <span class="nx">$</span><span class="p">(</span><span class="s1">'.SlectBox'</span><span class="p">).</span><span class="nx">SumoSelect</span><span class="p">({</span><span class="nx">placeholder</span><span class="o">:</span> <span class="s1">'This is a placeholder'</span><span class="p">,</span> <span class="nx">csvDispCount</span><span class="o">:</span> <span class="mi">3</span> <span class="p">});</span>
+        <span class="p">});</span>
+</pre></div>
+
+<p><strong>Settings</strong></p>
+
+<p>The following settings are available now:</p>
+
+<ul>
+<li><p><code>placeholder</code> <code>javascript(string)</code>  The palceholder text to be displayed in the rendered select widget (on priority basis). *Maximum priority is given to native placeholder attribute in select tag i.e.  - <code>&lt;select placeholder="this is a placeholder" /&gt;</code>  - Then the option with disabled and selected attribute i.e. <code>&lt;option disabled selected value="foo" &gt;</code>  - Last to to the given placeholder attribute in the settings. *</p></li>
+<li><p><code>csvDispCount</code> <code>javascript(int)</code>  The number of items to be displayed in the widget seperated by a <code>,</code> after that the text will be warped as <em>3+ Selected</em>. Set <code>0</code> for all the options.</p></li>
+<li><p><code>floatWidth</code> <code>javascript(int)</code> Minimum screen width of device below which the options list is rendered in floating popup fashion.</p></li>
+<li><p><code>forceCustomRendering</code>  <code>javascript(boolean)</code> Force the custom modal ( Floating list ) on all devices below floatWidth resolution.</p></li>
+<li><p><code>nativeOnDevice</code>  <code>javascript(Array[string])</code> The keywords to identify a mobile device from useragent string. The system default select list is rendered on the matched device.</p></li>
+<li><p><code>outputAsCSV</code> <code>javascript(boolean)</code> <code>true</code> to POST data as csv ( false for deafault select )</p></li>
+<li><p><code>csvSepChar</code> <code>javascript(string)</code>  Seperation char if <code>outputAsCSV</code>  is set to <code>true</code></p></li>
+<li><p><code>okCancelInMulti</code> <code>javascript(boolean)</code> Displays Ok Cancel buttons in desktop mode multiselect also. </p></li>
+<li><p><code>triggerChangeCombined</code> <code>javascript(boolean)</code> In Multiselect mode whether to trigger change event on individual selection of each item or on combined selection ( pressing of OK or Cancel button ).</p></li>
+</ul><p><strong>The default settings are :</strong></p>
+
+<div class="highlight highlight-javascript"><pre><span class="p">{</span>
+                    <span class="nx">placeholder</span><span class="o">:</span> <span class="s1">'Select Here'</span><span class="p">,</span>
+                    <span class="nx">csvDispCount</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span>
+                    <span class="nx">floatWidth</span><span class="o">:</span> <span class="mi">500</span><span class="p">,</span>
+                    <span class="nx">forceCustomRendering</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+                    <span class="nx">nativeOnDevice</span><span class="o">:</span> <span class="p">[</span><span class="s1">'Android'</span><span class="p">,</span> <span class="s1">'BlackBerry'</span><span class="p">,</span> <span class="s1">'iPhone'</span><span class="p">,</span> <span class="s1">'iPad'</span><span class="p">,</span> <span class="s1">'iPod'</span><span class="p">,</span> <span class="s1">'Opera Mini'</span><span class="p">,</span> <span class="s1">'IEMobile'</span><span class="p">,</span> <span class="s1">'Silk'</span><span class="p">],</span>
+                    <span class="nx">outputAsCSV</span> <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                    <span class="nx">csvSepChar</span> <span class="o">:</span> <span class="s1">','</span><span class="p">,</span> 
+                    <span class="nx">okCancelInMulti</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span> 
+                    <span class="nx">triggerChangeCombined</span> <span class="o">:</span> <span class="kc">true</span>
+                <span class="p">}</span>
+</pre></div>
+
+<h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>Copyright (c) 2014 Hemant Negi Licensed under the MIT license.</p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/HemantNegi/jquery.sumoselect/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/HemantNegi/jquery.sumoselect/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/HemantNegi/jquery.sumoselect"></a> is maintained by <a href="https://github.com/HemantNegi">HemantNegi</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
