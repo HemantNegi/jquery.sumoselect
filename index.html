@@ -70,7 +70,7 @@ It can adapt itself according to any deveice, keeping in mind that the User Expe
 <h2>
 <a name="forking" class="anchor" href="#forking"><span class="octicon octicon-link"></span></a>Forking</h2>
 
-<p>If you find that you need a feature that SumoSelect does not currently support, either let me know via the SelectBoxIt issue tracker, or fork SumoSelect on Github and easily extend SumoSelect to create your own widget!</p>
+<p>If you find that you need a feature that SumoSelect does not currently support, either let me know via the SumoSelect issue tracker, or fork SumoSelect on Github and easily extend SumoSelect to create your own widget!</p>
 
 <h2>
 <a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
@@ -94,28 +94,28 @@ It can adapt itself according to any deveice, keeping in mind that the User Expe
 <p>The following settings are available now:</p>
 
 <ul>
-<li><p><code>placeholder</code> <code>javascript(string)</code>  The palceholder text to be displayed in the rendered select widget (on priority basis). *Maximum priority is given to native placeholder attribute in select tag i.e.  - <code>&lt;select placeholder="this is a placeholder" /&gt;</code>  - Then the option with disabled and selected attribute i.e. <code>&lt;option disabled selected value="foo" &gt;</code>  - Last to to the given placeholder attribute in the settings. *</p></li>
-<li><p><code>csvDispCount</code> <code>javascript(int)</code>  The number of items to be displayed in the widget seperated by a <code>,</code> after that the text will be warped as <em>3+ Selected</em>. Set <code>0</code> for all the options.</p></li>
-<li><p><code>floatWidth</code> <code>javascript(int)</code> Minimum screen width of device below which the options list is rendered in floating popup fashion.</p></li>
-<li><p><code>forceCustomRendering</code>  <code>javascript(boolean)</code> Force the custom modal ( Floating list ) on all devices below floatWidth resolution.</p></li>
-<li><p><code>nativeOnDevice</code>  <code>javascript(Array[string])</code> The keywords to identify a mobile device from useragent string. The system default select list is rendered on the matched device.</p></li>
-<li><p><code>outputAsCSV</code> <code>javascript(boolean)</code> <code>true</code> to POST data as csv ( false for deafault select )</p></li>
-<li><p><code>csvSepChar</code> <code>javascript(string)</code>  Seperation char if <code>outputAsCSV</code>  is set to <code>true</code></p></li>
-<li><p><code>okCancelInMulti</code> <code>javascript(boolean)</code> Displays Ok Cancel buttons in desktop mode multiselect also. </p></li>
-<li><p><code>triggerChangeCombined</code> <code>javascript(boolean)</code> In Multiselect mode whether to trigger change event on individual selection of each item or on combined selection ( pressing of OK or Cancel button ).</p></li>
+<li><p><code>placeholder</code> <code>(string)</code>  The palceholder text to be displayed in the rendered select widget (on priority basis). *Maximum priority is given to native placeholder attribute in select tag i.e.  - <code>&lt;select placeholder="this is a placeholder" /&gt;</code>  - Then the option with disabled and selected attribute i.e. <code>&lt;option disabled selected value="foo" &gt;</code>  - Last to to the given placeholder attribute in the settings. *</p></li>
+<li><p><code>csvDispCount</code> <code>(int)</code>  The number of items to be displayed in the widget seperated by a <code>,</code> after that the text will be warped as <em>3+ Selected</em>. Set <code>0</code> for all the options.</p></li>
+<li><p><code>floatWidth</code> <code>(int)</code> Minimum screen width of device below which the options list is rendered in floating popup fashion.</p></li>
+<li><p><code>forceCustomRendering</code>  <code>(boolean)</code> Force the custom modal ( Floating list ) on all devices below floatWidth resolution.</p></li>
+<li><p><code>nativeOnDevice</code>  <code>(Array[string])</code> The keywords to identify a mobile device from useragent string. The system default select list is rendered on the matched device.</p></li>
+<li><p><code>outputAsCSV</code> <code>(boolean)</code> <code>true</code> to POST data as csv ( false for deafault select )</p></li>
+<li><p><code>csvSepChar</code> <code>(string)</code>  Seperation char if <code>outputAsCSV</code>  is set to <code>true</code></p></li>
+<li><p><code>okCancelInMulti</code> <code>(boolean)</code> Displays Ok Cancel buttons in desktop mode multiselect also. </p></li>
+<li><p><code>triggerChangeCombined</code> <code>(boolean)</code> In Multiselect mode whether to trigger change event on individual selection of each item or on combined selection ( pressing of OK or Cancel button ).</p></li>
 </ul><p><strong>The default settings are :</strong></p>
 
 <div class="highlight highlight-javascript"><pre><span class="p">{</span>
-                    <span class="nx">placeholder</span><span class="o">:</span> <span class="s1">'Select Here'</span><span class="p">,</span>
-                    <span class="nx">csvDispCount</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span>
-                    <span class="nx">floatWidth</span><span class="o">:</span> <span class="mi">500</span><span class="p">,</span>
-                    <span class="nx">forceCustomRendering</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
-                    <span class="nx">nativeOnDevice</span><span class="o">:</span> <span class="p">[</span><span class="s1">'Android'</span><span class="p">,</span> <span class="s1">'BlackBerry'</span><span class="p">,</span> <span class="s1">'iPhone'</span><span class="p">,</span> <span class="s1">'iPad'</span><span class="p">,</span> <span class="s1">'iPod'</span><span class="p">,</span> <span class="s1">'Opera Mini'</span><span class="p">,</span> <span class="s1">'IEMobile'</span><span class="p">,</span> <span class="s1">'Silk'</span><span class="p">],</span>
-                    <span class="nx">outputAsCSV</span> <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">csvSepChar</span> <span class="o">:</span> <span class="s1">','</span><span class="p">,</span> 
-                    <span class="nx">okCancelInMulti</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span> 
-                    <span class="nx">triggerChangeCombined</span> <span class="o">:</span> <span class="kc">true</span>
-                <span class="p">}</span>
+    <span class="nx">placeholder</span><span class="o">:</span> <span class="s1">'Select Here'</span><span class="p">,</span>
+    <span class="nx">csvDispCount</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="nx">floatWidth</span><span class="o">:</span> <span class="mi">500</span><span class="p">,</span>
+    <span class="nx">forceCustomRendering</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nx">nativeOnDevice</span><span class="o">:</span> <span class="p">[</span><span class="s1">'Android'</span><span class="p">,</span> <span class="s1">'BlackBerry'</span><span class="p">,</span> <span class="s1">'iPhone'</span><span class="p">,</span> <span class="s1">'iPad'</span><span class="p">,</span> <span class="s1">'iPod'</span><span class="p">,</span> <span class="s1">'Opera Mini'</span><span class="p">,</span> <span class="s1">'IEMobile'</span><span class="p">,</span> <span class="s1">'Silk'</span><span class="p">],</span>
+    <span class="nx">outputAsCSV</span> <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">csvSepChar</span> <span class="o">:</span> <span class="s1">','</span><span class="p">,</span> 
+    <span class="nx">okCancelInMulti</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span> 
+    <span class="nx">triggerChangeCombined</span> <span class="o">:</span> <span class="kc">true</span>
+<span class="p">}</span>
 </pre></div>
 
 <h2>
