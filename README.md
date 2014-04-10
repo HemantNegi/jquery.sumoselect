@@ -46,7 +46,7 @@ iOs 3+, Android 2.1+ , Windows Mobile (Other browsers may work, but I did not te
 
 
 ##Forking
-If you find that you need a feature that SumoSelect does not currently support, either let me know via the SelectBoxIt issue tracker, or fork SumoSelect on Github and easily extend SumoSelect to create your own widget!
+If you find that you need a feature that SumoSelect does not currently support, either let me know via the SumoSelect issue tracker, or fork SumoSelect on Github and easily extend SumoSelect to create your own widget!
 
 ##Usage
 
@@ -70,23 +70,23 @@ If you find that you need a feature that SumoSelect does not currently support, 
 
 The following settings are available now:
 
--  `placeholder` ```javascript(string)```  The palceholder text to be displayed in the rendered select widget (on priority basis). *Maximum priority is given to native placeholder attribute in select tag i.e.  - `<select placeholder="this is a placeholder" />`  - Then the option with disabled and selected attribute i.e. `<option disabled selected value="foo" >`  - Last to to the given placeholder attribute in the settings. *
+-  `placeholder` `(string)`  The palceholder text to be displayed in the rendered select widget (on priority basis). *Maximum priority is given to native placeholder attribute in select tag i.e.  - `<select placeholder="this is a placeholder" />`  - Then the option with disabled and selected attribute i.e. `<option disabled selected value="foo" >`  - Last to to the given placeholder attribute in the settings. *
 
-- `csvDispCount` ```javascript(int)```  The number of items to be displayed in the widget seperated by a `,` after that the text will be warped as *3+ Selected*. Set `0` for all the options.
+- `csvDispCount` `(int)`  The number of items to be displayed in the widget seperated by a `,` after that the text will be warped as *3+ Selected*. Set `0` for all the options.
 
-- `floatWidth` ```javascript(int)``` Minimum screen width of device below which the options list is rendered in floating popup fashion.
+- `floatWidth` `(int)` Minimum screen width of device below which the options list is rendered in floating popup fashion.
 
-- `forceCustomRendering`  ```javascript(boolean)``` Force the custom modal ( Floating list ) on all devices below floatWidth resolution.
+- `forceCustomRendering`  `(boolean)` Force the custom modal ( Floating list ) on all devices below floatWidth resolution.
 
-- `nativeOnDevice`  ```javascript(Array[string])``` The keywords to identify a mobile device from useragent string. The system default select list is rendered on the matched device.
+- `nativeOnDevice`  `(Array[string])` The keywords to identify a mobile device from useragent string. The system default select list is rendered on the matched device.
 
-- `outputAsCSV` ```javascript(boolean)``` `true` to POST data as csv ( false for deafault select )
+- `outputAsCSV` `(boolean)` `true` to POST data as csv ( false for deafault select )
 
-- `csvSepChar` ```javascript(string)```  Seperation char if `outputAsCSV`  is set to `true`
+- `csvSepChar` `(string)`  Seperation char if `outputAsCSV`  is set to `true`
 
-- `okCancelInMulti` ```javascript(boolean)``` Displays Ok Cancel buttons in desktop mode multiselect also. 
+- `okCancelInMulti` `(boolean)` Displays Ok Cancel buttons in desktop mode multiselect also. 
 
-- `triggerChangeCombined` ```javascript(boolean)``` In Multiselect mode whether to trigger change event on individual selection of each item or on combined selection ( pressing of OK or Cancel button ).
+- `triggerChangeCombined` `(boolean)` In Multiselect mode whether to trigger change event on individual selection of each item or on combined selection ( pressing of OK or Cancel button ).
 
 
 **The default settings are :**
