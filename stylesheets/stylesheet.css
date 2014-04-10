@@ -209,11 +209,7 @@ th {
   font-weight: 500;
 }
 
-td {
-  border: 1px solid #ebebeb;
-  text-align: center; 
-  font-weight: 300;
-}
+td { padding: 10px; border: 1px solid #ebebeb; text-align: left; font-weight: 300; vertical-align: top; }
 
 form {
   background: #f2f2f2;
