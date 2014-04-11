@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+
+      <!--The required plugin code -->
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+      <script src="javascripts/jquery.sumoselect.min.js"></script>
+      <link href="stylesheets/sumoselect.css" rel="stylesheet" />
+      <script type="text/javascript">
+          $(document).ready(function () {
+
+              $('.testselect1').SumoSelect();
+
+              $('.testselect2').SumoSelect();
+
+              $('.testselect3').SumoSelect({ placeholder: 'This is a placeholder' });
+
+
+              $('.testselect5').SumoSelect();
+
+              $('.testselect6').SumoSelect();
+
+              $('.testselect7').SumoSelect({ okCancelInMulti: true });
+
+              $('.testselect8').SumoSelect({ okCancelInMulti: true, triggerChangeCombined: false });
+
+              $('.testselect9').SumoSelect({ okCancelInMulti: true, triggerChangeCombined: true, forceCustomRendering: true });
+          });
+      </script>
+      <!--The required plugin code -->
+
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Jquery.sumoselect by Hemant Negi</title>
+      <style type="text/css">
+          .auto-style1 { color: #E81144; }
+          .auto-style2 { color: #E81144; }
+          pre { margin: 10px 0px 10px 0px; }
+          strong { font-weight: bold;color: #5F5F5F; }
+          .auto-style3 { color: #DD1144; }
+          .auto-style4 { color: #6666FF; }
+      </style>
+  </head>
+
+  <body>
+    <header style="padding-bottom: 20px; padding-top: 20px">
+      <div class="inner">
+        <h1 style="font-size: 30px">Jquery.sumoselect</h1>
+        <h2 style="font-size: 20px">A jQuery Single/Multi Select plugin which can be used on almost any device</h2>
+        <a href="https://github.com/HemantNegi/jquery.sumoselect" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a name="jquerysumoselect" class="anchor" href="#jquerysumoselect"><span class="octicon octicon-link"></span></a>jquery.sumoselect - Demo</h1>
+
+<p>First import a latest version of jquery in your page. Then the jquery.sumoselect.min.js and its css (sumoselect.css)</p>
+            <div class="highlight highlight-javascript">
+                <pre>
+&lt;script src="<span class="auto-style1">http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js</span>"&gt;&lt;/script&gt;
+&lt;script src="<span class="auto-style2">jquery.sumoselect.min.js</span>"&gt;&lt;script&gt;
+&lt;link href="<span class="auto-style1">sumoselect.css</span>" rel="<span class="auto-style1">stylesheet</span>" /&gt;</pre>
+                </div>
+            <br />
+            <h2>
+                Simple</h2>
+            <p>
+                <strong>Single select.</strong></p>
+            <div class="highlight highlight-javascript">
+            <pre><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.testselect1'</span><span class="p">).</span><span class="nx">SumoSelect</span><span class="p">();</span></pre>
+                </div>
+      <select name="somename" class="testselect1">
+        <option value="volvo">Volvo</option>
+        <option value="saab">Saab</option>
+        <option value="mercedes">Mercedes</option>
+        <option value="audi">Audi</option>
+    </select><br />
+            <br />
+            <p>
+                <strong>Multiple select.</strong></p>
+            <div class="highlight highlight-javascript">
+            <pre><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.testselect2'</span><span class="p">).</span><span class="nx">SumoSelect</span><span class="p">();</span></pre>
+                </div>
+      <select multiple="multiple" name="somename0" class="testselect2">
+        <option value="volvo">Volvo</option>
+        <option value="saab">Saab</option>
+        <option value="mercedes">Mercedes</option>
+        <option value="audi">Audi</option>
+    </select><br />
+            <br />
+            <br />
+<h2>
+    With placeholder text</h2>
+            <br />
+
+            <p>
+                <strong>Multiple select.</strong></p>
+            <div class="highlight highlight-javascript">
+            <pre><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.testselect3'</span><span class="p">).</span><span class="nx">SumoSelect</span><span class="p">({placeholder: <span class="auto-style3">&#39;This is a placeholder&#39;</span>});</span></pre>
+                </div>
+      <select multiple="multiple" name="somename" class="testselect3">
+        <option value="volvo">Volvo</option>
+       <option value="saab">Saab</option>
+       <option value="mercedes">Mercedes</option>
+       <option value="audi">Audi</option>
+       <option value="bmw">BMW</option>
+       <option value="porsche">Porche</option>
+       <option value="ferrari">Ferrari</option>
+       <option value="hyundai">Hyundai</option>
+       <option value="mitsubishi">Mitsubishi</option>
+    </select><br />
+
+<p>&nbsp;</p>
+            <p>&nbsp;</p>
+
+<h2>
+    Preselected and Disabled</h2>
+
+            <p>
+                <strong>Single select.</strong></p>
+            <div class="highlight highlight-javascript">
+            <pre><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.testselect5'</span><span class="p">).</span><span class="nx">SumoSelect</span><span class="p">();</span></pre>
+                </div>
+      <select name="somename2" class="testselect5">
+        <option value="volvo">Volvo</option>
+        <option selected="selected" value="saab">Saab</option>
+        <option disabled="disabled" value="mercedes">Mercedes</option>
+        <option value="audi">Audi</option>
+    </select><br />
+            <br />
+            <p>
+                <strong>Multiple select.</strong></p>
+            <div class="highlight highlight-javascript">
+            <pre><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.testselect6'</span><span class="p">).</span><span class="nx">SumoSelect</span><span class="p">();</span></pre>
+                </div>
+      <select multiple="multiple" name="somename3" class="testselect6">
+        <option value="volvo">Volvo</option>
+       <option value="saab">Saab</option>
+       <option disabled="disabled" value="mercedes">Mercedes</option>
+       <option value="audi">Audi</option>
+       <option value="bmw">BMW</option>
+       <option disabled="disabled" value="porsche">Porche</option>
+       <option selected="selected" value="ferrari">Ferrari</option>
+       <option selected="selected" value="hyundai">Hyundai</option>
+       <option value="mitsubishi">Mitsubishi</option>
+    </select><br />
+
+<p>&nbsp;</p>
+
+<h2>
+    Show ok cancel in multiselect</h2>
+            <div class="highlight highlight-javascript">
+            <pre><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.testselect7'</span><span class="p">).</span><span class="nx">SumoSelect</span><span class="p">({ okCancelInMulti: <span class="auto-style4">true</span> });</span></pre>
+                </div>
+      <select multiple="multiple" name="somename4" class="testselect7">
+        <option value="volvo">Volvo</option>
+       <option value="saab">Saab</option>
+       <option disabled="disabled" value="mercedes">Mercedes</option>
+       <option value="audi">Audi</option>
+       <option value="bmw">BMW</option>
+       <option disabled="disabled" value="porsche">Porche</option>
+       <option selected="selected" value="ferrari">Ferrari</option>
+       <option selected="selected" value="hyundai">Hyundai</option>
+       <option value="mitsubishi">Mitsubishi</option>
+    </select><p>
+                &nbsp;</p>
+
+<h2>
+    Other Examples</h2>
+
+            <div class="highlight highlight-javascript">
+            <pre><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.testselect8'</span><span class="p">).</span><span class="nx">SumoSelect</span><span class="p">({ okCancelInMulti: <span class="auto-style4">true</span> ,
+			       triggerChangeCombined: <span class="auto-style4">false</span>
+			    });</span></pre>
+                </div>
+      <select multiple="multiple" onchange="alert('this is a individual item change')" name="somename5" class="testselect8">
+        <option value="volvo">Volvo</option>
+       <option value="saab">Saab</option>
+       <option disabled="disabled" value="mercedes">Mercedes</option>
+       <option value="audi">Audi</option>
+       <option value="bmw">BMW</option>
+       <option disabled="disabled" value="porsche">Porche</option>
+       <option selected="selected" value="ferrari">Ferrari</option>
+       <option selected="selected" value="hyundai">Hyundai</option>
+       <option value="mitsubishi">Mitsubishi</option>
+    </select><br />
+            <br />
+            <br />
+            Try this one on a mobile.<div class="highlight highlight-javascript">
+            <pre><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.testselect9'</span><span class="p">).</span><span class="nx">SumoSelect</span><span class="p">({ okCancelInMulti: <span class="auto-style4">true</span> ,
+			       triggerChangeCombined: <span class="auto-style4">true</span>,
+			       forceCustomRendering: <span class="auto-style4">true</span>	
+		    });</span></pre>
+                </div>
+      <select multiple="multiple" onchange="alert('this is a combined item change')" name="somename6" class="testselect9">
+        <option value="volvo">Volvo</option>
+       <option value="saab">Saab</option>
+       <option disabled="disabled" value="mercedes">Mercedes</option>
+       <option value="audi">Audi</option>
+       <option value="bmw">BMW</option>
+       <option disabled="disabled" value="porsche">Porche</option>
+       <option selected="selected" value="ferrari">Ferrari</option>
+       <option selected="selected" value="hyundai">Hyundai</option>
+       <option value="mitsubishi">Mitsubishi</option>
+    </select><p>&nbsp;</p>
+            <p>&nbsp;</p>
+
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/HemantNegi/jquery.sumoselect/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/HemantNegi/jquery.sumoselect/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/HemantNegi/jquery.sumoselect"></a> is maintained by <a href="https://github.com/HemantNegi">HemantNegi</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>

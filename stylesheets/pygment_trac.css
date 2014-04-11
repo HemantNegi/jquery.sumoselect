@@ -19,8 +19,8 @@
 .highlight .gs { font-weight: bold } /* Generic.Strong */
 .highlight .gu { color: #800080; font-weight: bold; } /* Generic.Subheading */
 .highlight .gt { color: #aa0000 } /* Generic.Traceback */
-.highlight .kc { font-weight: bold } /* Keyword.Constant */
-.highlight .kd { font-weight: bold } /* Keyword.Declaration */
+.highlight .kc { font-weight: normal } /* Keyword.Constant */
+.highlight .kd { font-weight: normal } /* Keyword.Declaration */
 .highlight .kn { font-weight: bold } /* Keyword.Namespace */
 .highlight .kp { font-weight: bold } /* Keyword.Pseudo */
 .highlight .kr { font-weight: bold } /* Keyword.Reserved */
