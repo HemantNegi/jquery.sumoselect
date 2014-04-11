@@ -1,11 +1,10 @@
 ﻿/*!
  * jquery.sumoselect - v1.0.0
- * http://adam.co/lab/jquery/customselect/
+ * http://hemantnegi.github.io/jquery.sumoselect
  * 2014-04-08
  *
  * Copyright 2014 Hemant Negi
- * @license http://www.opensource.org/licenses/mit-license.html MIT License
- * @license http://www.gnu.org/licenses/gpl.html GPL2 License 
+ * Email : hemant.frnz@gmail.com
  * Compressor http://refresh-sf.com/yui/
  */
 
@@ -18,9 +17,9 @@
 
                 // This is the easiest way to have default options.
                 var settings = $.extend({
-                    placeholder: 'Select Here',
+                    placeholder: 'Select Here',  // Dont change it here.
                     csvDispCount: 3,             // display no. of items in multiselect. 0 to display all.
-                    floatWidth: 600,             // Screen width of device at which the list is rendered in floating popup fashion.
+                    floatWidth: 400,             // Screen width of device at which the list is rendered in floating popup fashion.
                     forceCustomRendering: false, // force the custom modal on all devices below floatWidth resolution.
                     nativeOnDevice: ['Android', 'BlackBerry', 'iPhone', 'iPad', 'iPod', 'Opera Mini', 'IEMobile', 'Silk'], //'Windows'
                     outputAsCSV : true,          //true to POST data as csv ( false for Html control array ie. deafault select )
@@ -241,8 +240,8 @@
                             if (!self.placeholder)                  //if placeholder is there then set it
                             {
                                 self.placeholder = self.E.children('option:disabled:selected').text();
-                                if (!self.placeholder)
-                                    self.placeholder = self.E.text();
+                                //if (!self.placeholder && settings.placeholder === 'Select Here')
+                                //    self.placeholder = self.E.val();
                             }
                         }
 
