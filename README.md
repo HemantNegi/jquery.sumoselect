@@ -38,15 +38,15 @@ It can adapt itself according to any deveice, keeping in mind that the User Expe
 
 **Update v1.1.0**
 
-	- Wraped all properties in a sumo object connected to native select element.
+   - Wraped all properties in a sumo object connected to native select element.
 
-	- Added standard add, remove, select, unselect, disable, eanble, unload etc. methods for better manipulation
+   - Added standard add, remove, select, unselect, disable, eanble, unload etc. methods for better manipulation
 
-	- Instance of SumoSelect can be accessed from native reference of select element
+   - Instance of SumoSelect can be accessed from native reference of select element
 
-	- Added ```disabled = true``` to disable/ enable the control.
+   - Added ```disabled = true``` to disable/ enable the control.
 
-	- Bug fixings..
+   - Bug fixings..
 
 ##Requirements
 jQuery 1.8.3+ (It is always recommended to use the latest version of jQuery)
