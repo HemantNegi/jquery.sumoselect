@@ -7,6 +7,8 @@ jquery.sumoselect.js - A cross device Single/Multi Select jQuery Select plugin.
 
 View Live [Demo Here](http://hemantnegi.github.io/jquery.sumoselect/sumoselect_demo.html)
 
+Documentaion [Documentation Here](http://hemantnegi.github.io/jquery.sumoselect/sumoselect_demo.html)
+
 Sumoselect full :  [jquery.sumoselect.js](https://github.com/HemantNegi/jquery.sumoselect/blob/master/jquery.sumoselect.js)
 
 Minified : [jquery.sumoselect.min.js](https://github.com/HemantNegi/jquery.sumoselect/blob/master/jquery.sumoselect.min.js)
@@ -34,6 +36,17 @@ It can adapt itself according to any deveice, keeping in mind that the User Expe
 
    - Easily extendable to allow developers to create new widgets
 
+**Update v1.1.0**
+
+	- Wraped all properties in a sumo object connected to native select element.
+
+	- Added standard add, remove, select, unselect, disable, eanble, unload etc. methods for better manipulation
+
+	- Instance of SumoSelect can be accessed from native reference of select element
+
+	- Added ```disabled = true``` to disable/ enable the control.
+
+	- Bug fixings..
 
 ##Requirements
 jQuery 1.8.3+ (It is always recommended to use the latest version of jQuery)
@@ -66,6 +79,21 @@ If you find that you need a feature that SumoSelect does not currently support, 
  $(document).ready(function () {
             $('.SlectBox').SumoSelect({placeholder: 'This is a placeholder', csvDispCount: 3 });
         });
+```
+
+If you want a instance to the SumoSelect object to call handler methods
+
+```javascript
+ var MySelect;
+ $(document).ready(function () {
+         MySelect = $('.SlectBox').SumoSelect();
+     });
+```
+*NOTE: SumoSelect returns an array of select elements if there are more than one in the matching selector.*
+
+You can also find the instance to SumoSelect object by directly selecting your select element like
+```javascript
+	$('select.SlectBox')[o].sumo. .....
 ```
 
 **Settings**
