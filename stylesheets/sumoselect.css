@@ -63,5 +63,8 @@
     /*selected state*/
     .SumoSelect > .optWrapper.multiple > .options > li.selected span i { background-image: url('https://cdn1.iconfinder.com/data/icons/Keyamoon-IcoMoon--limited/16/checkbox-checked.png'); }
 
+    /*disabled state*/
+    .SumoSelect.disabled { opacity: 0.7;}
+     .SumoSelect.disabled > .CaptionCont > label { background-color: #F1F1F1; }
 /*Background overlay*/
 body > .BackdropSelect { display: none; position: fixed; top: 0px; right: 0px; left: 0px; bottom: 0px; width: 100%; z-index: 100; }

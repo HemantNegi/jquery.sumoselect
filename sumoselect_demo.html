@@ -63,6 +63,8 @@
           strong { font-weight: bold;color: #5F5F5F; }
           .auto-style3 { color: #DD1144; }
           .auto-style4 { color: #6666FF; }
+          .auto-style5 { width: 100%; }
+          .auto-style6 { width: 344px; }
       </style>
   </head>
 
@@ -231,8 +233,35 @@
        <option value="mitsubishi">Mitsubishi</option>
     </select><p>&nbsp;</p>
             <p>&nbsp;</p>
+              Live actions on select.
 
-        </section>
+            <table class="auto-style5">
+                <tr>
+                    <td class="auto-style6">
+                        <ul><li>
+                        <input id="Button1" type="button" value="Attach SumoSelect" onclick="$('.testselect10').SumoSelect();" />
+                            </li>
+                            <li>
+
+                            </li>
+                        </ul>
+                    </td>
+                    <td>
+
+      <select style="width:200px;" multiple="multiple" name="somename10" class="testselect10">
+        <option value="volvo">Volvo</option>
+       <option value="saab">Saab</option>
+       <option disabled="disabled" value="mercedes">Mercedes</option>
+       <option value="audi">Audi</option>
+       <option value="bmw">BMW</option>
+       <option disabled="disabled" value="porsche">Porche</option>
+       <option selected="selected" value="ferrari">Ferrari</option>
+       <option selected="selected" value="hyundai">Hyundai</option>
+       <option value="mitsubishi">Mitsubishi</option>
+    </select></td>
+                </tr>
+            </table>
+&nbsp;</section>
 
         <aside id="sidebar">
           <a href="https://github.com/HemantNegi/jquery.sumoselect/zipball/master" class="button">
