@@ -31,6 +31,7 @@
 
         var ret = this.each(function () {
             var selObj = this; // the original select object.
+            if (this.sumo || !$(this).is('select')) return; //already initialized
 
             this.sumo = {
                 E: $(selObj),   //the jquery object of original select element.
