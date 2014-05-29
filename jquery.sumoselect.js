@@ -29,13 +29,24 @@
 
                 }, options);
 
-                return this.each(function () {
-                    var self = this;
-                    this.E = $(this);                    //the original select element
-                    this.is_multi = self.E.attr('multiple');  //if its a mmultiple select
-                    this.select, this.caption, this.placeholder, this.optDiv, this.CaptionCont,this.is_floating = this.is_opened = false, this.backdrop, this.Pstate=[];
+               var ret= this.each(function () {
+                    var selObj = this; // the original select object.
+                    
+                    this.sumo = {
+                        E: $(selObj),   //the jquery object of original select element.
+                        is_multi: $(selObj).attr('multiple'),  //if its a mmultiple select
+                        select:'',
+                        caption:'', 
+                        placeholder:'',
+                        optDiv:'',
+                        CaptionCont:'',
+                        is_floating:false,
+                        is_opened : false,
+                        backdrop:'',
+                        Pstate:[],
 
-                    this.createElems = function () {
+                        createElems: function () {
+                            var self = this;
                         self.E.wrap('<div class="SumoSelect">');
                         self.select = self.E.parent();
                         self.caption = $('<span></span>');
@@ -94,18 +105,19 @@
 
                         self.select.append(self.optDiv);
                         self.basicEvents();
-                    }
+                    },
 
                     //## Returns the selected items as string in a Multiselect.
-                    this.getSelStr = function () {
+                    getSelStr : function () {
                         // get the pre selected items.
                         sopt = [];
-                        self.E.children('option:selected').each(function () { sopt.push($(this).val()); });
+                        this.E.children('option:selected').each(function () { sopt.push($(this).val()); });
                         return sopt.join(settings.csvSepChar);
-                    }
+                    },
 
                     //## THOSE OK/CANCEL BUTTONS ON MULTIPLE SELECT.
-                    this.multiSelelect = function () {
+                    multiSelelect: function () {
+                        var self = this;
                         self.optDiv.addClass('multiple');
                         okbtn = $('<p class="btnOk">OK</p>').click(function () {
 
@@ -144,9 +156,10 @@
                             self.hideOpts();
                         });
                         self.optDiv.append($('<div class="MultiControls">').append(okbtn).append(cancelBtn));
-                    }
+                    },
 
-                    this.showOpts = function () {
+                    showOpts: function () {
+                        var self = this;
                         self.is_opened = true;
                         self.backdrop.show();
                         self.optDiv.addClass('open');
@@ -162,14 +175,16 @@
                             self.Pstate = [];
                             self.E.children('option:selected').each(function () { self.Pstate.push($(this).val()); });
                         }
-                    }
-                    this.hideOpts = function () {
+                    },
+                    hideOpts: function () {
+                        var self = this;
                         self.is_opened = false;
                         self.backdrop.hide();
                         self.optDiv.removeClass('open');
-                    }
+                    },
 
-                    this.basicEvents = function () {
+                    basicEvents: function () {
+                        var self = this;
                         self.CaptionCont.click(function (evt) {
                             if (self.is_opened) self.hideOpts(); else self.showOpts();
                             // self.E.focus();
@@ -186,9 +201,10 @@
                         });
 
                         $(window).on('resize.sumo', function () { self.floatingList(); });
-                    }
+                    },
 
-                    this.onOptClick = function (li) {
+                    onOptClick: function (li) {
+                        var self = this;
                         li.click(function () {
                             var li = $(this);
                             txt = "";
@@ -210,9 +226,10 @@
 
                             if(!self.is_multi)self.hideOpts(); //if its not a multiselect then hide on single select.
                         });
-                    }
+                    },
 
-                    this.setText = function () {
+                    setText: function () {
+                        var self = this;
                         self.placeholder = "";
                         if (self.is_multi) {
                             sels = self.E.children(':selected').not(':disabled'); //selected options.
@@ -257,9 +274,9 @@
                         //add class placeholder if its a placeholder text.
                         if (is_placeholder) self.caption.addClass('placeholder'); else self.caption.removeClass('placeholder');
                         return self.placeholder;
-                    }
+                    },
 
-                    this.isMobile = function () {
+                    isMobile : function () {
 
                         // Adapted from http://www.detectmobilebrowsers.com
                         var ua = navigator.userAgent || navigator.vendor || window.opera;
@@ -267,17 +284,19 @@
                         // Checks for iOs, Android, Blackberry, Opera Mini, and Windows mobile devices
                         for (var i in settings.nativeOnDevice) if (ua.toLowerCase().indexOf(settings.nativeOnDevice[i].toLowerCase()) > 0) return settings.nativeOnDevice[i];
                         return false;
-                    };
+                    },
 
-                    this.setNativeMobile = function () {
+                    setNativeMobile: function () {
+                        var self = this;
                         self.E.addClass('SelectClass').css('height', self.select.outerHeight());
 
                         self.E.change(function () {
                             self.setText();
                         });
-                    }
+                    },
 
-                    this.floatingList = function () {
+                    floatingList: function () {
+                        var self = this;
                         //called on init and also on resize.
                         //self.is_floating = true if window width is < specified float width
                         self.is_floating = $(window).width() <= settings.floatWidth;
@@ -290,15 +309,35 @@
                         
                         //toggle class according to okCancelInMulti flag only when it is not floating
                         self.optDiv.toggleClass('okCancelInMulti', settings.okCancelInMulti && !self.is_floating);
-                    }
+                    },
 
-                    this.init = function () {
+                    /* outside accessibility options 
+                       which can be accessed from the element instance.
+                    */
+                    unload: function () {
+                        var self = this;
+                        self.select.before(self.E);
+                        self.E.show();
+                        self.select.remove();
+                        delete selObj.sumo;
+                        return selObj;
+                    },
+
+
+                    init: function () {
+                        var self = this;
                         self.createElems();
                         self.setText();
+                        return self
                     }
 
-                    self.init();
-                });
+                };
+                  
+                   selObj.sumo.init();
+               });
+
+               return ret.length == 1 ? ret[0] : ret;
             };
 
+      
         }(jQuery));
