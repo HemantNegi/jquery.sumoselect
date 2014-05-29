@@ -242,7 +242,28 @@
                         <input id="Button1" type="button" value="Attach SumoSelect" onclick="$('.testselect10').SumoSelect();" />
                             </li>
                             <li>
-
+                                <input id="Button2" type="button" value="Detach SumoSelect" onclick="$('.testselect10')[0].sumo.unload();" />
+                            </li>
+                            <li>
+                                <input id="Button3" type="button" value="Add item at index 1" onclick="$('.testselect10')[0].sumo.add('New Item',1);" />
+                            </li>
+                             <li>
+                                <input id="Button4" type="button" value="Remove item at index 1" onclick="$('.testselect10')[0].sumo.remove(1);" />
+                            </li>
+                             <li>
+                                <input id="Button5" type="button" value="Select item at index 1" onclick="$('.testselect10')[0].sumo.selectItem(1);" />
+                            </li>
+                            <li>
+                                <input id="Button6" type="button" value="UnSelect item at index 1" onclick="$('.testselect10')[0].sumo.unSelectItem(1);" />
+                            </li>
+                             <li>
+                                <input id="Button7" type="button" value="Disable item at index 1" onclick="$('.testselect10')[0].sumo.disableItem(1);" />
+                            </li>
+                             <li>
+                                <input id="Button8" type="button" value="Enable item at index 1" onclick="$('.testselect10')[0].sumo.enableItem(1);" />
+                            </li>
+                             <li>
+                                <input id="Button9" type="button" value="Toggle Enable disable" onclick="$('.testselect10')[0].sumo.disabled = !$('.testselect10')[0].sumo.disabled" />
                             </li>
                         </ul>
                     </td>
@@ -261,6 +282,14 @@
     </select></td>
                 </tr>
             </table>
+            <br />
+            <br />
+            <br />
+            <br />
+         <h2>
+                    <a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+                <p>Copyright (c) 2014 Hemant Negi Licensed under the MIT license.</p>
 &nbsp;</section>
 
         <aside id="sidebar">
