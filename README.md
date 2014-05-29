@@ -7,7 +7,7 @@ jquery.sumoselect.js - A cross device Single/Multi Select jQuery Select plugin.
 
 View Live [Demo Here](http://hemantnegi.github.io/jquery.sumoselect/sumoselect_demo.html)
 
-Documentaion [Documentation Here](http://hemantnegi.github.io/jquery.sumoselect/sumoselect_demo.html)
+Documentaion [Documentation Here](http://hemantnegi.github.io/jquery.sumoselect/)
 
 Sumoselect full :  [jquery.sumoselect.js](https://github.com/HemantNegi/jquery.sumoselect/blob/master/jquery.sumoselect.js)
 
@@ -135,7 +135,7 @@ The following settings are available now:
                 }
 ```
 
-[Furthur Documentation](http://hemantnegi.github.io/jquery.sumoselect/sumoselect_demo.html)
+[Furthur Documentation](http://hemantnegi.github.io/jquery.sumoselect/)
 
 ## License
 
