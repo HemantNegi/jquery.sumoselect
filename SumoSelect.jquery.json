@@ -1,6 +1,6 @@
 {
     "name": "SumoSelect",
-    "version": "1.1.0",
+    "version": "v1.1.0",
     "title": "jQuery SumoSelect",
     "description": "SumoSelect is a jquery plugin which beautifully renders a single or multiple HTML select element. it can be used for any device e.g for a android device the select will open the default android select popup and vice versa for other devices, and also if it fails to identify the device then it works according to screen resolution which results a select to open in a popup fashion ( like it happens on chrome on android ). its fully customizable and have many other features.  ",
     "keywords": [
