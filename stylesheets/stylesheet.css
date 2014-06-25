@@ -303,7 +303,7 @@ h6:before {
 }
 
 p {
-  margin-bottom: 20px;
+  margin-bottom: 20px !important;
 }
  
 a {
