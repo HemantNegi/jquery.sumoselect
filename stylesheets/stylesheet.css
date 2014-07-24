@@ -302,7 +302,7 @@ h6:before {
   margin-left: -3.7em;
 }
 
-p {
+#main-content > p {
   margin-bottom: 20px !important;
 }
  
