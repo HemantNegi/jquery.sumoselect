@@ -17,15 +17,16 @@
 
         // This is the easiest way to have default options.
         var settings = $.extend({
-            placeholder: 'Select Here',  // Dont change it here.
-            csvDispCount: 3,             // display no. of items in multiselect. 0 to display all.
-            floatWidth: 400,             // Screen width of device at which the list is rendered in floating popup fashion.
-            forceCustomRendering: false, // force the custom modal on all devices below floatWidth resolution.
+            placeholder: 'Select Here',   // Dont change it here.
+            csvDispCount: 3,              // display no. of items in multiselect. 0 to display all.
+            captionFormat:'{0} Selected', // format of caption text. you can set your locale. 
+            floatWidth: 400,              // Screen width of device at which the list is rendered in floating popup fashion.
+            forceCustomRendering: false,  // force the custom modal on all devices below floatWidth resolution.
             nativeOnDevice: ['Android', 'BlackBerry', 'iPhone', 'iPad', 'iPod', 'Opera Mini', 'IEMobile', 'Silk'], //'Windows'
-            outputAsCSV: true,          //true to POST data as csv ( false for Html control array ie. deafault select )
-            csvSepChar: ',',            // seperation char in csv mode
-            okCancelInMulti: false,      //display ok cancel buttons in desktop mode multiselect also. 
-            triggerChangeCombined: true // im multi select mode wether to trigger change event on individual selection or combined selection.
+            outputAsCSV: false,           // true to POST data as csv ( false for Html control array ie. deafault select )
+            csvSepChar: ',',              // seperation char in csv mode
+            okCancelInMulti: false,       //display ok cancel buttons in desktop mode multiselect also. 
+            triggerChangeCombined: true   // im multi select mode wether to trigger change event on individual selection or combined selection.
 
         }, options);
 
@@ -130,14 +131,6 @@
                     sopt = [];
                     this.E.children('option:selected').each(function () { sopt.push($(this).val()); });
                     return sopt.join(settings.csvSepChar);
-                },
-
-                //## Returns the index as array in a Multiselect. 2014.07.26
-                getSelIndexArray: function () {
-                    // get the pre selected items.
-                    sopt = [];
-		            this.E.children('option').each(function () { sopt[$(this).index()] = $(this).val(); });
-                    return sopt;
                 },
 
                 //## THOSE OK/CANCEL BUTTONS ON MULTIPLE SELECT.
@@ -262,7 +255,8 @@
 
                         for (i = 0; i < sels.length; i++) {
                             if (i >= settings.csvDispCount && settings.csvDispCount) {
-                                O.placeholder = i + '+ Selected';
+                                O.placeholder = settings.captionFormat.replace('{0}', sels.length);
+                                //O.placeholder = i + '+ Selected';
                                 break;
                             }
                             else O.placeholder += $(sels[i]).text() + ", ";
@@ -338,7 +332,7 @@
                 },
 
                 //HELPERS FOR OUTSIDERS
-                // validates range of given item fot operations
+                // validates range of given item operations
                 vRange: function (i) {
                     var O = this;
                     opts = O.E.children('option');
@@ -370,6 +364,9 @@
                 unload: function () {
                     var O = this;
                     O.select.before(O.E);
+                    if (settings.outputAsCSV && O.is_multi && O.select.find('input.HEMANT123').length) {
+                        O.E.attr('name', O.select.find('input.HEMANT123').attr('name')); // restore the name;
+                    }
                     O.E.show();
                     O.select.remove();
                     delete selObj.sumo;
