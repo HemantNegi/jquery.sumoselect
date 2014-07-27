@@ -132,6 +132,14 @@
                     return sopt.join(settings.csvSepChar);
                 },
 
+                //## Returns the index as array in a Multiselect. 2014.07.26
+                getSelIndexArray: function () {
+                    // get the pre selected items.
+                    sopt = [];
+		            this.E.children('option').each(function () { sopt[$(this).index()] = $(this).val(); });
+                    return sopt;
+                },
+
                 //## THOSE OK/CANCEL BUTTONS ON MULTIPLE SELECT.
                 multiSelelect: function () {
                     var O = this;
