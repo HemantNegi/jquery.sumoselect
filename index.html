@@ -162,6 +162,11 @@ It can adapt itself according to any deveice, keeping in mind that the User Expe
                         <td>The number of items to be displayed in the widget seperated by a <code>,</code> after that the text will be warped as <em>3+ Selected</em>. Set <code>0</code> for all the options.</td>
                     </tr>
                     <tr>
+                        <td><code>captionFormat</code></td>
+                        <td><code>(string)</code></td>
+                        <td>Its the format in which you want to see the caption when more than csvDispCount items are selected. its default value is<code>'{0} Selected'</code> ( here {0} will be replaced by the seletion count )</td>
+                    </tr>
+                    <tr>
                         <td><code>floatWidth</code></td>
                         <td><code>(int)</code></td>
                         <td>Minimum screen width of device below which the options list is rendered in floating popup fashion.</td>
@@ -208,6 +213,7 @@ It can adapt itself according to any deveice, keeping in mind that the User Expe
                     <pre><span class="p">{</span>
     <span class="nx">placeholder</span><span class="o">:</span> <span class="s1">'Select Here'</span><span class="p">,</span>
     <span class="nx">csvDispCount</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="nx">captionFormat</span><span class="o">:</span> <span class="mi">'{0} Selected'</span><span class="p">,</span>
     <span class="nx">floatWidth</span><span class="o">:</span> <span class="mi">500</span><span class="p">,</span>
     <span class="nx">forceCustomRendering</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
     <span class="nx">nativeOnDevice</span><span class="o">:</span> <span class="p">[</span><span class="s1">'Android'</span><span class="p">,</span> <span class="s1">'BlackBerry'</span><span class="p">,</span> <span class="s1">'iPhone'</span><span class="p">,</span> <span class="s1">'iPad'</span><span class="p">,</span> <span class="s1">'iPod'</span><span class="p">,</span> <span class="s1">'Opera Mini'</span><span class="p">,</span> <span class="s1">'IEMobile'</span><span class="p">,</span> <span class="s1">'Silk'</span><span class="p">],</span>
