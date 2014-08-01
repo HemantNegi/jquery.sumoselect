@@ -47,6 +47,14 @@ It can adapt itself according to any deveice, keeping in mind that the User Expe
    - Added ```disabled = true``` to disable/ enable the control.
 
    - Bug fixings..
+   
+**Update v1.2.0**
+
+   - Now ```outputAsCSV``` is default set to ```false```
+
+   - fixed problems with unload and other handler methods on mobile deveices
+   
+   - Bug fixings..
 
 ##Requirements
 jQuery 1.8.3+ (It is always recommended to use the latest version of jQuery)
@@ -128,7 +136,7 @@ The following settings are available now:
                     floatWidth: 500,
                     forceCustomRendering: false,
                     nativeOnDevice: ['Android', 'BlackBerry', 'iPhone', 'iPad', 'iPod', 'Opera Mini', 'IEMobile', 'Silk'],
-                    outputAsCSV : true,
+                    outputAsCSV : false,
                     csvSepChar : ',', 
                     okCancelInMulti: true, 
                     triggerChangeCombined : true

@@ -1,5 +1,5 @@
 ﻿/*!
- * jquery.sumoselect - v1.1.1
+ * jquery.sumoselect - v1.2.0
  * http://hemantnegi.github.io/jquery.sumoselect
  * 2014-04-08
  *
@@ -45,6 +45,7 @@
                 is_floating: false,
                 is_opened: false,
                 backdrop: '',
+                mob:false, // if to open device default select
                 Pstate: [],
 
                 createElems: function () {
@@ -308,8 +309,8 @@
 
                 setNativeMobile: function () {
                     var O = this;
-                    O.E.addClass('SelectClass').css('height', O.select.outerHeight());
-
+                    O.E.addClass('SelectClass')//.css('height', O.select.outerHeight());
+					O.mob = true;
                     O.E.change(function () {
                         O.setText();
                     });
@@ -345,7 +346,7 @@
                     var O = this.vRange(i);
                     if (O.E.children('option')[i].disabled) return;
                     O.E.children('option')[i].selected = c;
-                    O.optDiv.find('ul.options li').eq(i).toggleClass('selected',c);
+                    if(!O.mob)O.optDiv.find('ul.options li').eq(i).toggleClass('selected',c);
                     O.setText();
                 },
 
@@ -353,7 +354,7 @@
                 toggDis: function (c, i) {
                     var O = this.vRange(i);
                     O.E.children('option')[i].disabled = c;
-                    O.optDiv.find('ul.options li').eq(i).toggleClass('disabled', c);
+                    if(!O.mob)O.optDiv.find('ul.options li').eq(i).toggleClass('disabled', c);
                     O.setText();
                 },
 
@@ -364,10 +365,11 @@
                 unload: function () {
                     var O = this;
                     O.select.before(O.E);
+                    O.E.removeClass('SelectClass').show();
+                    
                     if (settings.outputAsCSV && O.is_multi && O.select.find('input.HEMANT123').length) {
                         O.E.attr('name', O.select.find('input.HEMANT123').attr('name')); // restore the name;
                     }
-                    O.E.show();
                     O.select.remove();
                     delete selObj.sumo;
                     return selObj;
@@ -388,11 +390,11 @@
 
                     if (typeof i == "undefined" || opts.length == i) { // add it to the last if given index is last no or no index provides.
                         O.E.append(opt);
-                        O.createLi(opt);
+                        if(!O.mob)O.createLi(opt);
                     }
                     else {
                         opts.eq(i).before(opt);
-                        O.createLi(opt, i);
+                        if(!O.mob)O.createLi(opt, i);
                     }
                     
                     return selObj;
@@ -402,7 +404,7 @@
                 remove: function (i) {
                     var O = this.vRange(i);
                     O.E.children('option').eq(i).remove();
-                    O.optDiv.find('ul.options li').eq(i).remove();
+                    if(!O.mob)O.optDiv.find('ul.options li').eq(i).remove();
                     O.setText();
                 },
 
