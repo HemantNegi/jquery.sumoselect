@@ -50,10 +50,12 @@ It can adapt itself according to any deveice, keeping in mind that the User Expe
    
 **Update v1.2.0**
 
+   - Added a new option for custom dispaly formats
+
    - Now ```outputAsCSV``` is default set to ```false```
 
    - fixed problems with unload and other handler methods on mobile deveices
-   
+
    - Bug fixings..
 
 ##Requirements
@@ -111,6 +113,7 @@ The following settings are available now:
 -  `placeholder` `(string)`  The palceholder text to be displayed in the rendered select widget (on priority basis). *Maximum priority is given to native placeholder attribute in select tag i.e.  - `<select placeholder="this is a placeholder" />`  - Then the option with disabled and selected attribute i.e. `<option disabled selected value="foo" >`  - Last to to the given placeholder attribute in the settings. *
 
 - `csvDispCount` `(int)`  The number of items to be displayed in the widget seperated by a `,` after that the text will be warped as *3+ Selected*. Set `0` for all the options.
+- `captionFormat` `(string)` Its the format in which you want to see the caption when more than csvDispCount items are selected. its default value is `'{0} Selected'` ( here `{0}` will be replaced by the seletion count )
 
 - `floatWidth` `(int)` Minimum screen width of device below which the options list is rendered in floating popup fashion.
 
@@ -133,6 +136,7 @@ The following settings are available now:
 {
                     placeholder: 'Select Here',
                     csvDispCount: 3,
+                    captionFormat: '{0} Selected',
                     floatWidth: 500,
                     forceCustomRendering: false,
                     nativeOnDevice: ['Android', 'BlackBerry', 'iPhone', 'iPad', 'iPod', 'Opera Mini', 'IEMobile', 'Silk'],
