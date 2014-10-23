@@ -27,7 +27,6 @@
             csvSepChar: ',',              // seperation char in csv mode
             okCancelInMulti: false,       //display ok cancel buttons in desktop mode multiselect also. 
             triggerChangeCombined: true   // im multi select mode wether to trigger change event on individual selection or combined selection.
-
         }, options);
 
         var ret = this.each(function () {
@@ -37,7 +36,6 @@
             this.sumo = {
                 E: $(selObj),   //the jquery object of original select element.
                 is_multi: $(selObj).attr('multiple'),
-                has_optgroups: $(selObj).children('optgroup').length,
                 select: '',
                 caption: '',
                 placeholder: '',
@@ -95,9 +93,6 @@
                     //if multiple then add the class multiple and add OK / CANCEL button
                     if (O.is_multi) O.multiSelelect();
 
-                    //if optgroups are present, group select options
-                    if (O.has_optgroups) O.addOptgroups();
-
                     //creating the backdrop element for clickoutside support.
                     if (!$('.BackdropSelect').length) $('body').append('<div class="BackdropSelect">');
                     O.backdrop = $('.BackdropSelect');
@@ -112,11 +107,6 @@
                     var O = this;
                     li = $('<li data-val="' + opt.val() + '"><label>' + opt.text() + '</label></li>');
                     if (O.is_multi) li.prepend('<span><i></i></span>');
-                    
-                    if (opt.attr('disabled'))
-                        li.addClass('disabled');
-                    else
-                        O.onOptClick(li);
 
                     if (opt.attr('selected'))
                         li.addClass('selected');
@@ -126,6 +116,16 @@
                         ul.append(li);
                     else
                         ul.children('li').eq(i).before(li);
+
+                    if (opt.is('optgroup > option:first-child')) {
+                      li.before('<li class="optGroup"><label>' + opt.parent('optgroup').attr('label') + '</label></li>');
+                      if (opt.parent('optgroup').attr('disabled')) li.prev().addClass('disabled');
+                    }
+
+                    if (opt.attr('disabled') || opt.parent('optgroup').attr('disabled'))
+                        li.addClass('disabled');
+                    else
+                        O.onOptClick(li);
 
                     return li;
                 },
@@ -179,18 +179,6 @@
                         O.hideOpts();
                     });
                     O.optDiv.append($('<div class="MultiControls">').append(okbtn).append(cancelBtn));
-                },
-
-                addOptgroups: function () {
-                  var O = this;
-                  O.E.children('optgroup').each(function() {
-
-                    var previousGroupedOptionsLength = $(this).prevAll('optgroup').children('option').length;
-                    var optgroupLabelIndex = $(this).index() + previousGroupedOptionsLength;
-                    li = $('<li class="optGroup"><label>' + $(this).attr('label') + '</label></li>');
-                    ul = O.optDiv.children('ul.options');
-                    ul.children('li').eq(optgroupLabelIndex).before(li);
-                  });
                 },
 
                 showOpts: function () {
