@@ -66,5 +66,9 @@
     /*disabled state*/
     .SumoSelect.disabled { opacity: 0.7;}
      .SumoSelect.disabled > .CaptionCont > label { background-color: #F1F1F1; }
+
+     /*styling for optgroups*/
+    .SumoSelect > .optWrapper > .options > li.optGroup { padding-left: 5px; text-decoration: underline; }
+
 /*Background overlay*/
 body > .BackdropSelect { display: none; position: fixed; top: 0px; right: 0px; left: 0px; bottom: 0px; width: 100%; z-index: 100; }

@@ -27,7 +27,6 @@
             csvSepChar: ',',              // seperation char in csv mode
             okCancelInMulti: false,       //display ok cancel buttons in desktop mode multiselect also. 
             triggerChangeCombined: true   // im multi select mode wether to trigger change event on individual selection or combined selection.
-
         }, options);
 
         var ret = this.each(function () {
@@ -36,7 +35,7 @@
 
             this.sumo = {
                 E: $(selObj),   //the jquery object of original select element.
-                is_multi: $(selObj).attr('multiple'),  //if its a mmultiple select
+                is_multi: $(selObj).attr('multiple'),
                 select: '',
                 caption: '',
                 placeholder: '',
@@ -86,7 +85,7 @@
                     ul = $('<ul class="options">');
                     O.optDiv.append(ul);
 
-                    $(O.E.children('option')).each(function (i, opt) {       // parsing options to li
+                    $(O.E.find('option')).each(function (i, opt) {       // parsing options to li
                         opt = $(opt);
                         O.createLi(opt);
                     });
@@ -108,11 +107,6 @@
                     var O = this;
                     li = $('<li data-val="' + opt.val() + '"><label>' + opt.text() + '</label></li>');
                     if (O.is_multi) li.prepend('<span><i></i></span>');
-                    
-                    if (opt.attr('disabled'))
-                        li.addClass('disabled');
-                    else
-                        O.onOptClick(li);
 
                     if (opt.attr('selected'))
                         li.addClass('selected');
@@ -123,6 +117,16 @@
                     else
                         ul.children('li').eq(i).before(li);
 
+                    if (opt.is('optgroup > option:first-child')) {
+                      li.before('<li class="optGroup"><label>' + opt.parent('optgroup').attr('label') + '</label></li>');
+                      if (opt.parent('optgroup').attr('disabled')) li.prev().addClass('disabled');
+                    }
+
+                    if (opt.attr('disabled') || opt.parent('optgroup').attr('disabled'))
+                        li.addClass('disabled');
+                    else
+                        O.onOptClick(li);
+
                     return li;
                 },
 
@@ -130,7 +134,7 @@
                 getSelStr: function () {
                     // get the pre selected items.
                     sopt = [];
-                    this.E.children('option:selected').each(function () { sopt.push($(this).val()); });
+                    this.E.find('option:selected').each(function () { sopt.push($(this).val()); });
                     return sopt.join(settings.csvSepChar);
                 },
 
@@ -145,11 +149,11 @@
 
                             //check for a change in the selection.
                             changed = false;
-                            if (O.E.children('option:selected').length != O.Pstate.length) {
+                            if (O.E.find('option:selected').length != O.Pstate.length) {
                                 changed = true;
                             }
                             else {
-                                O.E.children('option:selected').each(function () {
+                                O.E.find('option:selected').each(function () {
                                     if (O.Pstate.indexOf($(this).val()) < 0) changed = true;
                                 });
                             }
@@ -163,12 +167,12 @@
                     });
                     cancelBtn = $('<p class="btnCancel">Cancel</p>').click(function () {
                         //remove all selections
-                        O.E.children('option:selected').each(function () { this.selected = false; });
+                        O.E.find('option:selected').each(function () { this.selected = false; });
                         O.optDiv.find('li.selected').removeClass('selected')
 
                         //restore selections from saved state.
                         for (i = 0; i < O.Pstate.length; i++) {
-                            O.E.children('option[value="' + O.Pstate[i] + '"]')[0].selected = true;
+                            O.E.find('option[value="' + O.Pstate[i] + '"]')[0].selected = true;
                             O.optDiv.find('li[data-val="' + O.Pstate[i] + '"]').addClass('selected');
                         }
                         O.setText();
@@ -193,7 +197,7 @@
                     //maintain state when ok/cancel buttons are available.
                     if (O.is_multi && (O.is_floating || settings.okCancelInMulti)) {
                         O.Pstate = [];
-                        O.E.children('option:selected').each(function () { O.Pstate.push($(this).val()); });
+                        O.E.find('option:selected').each(function () { O.Pstate.push($(this).val()); });
                     }
                 },
                 hideOpts: function () {
@@ -230,7 +234,7 @@
                         txt = "";
                         if (O.is_multi) {
                             li.toggleClass('selected');
-                            O.E.children('option[value="' + li.attr('data-val') + '"]')[0].selected = li.hasClass('selected');
+                            O.E.find('option[value="' + li.attr('data-val') + '"]')[0].selected = li.hasClass('selected');
                         }
                         else {
                             li.parent().find('li.selected').removeClass('selected'); //if not multiselect then remove all selections from this list
@@ -252,7 +256,7 @@
                     var O = this;
                     O.placeholder = "";
                     if (O.is_multi) {
-                        sels = O.E.children(':selected').not(':disabled'); //selected options.
+                        sels = O.E.find(':selected').not(':disabled'); //selected options.
 
                         for (i = 0; i < sels.length; i++) {
                             if (i >= settings.csvDispCount && settings.csvDispCount) {
@@ -265,7 +269,7 @@
                         O.placeholder = O.placeholder.replace(/,([^,]*)$/, '$1'); //remove unexpected "," from last.
                     }
                     else {
-                        O.placeholder = O.E.children(':selected').not(':disabled').text();
+                        O.placeholder = O.E.find(':selected').not(':disabled').text();
                     }
 
                     is_placeholder = false;
@@ -277,7 +281,7 @@
                         O.placeholder = O.E.attr('placeholder');
                         if (!O.placeholder)                  //if placeholder is there then set it
                         {
-                            O.placeholder = O.E.children('option:disabled:selected').text();
+                            O.placeholder = O.E.find('option:disabled:selected').text();
                             //if (!O.placeholder && settings.placeholder === 'Select Here')
                             //    O.placeholder = O.E.val();
                         }
@@ -336,7 +340,7 @@
                 // validates range of given item operations
                 vRange: function (i) {
                     var O = this;
-                    opts = O.E.children('option');
+                    opts = O.E.find('option');
                     if (opts.length <= i || i < 0) throw "index out of bounds"
                     return O;
                 },
@@ -344,8 +348,8 @@
                 //toggles selection on c as boolean.
                 toggSel: function (c, i) {
                     var O = this.vRange(i);
-                    if (O.E.children('option')[i].disabled) return;
-                    O.E.children('option')[i].selected = c;
+                    if (O.E.find('option')[i].disabled) return;
+                    O.E.find('option')[i].selected = c;
                     if(!O.mob)O.optDiv.find('ul.options li').eq(i).toggleClass('selected',c);
                     O.setText();
                 },
@@ -353,7 +357,7 @@
                 //toggles disabled on c as boolean.
                 toggDis: function (c, i) {
                     var O = this.vRange(i);
-                    O.E.children('option')[i].disabled = c;
+                    O.E.find('option')[i].disabled = c;
                     if(!O.mob)O.optDiv.find('ul.options li').eq(i).toggleClass('disabled', c);
                     O.setText();
                 },
@@ -380,7 +384,7 @@
                     if (typeof val == "undefined") throw "No value to add"
 
                     var O = this;
-                    opts=O.E.children('option')
+                    opts=O.E.find('option')
                     if (typeof txt == "number") { i = txt; txt = val; }
                     if (typeof txt == "undefined") { txt = val; }
 
@@ -403,7 +407,7 @@
                 //## removes an item at a given index.
                 remove: function (i) {
                     var O = this.vRange(i);
-                    O.E.children('option').eq(i).remove();
+                    O.E.find('option').eq(i).remove();
                     if(!O.mob)O.optDiv.find('ul.options li').eq(i).remove();
                     O.setText();
                 },

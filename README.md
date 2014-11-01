@@ -36,6 +36,8 @@ It can adapt itself according to any deveice, keeping in mind that the User Expe
 
    - Easily extendable to allow developers to create new widgets
 
+   - Supports optgroup tags
+
 **Update v1.1.0**
 
    - Wraped all properties in a sumo object connected to native select element.
