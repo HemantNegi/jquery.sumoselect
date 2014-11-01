@@ -107,6 +107,10 @@
                     var O = this;
                     li = $('<li data-val="' + opt.val() + '"><label>' + opt.text() + '</label></li>');
                     if (O.is_multi) li.prepend('<span><i></i></span>');
+					
+					if(opt.data('sumo-class')){
+                    	li.children('label').addClass(opt.data('sumo-class'));
+                    }
 
                     if (opt.attr('selected'))
                         li.addClass('selected');
@@ -264,12 +268,22 @@
                                 //O.placeholder = i + '+ Selected';
                                 break;
                             }
-                            else O.placeholder += $(sels[i]).text() + ", ";
+                            else{                        
+		                        cssClass="";
+		                        if($(sels[i]).data('sumo-class')) cssClass = "class='"+$(sels[i]).data('sumo-class')+"'";
+
+		                        O.placeholder += "<span "+cssClass+">"+$(sels[i]).text()+"</span>, ";
+                         	}
                         }
                         O.placeholder = O.placeholder.replace(/,([^,]*)$/, '$1'); //remove unexpected "," from last.
                     }
                     else {
-                        O.placeholder = O.E.find(':selected').not(':disabled').text();
+                        selectedOption = O.E.find(':selected').not(':disabled');
+
+                        cssClass="";
+                        if(selectedOption.data('sumo-class')) cssClass = "class='"+selectedOption.data('sumo-class')+"'";
+
+                        O.placeholder = "<span "+cssClass+">"+selectedOption.text()+"</span>";                  
                     }
 
                     is_placeholder = false;
@@ -290,7 +304,7 @@
                     O.placeholder = O.placeholder ? O.placeholder : settings.placeholder
 
                     //set display text
-                    O.caption.text(O.placeholder);
+                    O.caption.html(O.placeholder);
 
                     //set the hidden field if post as csv is true.
                     csvField = O.select.find('input.HEMANT123');
