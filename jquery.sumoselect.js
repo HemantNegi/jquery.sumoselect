@@ -425,10 +425,10 @@
                 enableItem: function (i) { this.toggDis(false, i) },
 
                 //## disables the whole select elements these are getter and setters.
-                get disabled() {
+                get_disabled: function () {
                     return this.E.attr('disabled') ? true : false
                 },
-                set disabled(val) {
+                set_disabled: function (val) {
                     var O = this;   
                     O.select.toggleClass('disabled', val);
                     if (val) O.E.attr('disabled','disabled'); else O.E.removeAttr('disabled');
