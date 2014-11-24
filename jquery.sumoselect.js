@@ -350,7 +350,7 @@
                     var O = this.vRange(i);
                     if (O.E.find('option')[i].disabled) return;
                     O.E.find('option')[i].selected = c;
-                    if(!O.mob)O.optDiv.find('ul.options li').eq(i).toggleClass('selected',c);
+                    if(!O.mob)O.optDiv.find('ul.options li:not(.optGroup)').eq(i).toggleClass('selected',c);
                     O.setText();
                 },
 
@@ -358,7 +358,7 @@
                 toggDis: function (c, i) {
                     var O = this.vRange(i);
                     O.E.find('option')[i].disabled = c;
-                    if(!O.mob)O.optDiv.find('ul.options li').eq(i).toggleClass('disabled', c);
+                    if(!O.mob)O.optDiv.find('ul.options li:not(.optGroup)').eq(i).toggleClass('disabled', c);
                     O.setText();
                 },
 
