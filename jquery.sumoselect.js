@@ -105,12 +105,18 @@
                 //## Adds it to UL at a given index (Last by default)
                 createLi: function (opt,i) {
                     var O = this;
-                    li = $('<li data-val="' + opt.val() + '"><label>' + opt.text() + '</label></li>');
-                    if (O.is_multi) li.prepend('<span><i></i></span>');
+                    
+                    label = $('<label>' + opt.text() + '</label>')
+                    li = $('<li data-val="' + opt.val() + '"></li>').append(label);
+                    
+                    if (O.is_multi){
+                        checkbox = $('<input type="checkbox" />').attr("checked", opt.attr('selected'));
+                        li.prepend($('<span></span>').append(checkbox));
+                    }
 
                     if (opt.attr('selected'))
-                        li.addClass('selected');
-
+                        O.setSelected(li, true);
+                    
                     ul = O.optDiv.children('ul.options');
                     if (typeof i == "undefined")
                         ul.append(li);
@@ -123,9 +129,12 @@
                     }
 
                     if (opt.attr('disabled') || opt.parent('optgroup').attr('disabled'))
-                        li.addClass('disabled');
-                    else
+                        O.setDisabled(li, true);
+                    else{
                         O.onOptClick(li);
+                        if(O.is_multi)
+                            O.onOptClick(checkbox);
+                    }
 
                     return li;
                 },
@@ -168,12 +177,12 @@
                     cancelBtn = $('<p class="btnCancel">Cancel</p>').click(function () {
                         //remove all selections
                         O.E.find('option:selected').each(function () { this.selected = false; });
-                        O.optDiv.find('li.selected').removeClass('selected')
+                        O.optDiv.find('li.selected').each( function(){ O.setSelected($(this), false) } );
 
                         //restore selections from saved state.
                         for (i = 0; i < O.Pstate.length; i++) {
                             O.E.find('option[value="' + O.Pstate[i] + '"]')[0].selected = true;
-                            O.optDiv.find('li[data-val="' + O.Pstate[i] + '"]').addClass('selected');
+                            O.setSelected(O.optDiv.find('li[data-val="' + O.Pstate[i] + '"]'), true);
                         }
                         O.setText();
                         O.hideOpts();
@@ -229,16 +238,27 @@
 
                 onOptClick: function (li) {
                     var O = this;
-                    li.click(function () {
-                        var li = $(this);
+                    li.click(function (event) {
+                        var target = $(this),
+                            li = target.is("li") ? target : target.parents("li");
+                        
+                        if(!target.is("li"))
+                            event.stopPropagation();
+                        
+                        if (li.hasClass("disabled")) {
+                            event.preventDefault();
+                            return
+                        }
+                        
                         txt = "";
+                        
                         if (O.is_multi) {
-                            li.toggleClass('selected');
+                            O.toogleSelected(li, target);
                             O.E.find('option[value="' + li.attr('data-val') + '"]')[0].selected = li.hasClass('selected');
                         }
                         else {
                             li.parent().find('li.selected').removeClass('selected'); //if not multiselect then remove all selections from this list
-                            li.toggleClass('selected');
+                            O.toogleSelected(li);
                             O.E.val(li.attr('data-val'));   //set the value of select element
                         }
 
@@ -250,6 +270,29 @@
 
                         if (!O.is_multi) O.hideOpts(); //if its not a multiselect then hide on single select.
                     });
+                },
+                
+                setSelected: function(li, on, target){
+                  var input = li.find("input");
+                  if(on)
+                    li.addClass('selected');
+                  else
+                    li.removeClass('selected');
+                  if( !target || !$(target).is("input"))
+                    input.prop("checked", on);
+                },
+                
+                toogleSelected: function(li, target){
+                  var O = this;
+                  O.setSelected(li, !li.hasClass('selected'), target);
+                },
+                
+                setDisabled: function(li, on){
+                  if(on)
+                    li.addClass('disabled');
+                  else
+                    li.removeClass('disabled');
+                  li.find('input').prop('disabled', on);
                 },
 
                 setText: function () {
