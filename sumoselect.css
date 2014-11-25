@@ -61,8 +61,8 @@
     .SumoSelect > .optWrapper.multiple.isFloating { padding-bottom: 43px; }
 
     /*disabled state*/
-    .SumoSelect.disabled { opacity: 0.7;}
-     .SumoSelect.disabled > .CaptionCont > label { background-color: #F1F1F1; }
+    .SumoSelect.disabled { opacity: 0.7; cursor: not-allowed; }
+     .SumoSelect.disabled > .CaptionCont > label { background-color: #F1F1F1; cursor: not-allowed; }
 
      /*styling for optgroups*/
     .SumoSelect > .optWrapper > .options > li.optGroup { padding-left: 5px; text-decoration: underline; }
