@@ -39,6 +39,11 @@
     .SumoSelect > .optWrapper > .options > li.disabled { background-color: inherit; }
         .SumoSelect > .optWrapper > .options > li.disabled * { -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; /* IE 5-7 */ filter: alpha(opacity=50); /* Netscape */ -moz-opacity: 0.5; /* Safari 1.x */ -khtml-opacity: 0.5; /* Good browsers */ opacity: 0.5; }
 
+    /*styling for user search*/
+    .SumoSelect > .optWrapper > .SearchArea { border-bottom: 1px solid #ddd; background-color: #fff; padding: 2px; }
+
+    .SumoSelect > .optWrapper > .SearchArea > input[type=text] { width: 98%; outline: none; }
+
 
     /*styling for multiple select*/
     .SumoSelect > .optWrapper.multiple > .options > li { padding-left: 35px; }

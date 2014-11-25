@@ -26,7 +26,8 @@
             outputAsCSV: false,           // true to POST data as csv ( false for Html control array ie. deafault select )
             csvSepChar: ',',              // seperation char in csv mode
             okCancelInMulti: false,       //display ok cancel buttons in desktop mode multiselect also. 
-            triggerChangeCombined: true   // im multi select mode wether to trigger change event on individual selection or combined selection.
+            triggerChangeCombined: true,  // im multi select mode wether to trigger change event on individual selection or combined selection.
+            allowSearch: false             //Allow the user to search the content of the select  
         }, options);
 
         var ret = this.each(function () {
@@ -90,6 +91,9 @@
                         O.createLi(opt);
                     });
 
+                    //only apply if the allowSearch setting is set to true
+                    if (settings.allowSearch) O.allowSearch();
+
                     //if multiple then add the class multiple and add OK / CANCEL button
                     if (O.is_multi) O.multiSelelect();
 
@@ -136,6 +140,35 @@
                     sopt = [];
                     this.E.find('option:selected').each(function () { sopt.push($(this).val()); });
                     return sopt.join(settings.csvSepChar);
+                },
+
+                //## Allows the user to search in a selectfield.
+                allowSearch: function () {
+                    var O = this;
+                    searchField = $('<input type="text" placeholder="Search..." />').keyup(function(){
+                        var searchValue = $(this).val().toLowerCase();
+
+                        //check if the userinput is empty or not
+                        if(!O.isEmpty(searchValue)){
+                            //hide all disabled options
+                            O.optDiv.find('li.disabled').hide();
+
+                            O.optDiv.find('li:not(.disabled):not(.optGroup)').each(function(){
+                                if ($(this).find('label').text().toLowerCase().indexOf(searchValue) != -1){
+                                    //show all options that meets search
+                                    $(this).show();
+                                }else{
+                                    //hide all options that does not meet search
+                                    $(this).hide();
+                                }
+                            });
+                        }else{
+                            //if userempty is empty, show all options
+                            O.optDiv.find('li').show();
+                        }
+                    });
+
+                    O.optDiv.prepend($('<div class="SearchArea">').append(searchField));
                 },
 
                 //## THOSE OK/CANCEL BUTTONS ON MULTIPLE SELECT.
@@ -205,6 +238,11 @@
                     O.is_opened = false;
                     O.backdrop.hide();
                     O.optDiv.removeClass('open');
+                },
+
+                //method that returns if a string is empty
+                isEmpty: function(str) {
+                    return (!str || 0 === str.length);
                 },
 
                 basicEvents: function () {
