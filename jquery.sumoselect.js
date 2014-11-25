@@ -151,7 +151,7 @@
                         //check if the userinput is empty or not
                         if(!O.isEmpty(searchValue)){
                             //hide all disabled options
-                            O.optDiv.find('li.disabled').hide();
+                            O.optDiv.find('li.disabled:not(.optGroup)').hide();
 
                             O.optDiv.find('li:not(.disabled):not(.optGroup)').each(function(){
                                 if ($(this).find('label').text().toLowerCase().indexOf(searchValue) != -1){

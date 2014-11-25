@@ -41,8 +41,7 @@
 
     /*styling for user search*/
     .SumoSelect > .optWrapper > .SearchArea { border-bottom: 1px solid #ddd; background-color: #fff; padding: 2px; }
-
-    .SumoSelect > .optWrapper > .SearchArea > input[type=text] { width: 98%; outline: none; }
+    .SumoSelect > .optWrapper > .SearchArea > input[type=text] { width: 98%; outline: none; padding: 2px; }
 
 
     /*styling for multiple select*/
