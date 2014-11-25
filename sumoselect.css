@@ -36,8 +36,8 @@
     .SumoSelect:hover > .CaptionCont > label { background-color: #F1F1F1; }
 
     /*disabled state*/
-    .SumoSelect > .optWrapper > .options > li.disabled { background-color: inherit; }
-        .SumoSelect > .optWrapper > .options > li.disabled * { -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; /* IE 5-7 */ filter: alpha(opacity=50); /* Netscape */ -moz-opacity: 0.5; /* Safari 1.x */ -khtml-opacity: 0.5; /* Good browsers */ opacity: 0.5; }
+    .SumoSelect > .optWrapper > .options > li.disabled { background-color: inherit; cursor: not-allowed; }
+        .SumoSelect > .optWrapper > .options > li.disabled * { -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; /* IE 5-7 */ filter: alpha(opacity=50); /* Netscape */ -moz-opacity: 0.5; /* Safari 1.x */ -khtml-opacity: 0.5; /* Good browsers */ opacity: 0.5; cursor: not-allowed; }
 
 
     /*styling for multiple select*/
