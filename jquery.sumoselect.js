@@ -130,7 +130,7 @@
 
                     if (opt.attr('disabled') || opt.parent('optgroup').attr('disabled'))
                         O.setDisabled(li, true);
-                    else{
+                    else {
                         O.onOptClick(li);
                         if(O.is_multi)
                             O.onOptClick(checkbox);
@@ -274,10 +274,7 @@
                 
                 setSelected: function(li, on, target){
                   var input = li.find("input");
-                  if(on)
-                    li.addClass('selected');
-                  else
-                    li.removeClass('selected');
+                  li.toggleClass('selected', on);
                   if( !target || !$(target).is("input"))
                     input.prop("checked", on);
                 },
@@ -288,10 +285,7 @@
                 },
                 
                 setDisabled: function(li, on){
-                  if(on)
-                    li.addClass('disabled');
-                  else
-                    li.removeClass('disabled');
+                  li.toggleClass('disabled', on);
                   li.find('input').prop('disabled', on);
                 },
 
@@ -393,7 +387,7 @@
                     var O = this.vRange(i);
                     if (O.E.find('option')[i].disabled) return;
                     O.E.find('option')[i].selected = c;
-                    if(!O.mob)O.optDiv.find('ul.options li').eq(i).toggleClass('selected',c);
+                    if(!O.mob)O.optDiv.find('ul.options li').eq(i).each( function(){ O.setSelected($(this), c); } );
                     O.setText();
                 },
 
@@ -401,7 +395,7 @@
                 toggDis: function (c, i) {
                     var O = this.vRange(i);
                     O.E.find('option')[i].disabled = c;
-                    if(!O.mob)O.optDiv.find('ul.options li').eq(i).toggleClass('disabled', c);
+                    if(!O.mob)O.optDiv.find('ul.options li').eq(i).each( function(){ O.setDisabled($(this), c); } );
                     O.setText();
                 },
 
