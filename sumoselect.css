@@ -41,7 +41,7 @@
 
     /*styling for user search*/
     .SumoSelect > .optWrapper > .SearchArea { border-bottom: 1px solid #ddd; background-color: #fff; padding: 2px; }
-    .SumoSelect > .optWrapper > .SearchArea > input[type=text] { width: 98%; outline: none; padding: 2px; }
+    .SumoSelect > .optWrapper > .SearchArea > input[type=text] { width: 96%; outline: none; padding: 2px; }
 
 
     /*styling for multiple select*/
@@ -73,6 +73,8 @@
 
      /*styling for optgroups*/
     .SumoSelect > .optWrapper > .options > li.optGroup { padding-left: 5px; text-decoration: underline; }
+    .SumoSelect > .optWrapper > .options > li.optGroupEnd { background-color: #000000; height: 2px; display: block; padding: 0px; margin: 0px; overflow: auto; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; /* IE 5-7 */ filter: alpha(opacity=50); /* Netscape */ -moz-opacity: 0.5; /* Safari 1.x */ -khtml-opacity: 0.5; /* Good browsers */ opacity: 0.5; }
+    .SumoSelect > .optWrapper > .options > li.optGroupEnd:hover { background-color: #000000; }
 
 /*Background overlay*/
 body > .BackdropSelect { display: none; position: fixed; top: 0px; right: 0px; left: 0px; bottom: 0px; width: 100%; z-index: 100; }

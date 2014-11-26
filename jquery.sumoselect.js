@@ -122,9 +122,33 @@
                         ul.children('li').eq(i).before(li);
 
                     if (opt.is('optgroup > option:first-child')) {
-                      li.before('<li class="optGroup"><label>' + opt.parent('optgroup').attr('label') + '</label></li>');
+                      var optGroup = $('<li class="optGroup"><label>' + opt.parent('optgroup').attr('label') + '</label></li>').click(function(){
+                        //checks if multi select is enabled
+                        if(O.is_multi){
+                          //countes li elements and li selected li elements
+                          var numLi = $(this).nextUntil(".optGroup, .optGroupEnd").filter('li:not(.disabled)').length;
+                          var selectedLi = $(this).nextUntil(".optGroup, .optGroupEnd").filter('li.selected:not(.disabled)').length;
+
+                          //checks if more then half is checked, if yes then check all, if not then unselect all
+                          if((numLi == selectedLi) || ((numLi/2) >= selectedLi && selectedLi != 0)){
+                            $(this).nextUntil(".optGroup, .optGroupEnd").filter('li:not(.disabled).selected').each(function(){
+                              $(this).click();
+                            });
+                          }else{
+                            $(this).nextUntil(".optGroup, .optGroupEnd").filter('li:not(.disabled):not(.selected)').each(function(){
+                              $(this).click();
+                            });
+                          }
+                        }
+                      });
+                      li.before(optGroup);
                       if (opt.parent('optgroup').attr('disabled')) li.prev().addClass('disabled');
                     }
+
+                    if (opt.is('optgroup > option:last-child') && opt.parent().next().prop('tagName') != "OPTGROUP") {
+                      li.after('<li class="optGroupEnd"><div class="stroke"></div></li>');
+                    }
+
 
                     if (opt.attr('disabled') || opt.parent('optgroup').attr('disabled'))
                         li.addClass('disabled');
