@@ -8,10 +8,13 @@
     "B2F",
     "ke-an"
   ],
-  "description": "\"A jQuery plugin that progressively enhances an HTML Select Box into a Single/Multiple option dropdown list\"",
+  "description": "A jQuery plugin that progressively enhances an HTML Select Box into a Single/Multiple option dropdown list",
   "keywords": [
     "multiselect",
     "dropdown"
   ],
+  "dependencies": {
+	"jquery": ">=1.6"
+  },
   "license": "MIT"
 }
