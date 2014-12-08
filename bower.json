@@ -1,6 +1,6 @@
 {
   "name": "sumoselect",
-  "main": "jquery.sumoselect.js",
+  "main": ["jquery.sumoselect.js", "sumoselect.css"],
   "version": "1.2.0",
   "homepage": "https://github.com/HemantNegi/jquery.sumoselect",
   "authors": [
