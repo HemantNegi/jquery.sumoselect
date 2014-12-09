@@ -1,0 +1,20 @@
+{
+  "name": "sumoselect",
+  "main": ["jquery.sumoselect.js", "sumoselect.css"],
+  "version": "1.2.0",
+  "homepage": "https://github.com/HemantNegi/jquery.sumoselect",
+  "authors": [
+    "HemantNegi",
+    "B2F",
+    "ke-an"
+  ],
+  "description": "A jQuery plugin that progressively enhances an HTML Select Box into a Single/Multiple option dropdown list",
+  "keywords": [
+    "multiselect",
+    "dropdown"
+  ],
+  "dependencies": {
+	"jquery": ">=1.6"
+  },
+  "license": "MIT"
+}
