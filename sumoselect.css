@@ -36,14 +36,13 @@
     .SumoSelect:hover > .CaptionCont > label { background-color: #F1F1F1; }
 
     /*disabled state*/
-    .SumoSelect > .optWrapper > .options > li.disabled { background-color: inherit; }
-        .SumoSelect > .optWrapper > .options > li.disabled * { -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; /* IE 5-7 */ filter: alpha(opacity=50); /* Netscape */ -moz-opacity: 0.5; /* Safari 1.x */ -khtml-opacity: 0.5; /* Good browsers */ opacity: 0.5; }
+    .SumoSelect > .optWrapper > .options > li.disabled { background-color: inherit; cursor: not-allowed; }
+        .SumoSelect > .optWrapper > .options > li.disabled * { -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; /* IE 5-7 */ filter: alpha(opacity=50); /* Netscape */ -moz-opacity: 0.5; /* Safari 1.x */ -khtml-opacity: 0.5; /* Good browsers */ opacity: 0.5; cursor: not-allowed; }
 
 
     /*styling for multiple select*/
     .SumoSelect > .optWrapper.multiple > .options > li { padding-left: 35px; }
-        .SumoSelect > .optWrapper.multiple > .options > li span { position: absolute; display: block; width: 30px; top: 0px; left: 0px; bottom: 0px; }
-            .SumoSelect > .optWrapper.multiple > .options > li span i { background-image: url('http://graphics8.nytimes.com/packages/flash/business/20100325-FinancialTuneUp/gfx/checkbox.png'); position: absolute; margin: auto; left: 0px; right: 0px; top: 0px; bottom: 0px; background-repeat: no-repeat; background-position: center center; width: 16px; height: 16px; }
+        .SumoSelect > .optWrapper.multiple > .options > li span { position: absolute; display: block; width: 30px; top: 3px; left: 0px; bottom: 0px; text-align: center; }
     .SumoSelect > .optWrapper > .MultiControls { display: none; border-top: 1px solid #ddd; background-color: #fff; box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.13); border-radius: 0px 0px 3px 3px; }
     .SumoSelect > .optWrapper.multiple.isFloating > .MultiControls { display: block; margin-top: 5px; position: absolute; bottom: 0px; width: 100%; }
 
@@ -60,12 +59,10 @@
     /*styling for only multiple select on popup mode*/
     .SumoSelect > .optWrapper.multiple.isFloating > .options > li { padding-left: 35px; }
     .SumoSelect > .optWrapper.multiple.isFloating { padding-bottom: 43px; }
-    /*selected state*/
-    .SumoSelect > .optWrapper.multiple > .options > li.selected span i { background-image: url('https://cdn1.iconfinder.com/data/icons/Keyamoon-IcoMoon--limited/16/checkbox-checked.png'); }
 
     /*disabled state*/
-    .SumoSelect.disabled { opacity: 0.7;}
-     .SumoSelect.disabled > .CaptionCont > label { background-color: #F1F1F1; }
+    .SumoSelect.disabled { opacity: 0.7; cursor: not-allowed; }
+     .SumoSelect.disabled > .CaptionCont > label { background-color: #F1F1F1; cursor: not-allowed; }
 
      /*styling for optgroups*/
     .SumoSelect > .optWrapper > .options > li.optGroup { padding-left: 5px; text-decoration: underline; }
