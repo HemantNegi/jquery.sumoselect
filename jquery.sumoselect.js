@@ -183,7 +183,7 @@
 
                 showOpts: function () {
                     var O = this;
-                    if (O.E.attr('disabled')) return; // if select is disabled then retrun
+                    if (O.E.attr('disabled')) return; // if select is disabled then return
                     O.is_opened = true;
                     O.backdrop.show();
                     O.optDiv.addClass('open');
@@ -424,14 +424,17 @@
                 //## Removes disabled an iten at a given index.
                 enableItem: function (i) { this.toggDis(false, i) },
 
-                //## disables the whole select elements these are getter and setters.
-                get disabled() {
-                    return this.E.attr('disabled') ? true : false
-                },
-                set disabled(val) {
-                    var O = this;   
-                    O.select.toggleClass('disabled', val);
-                    if (val) O.E.attr('disabled','disabled'); else O.E.removeAttr('disabled');
+                //## disables the whole select elements these are getter/setters.
+                disabled: function(val) {
+                    var O = this;
+                    if (arguments.length) {
+                        val = !!val;
+                        O.select.toggleClass('disabled', val)
+                        O.E.prop('disabled', val);
+                    }
+                    else {
+                        return O.E.prop('disabled');
+                    }
                 },
 
 
