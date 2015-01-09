@@ -1,4 +1,3 @@
-﻿body, p, div, select { padding: 0; margin: 0; outline: none; color: #000; font-family: calibri; }
 .SlectBox, .SlectBoxa { width: 200px; padding: 5px; }
 
 /*this is applied on that hidden select. DO NOT USE display:none; or visiblity:hidden; and Do not override any of these properties. */
