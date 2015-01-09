@@ -26,7 +26,8 @@
             outputAsCSV: false,           // true to POST data as csv ( false for Html control array ie. deafault select )
             csvSepChar: ',',              // seperation char in csv mode
             okCancelInMulti: false,       //display ok cancel buttons in desktop mode multiselect also. 
-            triggerChangeCombined: true   // im multi select mode wether to trigger change event on individual selection or combined selection.
+            triggerChangeCombined: true,  // im multi select mode wether to trigger change event on individual selection or combined selection.
+            allowSearch: false             //Allow the user to search the content of the select  
         }, options);
 
         var ret = this.each(function () {
@@ -90,6 +91,9 @@
                         O.createLi(opt);
                     });
 
+                    //only apply if the allowSearch setting is set to true
+                    if (settings.allowSearch) O.allowSearch();
+
                     //if multiple then add the class multiple and add OK / CANCEL button
                     if (O.is_multi) O.multiSelelect();
 
@@ -118,9 +122,33 @@
                         ul.children('li').eq(i).before(li);
 
                     if (opt.is('optgroup > option:first-child')) {
-                      li.before('<li class="optGroup"><label>' + opt.parent('optgroup').attr('label') + '</label></li>');
+                      var optGroup = $('<li class="optGroup"><label>' + opt.parent('optgroup').attr('label') + '</label></li>').click(function(){
+                        //checks if multi select is enabled
+                        if(O.is_multi){
+                          //countes li elements and li selected li elements
+                          var numLi = $(this).nextUntil(".optGroup, .optGroupEnd").filter('li:not(.disabled)').length;
+                          var selectedLi = $(this).nextUntil(".optGroup, .optGroupEnd").filter('li.selected:not(.disabled)').length;
+
+                          //checks if more then half is checked, if yes then check all, if not then unselect all
+                          if((numLi == selectedLi) || ((numLi/2) >= selectedLi && selectedLi != 0)){
+                            $(this).nextUntil(".optGroup, .optGroupEnd").filter('li:not(.disabled).selected').each(function(){
+                              $(this).click();
+                            });
+                          }else{
+                            $(this).nextUntil(".optGroup, .optGroupEnd").filter('li:not(.disabled):not(.selected)').each(function(){
+                              $(this).click();
+                            });
+                          }
+                        }
+                      });
+                      li.before(optGroup);
                       if (opt.parent('optgroup').attr('disabled')) li.prev().addClass('disabled');
                     }
+
+                    if (opt.is('optgroup > option:last-child') && opt.parent().next().prop('tagName') != "OPTGROUP") {
+                      li.after('<li class="optGroupEnd"><div class="stroke"></div></li>');
+                    }
+
 
                     if (opt.attr('disabled') || opt.parent('optgroup').attr('disabled'))
                         li.addClass('disabled');
@@ -136,6 +164,35 @@
                     sopt = [];
                     this.E.find('option:selected').each(function () { sopt.push($(this).val()); });
                     return sopt.join(settings.csvSepChar);
+                },
+
+                //## Allows the user to search in a selectfield.
+                allowSearch: function () {
+                    var O = this;
+                    searchField = $('<input type="text" placeholder="Search..." />').keyup(function(){
+                        var searchValue = $(this).val().toLowerCase();
+
+                        //check if the userinput is empty or not
+                        if(!O.isEmpty(searchValue)){
+                            //hide all disabled options
+                            O.optDiv.find('li.disabled:not(.optGroup)').hide();
+
+                            O.optDiv.find('li:not(.disabled):not(.optGroup)').each(function(){
+                                if ($(this).find('label').text().toLowerCase().indexOf(searchValue) != -1){
+                                    //show all options that meets search
+                                    $(this).show();
+                                }else{
+                                    //hide all options that does not meet search
+                                    $(this).hide();
+                                }
+                            });
+                        }else{
+                            //if userempty is empty, show all options
+                            O.optDiv.find('li').show();
+                        }
+                    });
+
+                    O.optDiv.prepend($('<div class="SearchArea">').append(searchField));
                 },
 
                 //## THOSE OK/CANCEL BUTTONS ON MULTIPLE SELECT.
@@ -205,6 +262,11 @@
                     O.is_opened = false;
                     O.backdrop.hide();
                     O.optDiv.removeClass('open');
+                },
+
+                //method that returns if a string is empty
+                isEmpty: function(str) {
+                    return (!str || 0 === str.length);
                 },
 
                 basicEvents: function () {
