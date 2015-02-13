@@ -310,7 +310,7 @@
                     var ua = navigator.userAgent || navigator.vendor || window.opera;
 
                     // Checks for iOs, Android, Blackberry, Opera Mini, and Windows mobile devices
-                    for (var i = 0; i < settings.nativeOnDevice.length; i++) if (ua.toLowerCase().indexOf(settings.nativeOnDevice[i].toLowerCase()) > 0) return settings.nativeOnDevice[i];
+                    for (var i = 0; i < settings.nativeOnDevice.length; i++) if (ua.toString().toLowerCase().indexOf(settings.nativeOnDevice[i].toLowerCase()) > 0) return settings.nativeOnDevice[i];
                     return false;
                 },
 
@@ -361,8 +361,18 @@
                 toggDis: function (c, i) {
                     var O = this.vRange(i);
                     O.E.children('option')[i].disabled = c;
-                    if(!O.mob)O.optDiv.find('ul.options li').eq(i).toggleClass('disabled', c);
+                    if(c)O.E.children('option')[i].selected = false;
+                    if(!O.mob)O.optDiv.find('ul.options li').eq(i).toggleClass('disabled', c).removeClass('selected');
                     O.setText();
+                },
+
+                // toggle disable/enable on complete select control
+                toggSumo: function(val) {
+                    var O = this;
+                    O.enabled = val;
+                    O.select.toggleClass('disabled', val);
+                    if (val) O.E.attr('disabled','disabled'); else O.E.removeAttr('disabled');
+                    return O;
                 },
 
 
@@ -428,14 +438,23 @@
                 enableItem: function (i) { this.toggDis(false, i) },
 
                 //## disables the whole select elements these are getter and setters.
-                get disabled() {
-                    return this.E.attr('disabled') ? true : false
-                },
-                set disabled(val) {
-                    var O = this;
-                    O.select.toggleClass('disabled', val);
-                    if (val) O.E.attr('disabled','disabled'); else O.E.removeAttr('disabled');
-                },
+//                get disabled() {
+//                    return this.E.attr('disabled') ? true : false
+//                },
+//                set disabled(val) {
+//                    var O = this;
+//                    O.select.toggleClass('disabled', val);
+//                    if (val) O.E.attr('disabled','disabled'); else O.E.removeAttr('disabled');
+//                },
+
+                //## New simple methods as getter and setter are not working fine in ie8-
+                //## variable to check state of control if enabled or disabled.
+                enabled : true,
+                //## Enables the control
+                enable: function(){return this.toggSumo(false)},
+
+                //## Disables the control
+                disable: function(){return this.toggSumo(true)},
 
 
                 init: function () {
