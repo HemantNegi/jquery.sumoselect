@@ -63,7 +63,7 @@
     /*selected state*/
     .SumoSelect > .optWrapper.multiple > .options > li.selected span i:after {content: '';position: absolute;width: 11px;height: 11px;top: 2px;left: 2px;background-color: rgb(17, 169, 17);border-radius: 2px;box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15);}
     /*disabled state*/
-    .SumoSelect.disabled { opacity: 0.7;}
+    .SumoSelect.disabled { opacity: 0.7;cursor: not-allowed;}
      .SumoSelect.disabled > .CaptionCont > label { background-color: #F1F1F1; }
 
      /*styling for optgroups*/
