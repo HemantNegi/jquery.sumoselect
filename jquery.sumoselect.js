@@ -356,6 +356,19 @@
                     if(!O.mob)O.optDiv.find('ul.options li').eq(i).toggleClass('selected',c);
                     O.setText();
                 },
+                
+                //toggles alloption on c as boolean.
+                toggSelAll: function (c, i) {
+                    var O = this.vRange(i);
+                    O.E.find('option').each(function(index, el) {
+                     if (O.E.find('option')[$(this).index()].disabled) return;
+                    O.E.find('option')[$(this).index()].selected = c;
+                    if(!O.mob)O.optDiv.find('ul.options li').eq($(this).index()).toggleClass('selected',c);
+                    O.setText();
+                    });
+
+                  
+                },
 
                 //toggles disabled on c as boolean.
                 toggDis: function (c, i) {
@@ -417,9 +430,15 @@
 
                 //## Select an iten at a given index.
                 selectItem: function (i) { this.toggSel(true, i); },
+                
+                //## Select all items  of the select.
+                SelectAll: function (i) { this.toggSelAll(true, i ); },
 
                 //## UnSelect an iten at a given index.
                 unSelectItem: function (i) { this.toggSel(false, i); },
+
+                //## UnSelect all items of the select.
+                unSelectAll: function (i) { this.toggSelAll(false, i ); },
 
                 //## Disable an iten at a given index.
                 disableItem: function (i) { this.toggDis(true, i) },
