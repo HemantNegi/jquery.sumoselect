@@ -94,16 +94,13 @@
                     //if multiple then add the class multiple and add OK / CANCEL button
                     if (O.is_multi) O.multiSelelect();
 
-                    //creating the backdrop element for clickoutside support.
-                    //if (!$('.BackdropSelect').length) $('body').append('<div class="BackdropSelect">');
-                   // O.backdrop = $('.BackdropSelect');
-
                     O.select.append(O.optDiv);
                     O.basicEvents();
                 },
 
                 //## Creates a LI element from a given option and binds events to it
                 //## Adds it to UL at a given index (Last by default)
+
                 createLi: function (opt,i) {
                     var O = this;
                     li = $('<li data-val="' + opt.val() + '"><label>' + opt.text() + '</label></li>');
@@ -116,6 +113,11 @@
 
                     if (opt.attr('selected'))
                         li.addClass('selected');
+
+                    alert(opt.attr('class'));
+
+                    if (opt.attr('class'))
+                        li.addClass(opt.attr('class'));
 
                     ul = O.optDiv.children('ul.options');
                     if (typeof i == "undefined")
