@@ -7,7 +7,7 @@
     .SumoSelect > .optWrapper > .options > li label, .SumoSelect > .CaptionCont { user-select: none; -o-user-select: none; -moz-user-select: none; -khtml-user-select: none; -webkit-user-select: none; }
 
 .SumoSelect { display: inline-block; position: relative; }
-    .SumoSelect > .CaptionCont { position: relative; border: 1px solid #ccc; min-height: 20px; background-color: #fff; }
+    .SumoSelect > .CaptionCont { position: relative; border: 1px solid #ccc; min-height: 20px; background-color: #fff;border-radius:2px;}
         .SumoSelect > .CaptionCont > span { display: block; padding-right: 30px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
             /*placeholder style*/
             .SumoSelect > .CaptionCont > span.placeholder { color: #ccc; font-style: italic; }

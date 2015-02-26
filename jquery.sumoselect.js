@@ -114,8 +114,6 @@
                     if (opt.attr('selected'))
                         li.addClass('selected');
 
-                    alert(opt.attr('class'));
-
                     if (opt.attr('class'))
                         li.addClass(opt.attr('class'));
 
@@ -250,7 +248,7 @@
                         //branch for combined change event.
                         if (!(O.is_multi && settings.triggerChangeCombined && (O.is_floating || settings.okCancelInMulti))) {
                             O.setText();
-                            O.E.trigger('change');
+                            O.E.trigger('change').trigger('click');
                         }
 
                         if (!O.is_multi) O.hideOpts(); //if its not a multiselect then hide on single select.
