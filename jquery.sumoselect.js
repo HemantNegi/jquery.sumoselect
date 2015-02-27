@@ -26,7 +26,8 @@
             outputAsCSV: false,           // true to POST data as csv ( false for Html control array ie. deafault select )
             csvSepChar: ',',              // seperation char in csv mode
             okCancelInMulti: false,       //display ok cancel buttons in desktop mode multiselect also.
-            triggerChangeCombined: true   // im multi select mode wether to trigger change event on individual selection or combined selection.
+            triggerChangeCombined: true,  // im multi select mode wether to trigger change event on individual selection or combined selection.
+            enableCurrentTarget: false    // populate event.currentTarget when firing change event; some libraries won't work otherwise (GWT).
 
         }, options);
 
@@ -155,8 +156,15 @@
                             }
 
                             if (changed) {
-                                O.E.trigger('change');
-                                O.setText();
+                            	if (settings.enableCurrentTarget) {
+                            		var changeEvent = jQuery.Event('change');
+                            		changeEvent.currentTarget = changeEvent.target = O.E[0];
+                            		O.E.trigger(changeEvent);
+                            	}
+                            	else {
+                            		O.E.trigger('change');
+                            	}
+                        		O.setText();
                             }
                         }
                         O.hideOpts();
@@ -248,7 +256,14 @@
                         //branch for combined change event.
                         if (!(O.is_multi && settings.triggerChangeCombined && (O.is_floating || settings.okCancelInMulti))) {
                             O.setText();
-                            O.E.trigger('change');
+                        	if (settings.enableCurrentTarget) {
+                        		var changeEvent = jQuery.Event('change');
+                        		changeEvent.currentTarget = changeEvent.target = O.E[0];
+                        		O.E.trigger(changeEvent);
+                        	}
+                        	else {
+                        		O.E.trigger('change');
+                        	}
                         }
 
                         if (!O.is_multi) O.hideOpts(); //if its not a multiselect then hide on single select.
