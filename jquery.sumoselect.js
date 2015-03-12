@@ -25,9 +25,9 @@
             nativeOnDevice: ['Android', 'BlackBerry', 'iPhone', 'iPad', 'iPod', 'Opera Mini', 'IEMobile', 'Silk'], //'Windows'
             outputAsCSV: false,           // true to POST data as csv ( false for Html control array ie. deafault select )
             csvSepChar: ',',              // seperation char in csv mode
-            okCancelInMulti: false,       //display ok cancel buttons in desktop mode multiselect also.
-            triggerChangeCombined: true   // im multi select mode wether to trigger change event on individual selection or combined selection.
-
+            okCancelInMulti: false,       // display ok cancel buttons in desktop mode multiselect also.
+            triggerChangeCombined: true,  // im multi select mode wether to trigger change event on individual selection or combined selection.
+            customClassCSS: ''            // add custom class in the main div
         }, options);
 
         var ret = this.each(function () {
@@ -52,6 +52,7 @@
                     var O = this;
                     O.E.wrap('<div class="SumoSelect">');
                     O.select = O.E.parent();
+                    O.select.addClass(settings.customClassCSS);
                     O.caption = $('<span></span>');
                     O.CaptionCont = $('<p class="CaptionCont"><label><i></i></label></p>').addClass('SlectBox').attr('style', O.E.attr('style')).prepend(O.caption);
                     O.select.append(O.CaptionCont);

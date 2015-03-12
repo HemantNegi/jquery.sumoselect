@@ -143,7 +143,8 @@ The following settings are available now:
                     outputAsCSV : false,
                     csvSepChar : ',', 
                     okCancelInMulti: true, 
-                    triggerChangeCombined : true
+                    triggerChangeCombined : true,
+                    customClassCSS: ''
                 }
 ```
 
