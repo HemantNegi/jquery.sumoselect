@@ -221,7 +221,9 @@
                         evt.stopPropagation();
                     });
 
-                    //O.backdrop.click(function () { O.hideOpts(); });
+		    O.E.on('focusout', function () {
+                        O.optDiv.removeClass('open');
+                    });
 
                     O.E.on('blur', function () {
                         O.optDiv.removeClass('open');
