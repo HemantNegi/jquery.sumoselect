@@ -310,7 +310,7 @@
                     var ua = navigator.userAgent || navigator.vendor || window.opera;
 
                     // Checks for iOs, Android, Blackberry, Opera Mini, and Windows mobile devices
-                    for (var i = 0; i < settings.nativeOnDevice.length; i++) if (ua.toLowerCase().indexOf(settings.nativeOnDevice[i].toLowerCase()) > 0) return settings.nativeOnDevice[i];
+                    for (var i = 0; i < settings.nativeOnDevice.length; i++) if (typeof settings.nativeOnDevice[i].toLowerCase == 'function' && ua.toLowerCase().indexOf(settings.nativeOnDevice[i].toLowerCase()) > 0) return settings.nativeOnDevice[i];
                     return false;
                 },
 
