@@ -22,7 +22,7 @@
             captionFormat:'{0} Selected', // format of caption text. you can set your locale.
             floatWidth: 400,              // Screen width of device at which the list is rendered in floating popup fashion.
             forceCustomRendering: false,  // force the custom modal on all devices below floatWidth resolution.
-            nativeOnDevice: ['Android', 'BlackBerry', 'iPhone', 'iPad', 'iPod', 'Opera Mini', 'IEMobile', 'Silk'], //'Windows'
+            nativeOnDevice: ['Android', 'BlackBerry', 'iPhone', 'iPad', 'iPod', 'Opera Mini', 'IEMobile', 'Silk'], //
             outputAsCSV: false,           // true to POST data as csv ( false for Html control array ie. deafault select )
             csvSepChar: ',',              // seperation char in csv mode
             okCancelInMulti: false,       //display ok cancel buttons in desktop mode multiselect also.
@@ -108,15 +108,18 @@
                 //## Adds it to UL at a given index (Last by default)
                 createLi: function (opt,i) {
                     var O = this;
+
+                    if(!opt.attr('value'))opt.attr('value',opt.val());
+
                     li = $('<li data-val="' + opt.val() + '"><label>' + opt.text() + '</label></li>');
                     if (O.is_multi) li.prepend('<span><i></i></span>');
 
-                    if (opt.attr('disabled'))
-                        li.addClass('disabled');
-                    else
-                        O.onOptClick(li);
+                    if (opt[0].disabled)
+                        li = li.addClass('disabled');
 
-                    if (opt.attr('selected'))
+                    O.onOptClick(li);
+
+                    if (opt[0].selected)
                         li.addClass('selected');
 
                     if (opt.attr('class'))
@@ -233,7 +236,7 @@
                     $(document).on('click.sumo', function (e) {
                             if (!O.select.is(e.target)                  // if the target of the click isn't the container...
                                 && O.select.has(e.target).length === 0) // ... nor a descendant of the container
-                            {   O._cnbtn();
+                            {   if (O.is_multi && settings.selectAll)O._cnbtn();
                                 O.hideOpts();
                                 $(document).off('click.sumo');
                             }
@@ -278,6 +281,7 @@
                     var O = this;
                     li.click(function () {
                         var li = $(this);
+                        if(li.hasClass('disabled'))return;
                         txt = "";
                         if (O.is_multi) {
                             li.toggleClass('selected');
@@ -428,10 +432,6 @@
                         if (O.E.find('option')[$(this).index()].disabled) return;
                         O.E.find('option')[$(this).index()].selected = c;
                         if (!O.mob)O.optDiv.find('ul.options li').eq($(this).index()).toggleClass('selected', c);
-
-//                        // update select all check if enabled
-//                        O.selAll.toggleClass('selected',c);
-
                         O.setText();
                     });
                 },
@@ -439,10 +439,15 @@
                 /* outside accessibility options
                    which can be accessed from the element instance.
                 */
+                reload:function(){
+                    var elm = this.unload();
+                    return $(elm).SumoSelect(settings);
+                },
+
                 unload: function () {
                     var O = this;
                     O.select.before(O.E);
-                    O.E.removeClass('SelectClass').show();
+                    O.E.show();
 
                     if (settings.outputAsCSV && O.is_multi && O.select.find('input.HEMANT123').length) {
                         O.E.attr('name', O.select.find('input.HEMANT123').attr('name')); // restore the name;
@@ -485,7 +490,7 @@
                     O.setText();
                 },
 
-                //## Select an iten at a given index.
+                //## Select an item at a given index.
                 selectItem: function (i) { this.toggSel(true, i); },
 
                 //## UnSelect an iten at a given index.
@@ -502,17 +507,6 @@
 
                 //## Removes disabled an iten at a given index.
                 enableItem: function (i) { this.toggDis(false, i) },
-
-
-                //## disables the whole select elements these are getter and setters.
-//                get disabled() {
-//                    return this.E.attr('disabled') ? true : false
-//                },
-//                set disabled(val) {
-//                    var O = this;
-//                    O.select.toggleClass('disabled', val);
-//                    if (val) O.E.attr('disabled','disabled'); else O.E.removeAttr('disabled');
-//                },
 
                 //## New simple methods as getter and setter are not working fine in ie8-
                 //## variable to check state of control if enabled or disabled.
