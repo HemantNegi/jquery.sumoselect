@@ -26,7 +26,9 @@
             outputAsCSV: false,           // true to POST data as csv ( false for Html control array ie. deafault select )
             csvSepChar: ',',              // seperation char in csv mode
             okCancelInMulti: false,       //display ok cancel buttons in desktop mode multiselect also.
-            triggerChangeCombined: true   // im multi select mode wether to trigger change event on individual selection or combined selection.
+            triggerChangeCombined: true,  // im multi select mode wether to trigger change event on individual selection or combined selection.
+            selectAll: false,             // to display select all button in multiselect mode.|| also select all will not be available on mobile devices.
+            selectAlltext: 'Select All'   // the text to display for select all.
 
         }, options);
 
@@ -79,12 +81,15 @@
                     //## Creating the list...
                     O.optDiv = $('<div class="optWrapper">');
 
-                    //barnch for floating list in low res devices.
+                    //branch for floating list in low res devices.
                     O.floatingList();
 
                     //Creating the markup for the available options
                     ul = $('<ul class="options">');
                     O.optDiv.append(ul);
+
+                    // Select all functionality
+                    if (settings.selectAll) O.selAll();
 
                     $(O.E.children('option')).each(function (i, opt) {       // parsing options to li
                         opt = $(opt);
@@ -96,11 +101,11 @@
 
                     O.select.append(O.optDiv);
                     O.basicEvents();
+                    O.selAllState();
                 },
 
                 //## Creates a LI element from a given option and binds events to it
                 //## Adds it to UL at a given index (Last by default)
-
                 createLi: function (opt,i) {
                     var O = this;
                     li = $('<li data-val="' + opt.val() + '"><label>' + opt.text() + '</label></li>');
@@ -138,7 +143,7 @@
                 multiSelelect: function () {
                     var O = this;
                     O.optDiv.addClass('multiple');
-                    okbtn = $('<p class="btnOk">OK</p>').click(function () {
+                    O.okbtn = $('<p class="btnOk">OK</p>').click(function () {
 
                         //if combined change event is set.
                         if (settings.triggerChangeCombined) {
@@ -161,8 +166,16 @@
                         }
                         O.hideOpts();
                     });
-                    cancelBtn = $('<p class="btnCancel">Cancel</p>').click(function () {
-                        //remove all selections
+                    O.cancelBtn = $('<p class="btnCancel">Cancel</p>').click(function () {
+                        O._cnbtn();
+                        O.hideOpts();
+                    });
+                    O.optDiv.append($('<div class="MultiControls">').append(O.okbtn).append(O.cancelBtn));
+                },
+
+                _cnbtn:function(){
+                    var O = this;
+                    //remove all selections
                         O.E.children('option:selected').each(function () { this.selected = false; });
                         O.optDiv.find('li.selected').removeClass('selected')
 
@@ -171,10 +184,42 @@
                             O.E.children('option[value="' + O.Pstate[i] + '"]')[0].selected = true;
                             O.optDiv.find('li[data-val="' + O.Pstate[i] + '"]').addClass('selected');
                         }
-                        O.setText();
-                        O.hideOpts();
+                },
+
+                selAll:function(){
+                    var O = this;
+                    if(!O.is_multi)return;
+                    O.chkAll = $('<i>');
+                    O.selAll = $('<p class="select-all"><label>' + settings.selectAlltext + '</label></p>').prepend($('<span></span>').append(O.chkAll));
+                    O.chkAll.on('click',function(){
+                        //O.toggSelAll(!);
+                        O.selAll.toggleClass('selected');
+                        O.optDiv.find('ul.options li').each(function(ix,e){
+                            e = $(e);
+                            if(O.selAll.hasClass('selected')){
+                                if(!e.hasClass('selected'))e.trigger('click');
+                            }
+                            else
+                                if(e.hasClass('selected'))e.trigger('click');
+                        });
                     });
-                    O.optDiv.append($('<div class="MultiControls">').append(okbtn).append(cancelBtn));
+
+                    O.optDiv.prepend(O.selAll);
+                },
+
+                selAllState: function () {
+                    var O = this;
+                    if (settings.selectAll) {
+                        var sc = 0, vc = 0;
+                        O.optDiv.find('ul.options li').each(function (ix, e) {
+                            if ($(e).hasClass('selected')) sc++;
+                            if (!$(e).hasClass('disabled')) vc++;
+                        });
+                        //select all checkbox state change.
+                        if (sc == vc) O.selAll.removeClass('partial').addClass('selected');
+                        else if (sc == 0) O.selAll.removeClass('selected partial');
+                        else O.selAll.addClass('partial')//.removeClass('selected');
+                    }
                 },
 
                 showOpts: function () {
@@ -188,7 +233,7 @@
                     $(document).on('click.sumo', function (e) {
                             if (!O.select.is(e.target)                  // if the target of the click isn't the container...
                                 && O.select.has(e.target).length === 0) // ... nor a descendant of the container
-                            {
+                            {   O._cnbtn();
                                 O.hideOpts();
                                 $(document).off('click.sumo');
                             }
@@ -209,7 +254,6 @@
                 hideOpts: function () {
                     var O = this;
                     O.is_opened = false;
-                    //O.backdrop.hide();
                     O.optDiv.removeClass('open');
                 },
 
@@ -237,7 +281,9 @@
                         txt = "";
                         if (O.is_multi) {
                             li.toggleClass('selected');
-                            O.E.children('option[value="' + li.attr('data-val') + '"]')[0].selected = li.hasClass('selected');
+                            O.E.children('option[value="' + li.data('val') + '"]')[0].selected = li.hasClass('selected');
+
+                            O.selAllState();
                         }
                         else {
                             li.parent().find('li.selected').removeClass('selected'); //if not multiselect then remove all selections from this list
@@ -376,12 +422,16 @@
                 },
 
                 //toggles alloption on c as boolean.
-                toggSelAll: function (c, i) {
-                    var O = this.vRange(i);
-                    O.E.find('option').each(function (index, el) {
+                toggSelAll: function (c) {
+                    var O = this;
+                    O.E.find('option').each(function (ix, el) {
                         if (O.E.find('option')[$(this).index()].disabled) return;
                         O.E.find('option')[$(this).index()].selected = c;
                         if (!O.mob)O.optDiv.find('ul.options li').eq($(this).index()).toggleClass('selected', c);
+
+//                        // update select all check if enabled
+//                        O.selAll.toggleClass('selected',c);
+
                         O.setText();
                     });
                 },
@@ -442,10 +492,10 @@
                 unSelectItem: function (i) { this.toggSel(false, i); },
 
                 //## Select all items  of the select.
-                selectAll: function (i) { this.toggSelAll(true, i ); },
+                selectAll: function () { this.toggSelAll(true); },
 
                 //## UnSelect all items of the select.
-                unSelectAll: function (i) { this.toggSelAll(false, i ); },
+                unSelectAll: function () { this.toggSelAll(false); },
 
                 //## Disable an iten at a given index.
                 disableItem: function (i) { this.toggDis(true, i) },
