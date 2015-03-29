@@ -9,6 +9,7 @@
  */
 
 (function ($) {
+
     'namespace sumo';
     $.fn.SumoSelect = function (options) {
 
@@ -52,7 +53,7 @@
 
                 createElems: function () {
                     var O = this;
-                    O.E.wrap('<div class="SumoSelect">');
+                    O.E.wrap('<div class="SumoSelect" tabindex="0">');
                     O.select = O.E.parent();
                     O.caption = $('<span></span>');
                     O.CaptionCont = $('<p class="CaptionCont"><label><i></i></label></p>').addClass('SlectBox').attr('style', O.E.attr('style')).prepend(O.caption);
@@ -187,6 +188,7 @@
                             O.E.children('option[value="' + O.Pstate[i] + '"]')[0].selected = true;
                             O.optDiv.find('li[data-val="' + O.Pstate[i] + '"]').addClass('selected');
                         }
+                    O.selAllState();
                 },
 
                 selAll:function(){
@@ -257,7 +259,34 @@
                 hideOpts: function () {
                     var O = this;
                     O.is_opened = false;
-                    O.optDiv.removeClass('open');
+                    O.optDiv.removeClass('open').find('ul li.sel').removeClass('sel');
+                },
+                setOnOpen: function () {
+                    var O = this;
+                    var li = O.optDiv.find('ul li').eq(O.E[0].selectedIndex);
+                    li.addClass('sel');
+                    O.showOpts();
+                },
+                nav: function (up) {
+                    var O = this, c;
+                    var sel = O.optDiv.find('ul li.sel');
+                    if (O.is_opened && sel.length) {
+                        if (up)
+                            c = sel.prevAll('li:not(.disabled)');
+                        else
+                            c = sel.nextAll('li:not(.disabled)');
+                        if (!c.length)return;
+                        sel.removeClass('sel');
+                        sel = c.first().addClass('sel');
+
+
+                        // TODO: set sel item to scroll position.
+                        var ul = O.optDiv.find('ul');
+                        if(sel.position().top > ul.scrollTop() + ul.height())
+                        ul.scrollTop(sel.position().top + ul.scrollTop());
+                    }
+                    else
+                        O.setOnOpen();
                 },
 
                 basicEvents: function () {
@@ -268,13 +297,40 @@
                         evt.stopPropagation();
                     });
 
-                    //O.backdrop.click(function () { O.hideOpts(); });
+                    O.select.on('blur', function () {
+                        O.hideOpts();
+                    })
+                        .on('keydown', function (e) {
+                            switch (e.which) {
+                                case 38: // up
+                                    O.nav(true);
+                                    break;
 
-                    O.E.on('blur', function () {
-                        O.optDiv.removeClass('open');
+                                case 40: // down
+                                    O.nav(false);
+                                    break;
+
+                                case 32: // space
+                                case 13: // enter
+                                    if (O.is_opened)
+                                        O.optDiv.find('ul li.sel').trigger('click');
+                                    else
+                                        O.setOnOpen();
+                                    break;
+
+                                case 27: // esc
+                                    O.hideOpts();
+                                    break;
+
+                                default:
+                                    return; // exit this handler for other keys
+                            }
+                            e.preventDefault(); // prevent the default action (scroll / move caret)
+                        });
+
+                    $(window).on('resize.sumo', function () {
+                        O.floatingList();
                     });
-
-                    $(window).on('resize.sumo', function () { O.floatingList(); });
                 },
 
                 onOptClick: function (li) {
