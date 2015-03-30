@@ -280,10 +280,16 @@
                         sel = c.first().addClass('sel');
 
 
+
                         // TODO: set sel item to scroll position.
-                        var ul = O.optDiv.find('ul');
-                        if(sel.position().top > ul.scrollTop() + ul.height())
-                        ul.scrollTop(sel.position().top + ul.scrollTop());
+                        var ul = O.optDiv.find('ul'),
+                            st = ul.scrollTop(),
+                            t = sel.position().top + st;
+                        if(t >= st + ul.height())
+                            ul.scrollTop(t - ul.height() + sel.outerHeight());
+                        if(t<st)
+                            ul.scrollTop(t);
+
                     }
                     else
                         O.setOnOpen();
