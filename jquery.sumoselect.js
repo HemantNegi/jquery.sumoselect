@@ -279,9 +279,7 @@
                         sel.removeClass('sel');
                         sel = c.first().addClass('sel');
 
-
-
-                        // TODO: set sel item to scroll position.
+                        // setting sel item to visible view.
                         var ul = O.optDiv.find('ul'),
                             st = ul.scrollTop(),
                             t = sel.position().top + st;
