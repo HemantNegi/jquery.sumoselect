@@ -44,7 +44,7 @@ It can adapt itself according to any deveice, keeping in mind that the User Expe
 
    - Instance of SumoSelect can be accessed from native reference of select element
 
-   - Added ```disabled = true``` to disable/ enable the control.
+   - ~~Added ```disabled = true``` to disable/ enable the control.~~ Now its ```enable()``` and ```disable()``` 
 
    - Bug fixings..
    
@@ -66,7 +66,7 @@ It can adapt itself according to any deveice, keeping in mind that the User Expe
 
    - Redesigned the UI (No external icons are used now and color scheme can be controlled by css)
 
-   - Added some really useful new methods like ```reload(), selectAll(), unSelectAll()```
+   - Added some really useful new methods like ```reload(), selectAll(), unSelectAll(), enable(), disable()```
 
    - Better rensponse to lost focus and other events and non recognised devices.
 
@@ -177,4 +177,4 @@ The following settings are available now:
 
 ## License
 
-Copyright (c) 2014 Hemant Negi Licensed under the MIT license.
+Copyright (c) 2015 Hemant Negi Licensed under the MIT license.
