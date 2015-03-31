@@ -501,9 +501,11 @@
                     O.E.find('option').each(function (ix, el) {
                         if (O.E.find('option')[$(this).index()].disabled) return;
                         O.E.find('option')[$(this).index()].selected = c;
-                        if (!O.mob)O.optDiv.find('ul.options li').eq($(this).index()).toggleClass('selected', c);
+                        if (!O.mob)
+							O.optDiv.find('ul.options li').eq($(this).index()).toggleClass('selected', c);
                         O.setText();
                     });
+                    if(!O.mob && settings.selectAll)O.selAll.removeClass('partial').toggleClass('selected',c);
                 },
 
                 /* outside accessibility options
