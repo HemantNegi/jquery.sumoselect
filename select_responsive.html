@@ -11,9 +11,11 @@
         $(document).ready(function () {
             window.asd = $('.SlectBox').SumoSelect({ csvDispCount: 3 });
             window.test = $('.testsel').SumoSelect({okCancelInMulti:true });
+            window.testSelAll = $('.testSelAll').SumoSelect({okCancelInMulti:true, selectAll:true });
         });
     </script>
     <style type="text/css">
+        body{font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;color:#444;font-size:13px;}
         p,div,ul,li{padding:0px; margin:0px;}
     </style>
 </head>
@@ -32,9 +34,12 @@
 
     <select class="SlectBox">
         <option value="volvo">Volvo</option>
-        <option value="saab">Saab</option>
+        <option selected value="saab">Saab</option>
         <option value="mercedes">Mercedes</option>
         <option value="audi">Audi</option>
+        <option disabled value="opt1">option1</option>
+        <option value="opt2">option2</option>
+        <option value="opt3">option3</option>
     </select>
     &nbsp;&nbsp;&nbsp;
 
@@ -123,7 +128,7 @@
     <br />
     <br />   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;
 
-       <select   multiple="multiple" placeholder="Hello  im from placeholder" onchange="console.log($(this).children(':selected').length)" class="testsel">
+       <select   multiple="multiple" placeholder="Hello im from placeholder"  class="testsel">
        <option selected value="volvo">Volvo</option>
        <option value="saab">Saab</option>
        <option disabled="disabled" value="mercedes">Mercedes</option>
@@ -131,11 +136,11 @@
        <option value="bmw">BMW</option>
        <option value="porsche">Porche</option>
        <option value="ferrari">Ferrari</option>
-        <option value="audi">Audi</option>
-       <option value="bmw">BMW</option>
-       <option value="porsche">Porche</option>
+       <option class="someclass" value="audi">Audi</option>
+       <option class="someclass" value="bmw">BMW</option>
+       <option class="someclass" value="porsche">Porche</option>
        <option value="ferrari">Ferrari</option>
-        <option value="audi">Audi</option>
+       <option value="audi">Audi</option>
        <option value="bmw">BMW</option>
        <option value="porsche">Porche</option>
        <option value="ferrari">Ferrari</option>
@@ -145,7 +150,23 @@
 
         </form>
 
-		
+<br>
+    <h1>Select all option</h1>
+    &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;
+<select multiple="multiple" placeholder="Hello  im from placeholder" onchange="console.log($(this).children(':selected').length)" class="testSelAll">
+       <option selected value="volvo">Volvo</option>
+       <option value="saab">Saab</option>
+       <option disabled="disabled" value="mercedes">Mercedes</option>
+       <option value="audi">Audi</option>
+       <option selected value="bmw">BMW</option>
+       <option value="porsche">Porche</option>
+       <option value="ferrari">Ferrari</option>
+       <option value="mitsubishi">Mitsubishi</option>
+
+
+</select>
+
+
 		
     <h1>Groups</h1>
 
@@ -213,9 +234,9 @@
     </select>
 	
 	
-	 <select  placeholder="Hello  im from placeholder" >
-      <option selected value="saab">Saab</option>
-      <option value="opel">Opel</option>
+	 <select  placeholder="Hello  im from placeholder" class="">
+      <option class="hemant" selected value="saab">Saab</option>
+      <option class="hemant" value="opel">Opel</option>
       <option disabled="disabled" value="mercedez">Mercedez</option>
       <optgroup label="US Brands">
         <option value="chrysler">Chrysler</option>
@@ -260,9 +281,10 @@
     <br />
     <br />  <br />
     <br />
-          <select multiple="multiple" name="somename10" class="testselect10">
-        <option value="volvo">Volvo</option>
-       <option value="saab">Saab</option>
+
+<select multiple="multiple" name="somename10" class="testselect10">
+       <option value="volvo">Volvo</option>
+       <option >Saab</option>
        <option disabled="disabled" value="mercedes">Mercedes</option>
        <option value="audi">Audi</option>
        <option value="bmw">BMW</option>
@@ -303,6 +325,21 @@
                                 <input id="Button9" type="button" value="Toggle Enable disable" onclick="$('.testselect10')[0].sumo.disabled = !$('.testselect10')[0].sumo.disabled" />
                             </li>
                         </ul>
+                            <br />
+    <br />  <br />
+    <br />
+    <br />  <br />
+    <br />
+    <br />  <br />
+    <br />
+    <br />  <br />
+    <br />
+    <br />  <br />
+    <br />
+    <br />  <br />
+    <br />
+    <br />  <br />
+    <br />
                     </td>
                     <td>
 
