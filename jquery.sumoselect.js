@@ -59,7 +59,8 @@
                     O.CaptionCont = $('<p class="CaptionCont"><label><i></i></label></p>').addClass('SlectBox').attr('style', O.E.attr('style')).prepend(O.caption);
                     O.select.append(O.CaptionCont);
 
-                    if(O.E.attr('disabled'))O.select.addClass('disabled')
+                    if(O.E.attr('disabled'))
+                        O.select.addClass('disabled').removeAttr('tabindex');
 
                     //if output as csv and is a multiselect.
                     if (settings.outputAsCSV && O.is_multi && O.E.attr('name')) {
@@ -481,7 +482,14 @@
                     var O = this;
                     O.enabled = val;
                     O.select.toggleClass('disabled', val);
-                    if (val) O.E.attr('disabled','disabled'); else O.E.removeAttr('disabled');
+                    if (val) {
+                        O.E.attr('disabled', 'disabled');
+                        O.select.removeAttr('tabindex');
+                    }
+                    else{
+                        O.E.removeAttr('disabled');
+                        O.select.attr('tabindex','0');
+                    }
                     return O;
                 },
 
