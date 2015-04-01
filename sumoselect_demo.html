@@ -13,7 +13,7 @@
 
 
       <!--The required plugin code -->
-      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
       <script src="javascripts/jquery.sumoselect.min.js"></script>
       <link href="stylesheets/sumoselect.css" rel="stylesheet" />
       <script type="text/javascript">
@@ -31,6 +31,9 @@
               $('.testselect6').SumoSelect();
 
               $('.testselect7').SumoSelect({ okCancelInMulti: true });
+
+              $('.select1').SumoSelect({ okCancelInMulti: true, selectAll: true});
+              $('.select2').SumoSelect({selectAll: true});
 
               $('.testselect8').SumoSelect({ okCancelInMulti: true, triggerChangeCombined: false });
 
@@ -70,6 +73,7 @@
           .auto-style4 { color: #6666FF; }
           .auto-style5 { width: 100%; }
           .auto-style6 { width: 344px; }
+          .SumoSelect{font-size: 12px;}
       </style>
   </head>
 
@@ -211,6 +215,41 @@
     </select><p>
                 &nbsp;</p>
 
+
+<h2>
+    Select All</h2>
+            <div class="highlight highlight-javascript">
+            <pre><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.select1'</span><span class="p">).</span><span class="nx">SumoSelect</span><span class="p">({ okCancelInMulti: <span class="auto-style4">true</span>, selectAll: <span class="auto-style4">true</span> });</span></pre>
+                </div>
+      <select multiple="multiple" name="somename4" class="select1">
+        <option value="volvo">Volvo</option>
+       <option value="saab">Saab</option>
+       <option disabled="disabled" value="mercedes">Mercedes</option>
+       <option value="audi">Audi</option>
+       <option value="bmw">BMW</option>
+       <option disabled="disabled" value="porsche">Porche</option>
+       <option selected="selected" value="ferrari">Ferrari</option>
+       <option selected="selected" value="hyundai">Hyundai</option>
+       <option value="mitsubishi">Mitsubishi</option>
+    </select><p>
+                &nbsp;</p>
+
+     <div class="highlight highlight-javascript">
+            <pre><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.select2'</span><span class="p">).</span><span class="nx">SumoSelect</span><span class="p">({ selectAll: <span class="auto-style4">true</span> });</span></pre>
+                </div>
+      <select multiple="multiple" name="somename4" class="select2">
+        <option value="volvo">Volvo</option>
+       <option value="saab">Saab</option>
+       <option disabled="disabled" value="mercedes">Mercedes</option>
+       <option value="audi">Audi</option>
+       <option value="bmw">BMW</option>
+       <option disabled="disabled" value="porsche">Porche</option>
+       <option selected="selected" value="ferrari">Ferrari</option>
+       <option  value="hyundai">Hyundai</option>
+       <option value="mitsubishi">Mitsubishi</option>
+    </select><p>
+                &nbsp;</p>
+
 <h2>
     Other Examples</h2>
 
@@ -280,8 +319,15 @@
                                 <input id="Button8" type="button" value="Enable item at index 1" onclick="$('.testselect10')[0].sumo.enableItem(1);" />
                             </li>
                              <li>
-                                <input id="Button9" type="button" value="Toggle Enable disable" onclick="$('.testselect10')[0].sumo.disabled = !$('.testselect10')[0].sumo.disabled" />
+                                <input type="button" value="Disable sumoselect" onclick="$('.testselect10')[0].sumo.disable();" />
                             </li>
+                             <li>
+                                <input type="button" value="Enable sumoselect" onclick="$('.testselect10')[0].sumo.enable();" />
+                            </li>
+                            <li>
+                                <input type="button" value="Reload sumoselect" onclick="$('.testselect10')[0].sumo.reload();" />
+                            </li>
+
                         </ul>
                     </td>
                     <td>
