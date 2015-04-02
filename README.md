@@ -2,7 +2,7 @@ jquery.sumoselect
 =============
 
 
-jquery.sumoselect.js - A cross device Single/Multi Select jQuery Select plugin.
+jquery.sumoselect.js - A beautiful cross device Single/Multi Select jQuery Select plugin.
 -------------------------------------------------------------------------------
 
 View Live [Demo Here](http://hemantnegi.github.io/jquery.sumoselect/sumoselect_demo.html)
@@ -14,7 +14,7 @@ Sumoselect full :  [jquery.sumoselect.js](https://github.com/HemantNegi/jquery.s
 Minified : [jquery.sumoselect.min.js](https://github.com/HemantNegi/jquery.sumoselect/blob/master/jquery.sumoselect.min.js)
 
 
-A jQuery plugin that progressively enhances an HTML Select Box into a Single/Multiple option dropdown list. The dropdown list can be fully customiseable using siple css properties.
+A jQuery plugin that progressively enhances an HTML Select Box into a Single/Multiple option dropdown list. The dropdown list can be fully customizable using siple css.
 It can adapt itself according to any deveice, keeping in mind that the User Experience is not broken. 
 
 
@@ -44,7 +44,7 @@ It can adapt itself according to any deveice, keeping in mind that the User Expe
 
    - Instance of SumoSelect can be accessed from native reference of select element
 
-   - Added ```disabled = true``` to disable/ enable the control.
+   - ~~Added ```disabled = true``` to disable/ enable the control.~~ Now its ```enable()``` and ```disable()``` 
 
    - Bug fixings..
    
@@ -57,6 +57,20 @@ It can adapt itself according to any deveice, keeping in mind that the User Expe
    - fixed problems with unload and other handler methods on mobile deveices
 
    - Bug fixings..
+
+**Update v2.0.0**
+
+   - Added tabindex and keyboard navigation support
+
+   - Added select all feature
+
+   - Redesigned the UI (No external icons are used now and color scheme can be controlled by css)
+
+   - Added some really useful new methods like ```reload(), selectAll(), unSelectAll(), enable(), disable()```
+
+   - Better rensponse to lost focus and other events and non recognised devices.
+
+   - Lots of bug Fixings..
 
 ##Requirements
 jQuery 1.8.3+ (It is always recommended to use the latest version of jQuery)
@@ -103,16 +117,22 @@ If you want a instance to the SumoSelect object to call handler methods
 
 You can also find the instance to SumoSelect object by directly selecting your select element like
 ```javascript
-	$('select.SlectBox')[o].sumo. .....
+	$('select.SlectBox')[0].sumo. .....
+```
+
+You can perform all the operations on underlying original select and then reload the UI by 
+```javascript
+	$('select.SlectBox')[0].sumo.reload();
 ```
 
 **Settings**
 
 The following settings are available now:
 
--  `placeholder` `(string)`  The palceholder text to be displayed in the rendered select widget (on priority basis). *Maximum priority is given to native placeholder attribute in select tag i.e.  - `<select placeholder="this is a placeholder" />`  - Then the option with disabled and selected attribute i.e. `<option disabled selected value="foo" >`  - Last to to the given placeholder attribute in the settings. *
+- `placeholder` `(string)`  The palceholder text to be displayed in the rendered select widget (on priority basis). *Maximum priority is given to native placeholder attribute in select tag i.e.  - `<select placeholder="this is a placeholder" />`  - Then the option with disabled and selected attribute i.e. `<option disabled selected value="foo" >`  - Last to to the given placeholder attribute in the settings. *
 
 - `csvDispCount` `(int)`  The number of items to be displayed in the widget seperated by a `,` after that the text will be warped as *3+ Selected*. Set `0` for all the options.
+
 - `captionFormat` `(string)` Its the format in which you want to see the caption when more than csvDispCount items are selected. its default value is `'{0} Selected'` ( here `{0}` will be replaced by the seletion count )
 
 - `floatWidth` `(int)` Minimum screen width of device below which the options list is rendered in floating popup fashion.
@@ -129,26 +149,32 @@ The following settings are available now:
 
 - `triggerChangeCombined` `(boolean)` In Multiselect mode whether to trigger change event on individual selection of each item or on combined selection ( pressing of OK or Cancel button ).
 
+- `selectAll` `(boolean)` To display select all check or not
+
+- `selectAlltext` `(string)`  The display text for select all (default is Select All).
 
 **The default settings are :**
 
 ```javascript
 {
-                    placeholder: 'Select Here',
-                    csvDispCount: 3,
-                    captionFormat: '{0} Selected',
-                    floatWidth: 500,
-                    forceCustomRendering: false,
-                    nativeOnDevice: ['Android', 'BlackBerry', 'iPhone', 'iPad', 'iPod', 'Opera Mini', 'IEMobile', 'Silk'],
-                    outputAsCSV : false,
-                    csvSepChar : ',', 
-                    okCancelInMulti: true, 
-                    triggerChangeCombined : true
-                }
+	placeholder: 'Select Here',
+	csvDispCount: 3,
+	captionFormat: '{0} Selected',
+	floatWidth: 400,
+	forceCustomRendering: false,
+	nativeOnDevice: ['Android', 'BlackBerry', 'iPhone', 'iPad', 'iPod', 'Opera Mini', 'IEMobile', 'Silk'],
+	outputAsCSV : false,
+	csvSepChar : ',', 
+	okCancelInMulti: false, 
+	triggerChangeCombined : true,
+	selectAll: false,
+	selectAlltext: 'Select All'
+
+}
 ```
 
 [Furthur Documentation](http://hemantnegi.github.io/jquery.sumoselect/)
 
 ## License
 
-Copyright (c) 2014 Hemant Negi Licensed under the MIT license.
+Copyright (c) 2015 Hemant Negi Licensed under the MIT license.

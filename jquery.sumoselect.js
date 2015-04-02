@@ -1,9 +1,9 @@
-﻿/*!
+/*!
  * jquery.sumoselect - v1.2.0
  * http://hemantnegi.github.io/jquery.sumoselect
  * 2014-04-08
  *
- * Copyright 2014 Hemant Negi
+ * Copyright 2015 Hemant Negi
  * Email : hemant.frnz@gmail.com
  * Compressor http://refresh-sf.com/yui/
  */
@@ -283,8 +283,8 @@
                         // setting sel item to visible view.
                         var ul = O.optDiv.find('ul'),
                             st = ul.scrollTop(),
-                            t = sel.position().top + st;
-                        if(t >= st + ul.height())
+                            t = sel.position().top + st;                            
+                        if(t >= st + ul.height()-sel.outerHeight())
                             ul.scrollTop(t - ul.height() + sel.outerHeight());
                         if(t<st)
                             ul.scrollTop(t);
@@ -482,6 +482,7 @@
                     var O = this;
                     O.enabled = val;
                     O.select.toggleClass('disabled', val);
+
                     if (val) {
                         O.E.attr('disabled', 'disabled');
                         O.select.removeAttr('tabindex');
@@ -490,6 +491,7 @@
                         O.E.removeAttr('disabled');
                         O.select.attr('tabindex','0');
                     }
+
                     return O;
                 },
 
@@ -499,9 +501,11 @@
                     O.E.find('option').each(function (ix, el) {
                         if (O.E.find('option')[$(this).index()].disabled) return;
                         O.E.find('option')[$(this).index()].selected = c;
-                        if (!O.mob)O.optDiv.find('ul.options li').eq($(this).index()).toggleClass('selected', c);
+                        if (!O.mob)
+							O.optDiv.find('ul.options li').eq($(this).index()).toggleClass('selected', c);
                         O.setText();
                     });
+                    if(!O.mob && settings.selectAll)O.selAll.removeClass('partial').toggleClass('selected',c);
                 },
 
                 /* outside accessibility options
@@ -603,4 +607,3 @@
 
 
 }(jQuery));
-
