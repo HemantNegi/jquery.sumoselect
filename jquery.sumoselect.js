@@ -1,9 +1,9 @@
-﻿/*!
+/*!
  * jquery.sumoselect - v1.2.0
  * http://hemantnegi.github.io/jquery.sumoselect
  * 2014-04-08
  *
- * Copyright 2014 Hemant Negi
+ * Copyright 2015 Hemant Negi
  * Email : hemant.frnz@gmail.com
  * Compressor http://refresh-sf.com/yui/
  */
@@ -283,8 +283,8 @@
                         // setting sel item to visible view.
                         var ul = O.optDiv.find('ul'),
                             st = ul.scrollTop(),
-                            t = sel.position().top + st;
-                        if(t >= st + ul.height())
+                            t = sel.position().top + st;                            
+                        if(t >= st + ul.height()-sel.outerHeight())
                             ul.scrollTop(t - ul.height() + sel.outerHeight());
                         if(t<st)
                             ul.scrollTop(t);
@@ -607,4 +607,3 @@
 
 
 }(jQuery));
-
