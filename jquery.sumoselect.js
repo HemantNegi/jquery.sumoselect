@@ -165,7 +165,7 @@
                             }
 
                             if (changed) {
-                                O.E.trigger('change');
+                                O.E.trigger('change').trigger('click');
                                 O.setText();
                             }
                         }
@@ -236,14 +236,14 @@
                     O.optDiv.addClass('open');
 
                     // hide options on click outside.
-                    $(document).on('click.sumo', function (e) {
-                            if (!O.select.is(e.target)                  // if the target of the click isn't the container...
-                                && O.select.has(e.target).length === 0) // ... nor a descendant of the container
-                            {   if (O.is_multi && settings.selectAll)O._cnbtn();
-                                O.hideOpts();
-                                $(document).off('click.sumo');
-                            }
-                    });
+//                    $(document).on('click.sumo', function (e) {
+//                            if (!O.select.is(e.target)                  // if the target of the click isn't the container...
+//                                && O.select.has(e.target).length === 0) // ... nor a descendant of the container
+//                            {   if (O.is_multi && settings.okCancelInMulti)
+//                                    O._cnbtn();
+//                                O.hideOpts();
+//                            }
+//                    });
 
                     if (O.is_floating) {
                         H = O.optDiv.children('ul').outerHeight() + 2;  // +2 is clear fix
@@ -261,6 +261,7 @@
                     var O = this;
                     O.is_opened = false;
                     O.optDiv.removeClass('open').find('ul li.sel').removeClass('sel');
+                    //$(document).off('click.sumo');
                 },
                 setOnOpen: function () {
                     var O = this;
@@ -303,7 +304,12 @@
                     });
 
                     O.select.on('blur', function () {
+                        if(!O.is_opened)return;
+                        //O.hideOpts();
                         O.hideOpts();
+
+                    if (O.is_multi && settings.okCancelInMulti)
+                         O._cnbtn();
                     })
                         .on('keydown', function (e) {
                             switch (e.which) {
@@ -324,6 +330,7 @@
                                     break;
 
                                 case 27: // esc
+                                     if (O.is_multi && settings.okCancelInMulti)O._cnbtn();
                                     O.hideOpts();
                                     break;
 
