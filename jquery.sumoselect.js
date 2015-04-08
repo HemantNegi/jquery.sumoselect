@@ -303,7 +303,7 @@
                         evt.stopPropagation();
                     });
 
-                    O.select.on('blur', function () {
+                    O.select.on('blur focusout', function () {
                         if(!O.is_opened)return;
                         //O.hideOpts();
                         O.hideOpts();
