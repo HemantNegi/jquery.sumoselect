@@ -14,8 +14,8 @@ Sumoselect full :  [jquery.sumoselect.js](https://github.com/HemantNegi/jquery.s
 Minified : [jquery.sumoselect.min.js](https://github.com/HemantNegi/jquery.sumoselect/blob/master/jquery.sumoselect.min.js)
 
 
-A jQuery plugin that progressively enhances an HTML Select Box into a Single/Multiple option dropdown list. The dropdown list can be fully customizable using siple css.
-It can adapt itself according to any deveice, keeping in mind that the User Experience is not broken. 
+A jQuery plugin that progressively enhances an HTML Select Box into a Single/Multiple option dropdown list. The dropdown list can be fully customizable using simple css.
+It can adapt itself according to any device, keeping in mind that the User Experience is not broken. 
 
 
 **Notable Features**
