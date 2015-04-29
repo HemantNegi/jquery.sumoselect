@@ -1,11 +1,11 @@
 /*!
- * jquery.sumoselect - v2.0.2
+ * jquery.sumoselect - v2.1.0
  * http://hemantnegi.github.io/jquery.sumoselect
  * 2014-04-08
  *
  * Copyright 2015 Hemant Negi
  * Email : hemant.frnz@gmail.com
- * Compressor http://refresh-sf.com/yui/
+ * Compressor http://refresh-sf.com/
  */
 
 (function ($) {
@@ -236,14 +236,17 @@
                     O.optDiv.addClass('open');
 
                     // hide options on click outside.
-//                    $(document).on('click.sumo', function (e) {
-//                            if (!O.select.is(e.target)                  // if the target of the click isn't the container...
-//                                && O.select.has(e.target).length === 0) // ... nor a descendant of the container
-//                            {   if (O.is_multi && settings.okCancelInMulti)
+                    $(document).on('click.sumo', function (e) {
+                            if (!O.select.is(e.target)                  // if the target of the click isn't the container...
+                                && O.select.has(e.target).length === 0){ // ... nor a descendant of the container
+//                               if (O.is_multi && settings.okCancelInMulti)
 //                                    O._cnbtn();
 //                                O.hideOpts();
-//                            }
-//                    });
+								if(!O.is_opened)return;
+								O.hideOpts();
+								if (O.is_multi && settings.okCancelInMulti)O._cnbtn();
+                            }
+                    });
 
                     if (O.is_floating) {
                         H = O.optDiv.children('ul').outerHeight() + 2;  // +2 is clear fix
@@ -261,7 +264,7 @@
                     var O = this;
                     O.is_opened = false;
                     O.optDiv.removeClass('open').find('ul li.sel').removeClass('sel');
-                    //$(document).off('click.sumo');
+                    $(document).off('click.sumo');
                 },
                 setOnOpen: function () {
                     var O = this;
@@ -303,15 +306,15 @@
                         evt.stopPropagation();
                     });
 
-                    O.select.on('blur focusout', function () {
+                  /*  O.select.on('blur focusout', function () {
                         if(!O.is_opened)return;
                         //O.hideOpts();
                         O.hideOpts();
 
                     if (O.is_multi && settings.okCancelInMulti)
                          O._cnbtn();
-                    })
-                        .on('keydown', function (e) {
+                    })*/
+                        O.select.on('keydown', function (e) {
                             switch (e.which) {
                                 case 38: // up
                                     O.nav(true);
@@ -328,11 +331,11 @@
                                     else
                                         O.setOnOpen();
                                     break;
-
+								case 9:	 //tab
                                 case 27: // esc
                                      if (O.is_multi && settings.okCancelInMulti)O._cnbtn();
                                     O.hideOpts();
-                                    break;
+                                    return;
 
                                 default:
                                     return; // exit this handler for other keys
