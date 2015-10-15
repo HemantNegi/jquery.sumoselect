@@ -48,7 +48,7 @@
                 is_floating: false,
                 is_opened: false,
                 //backdrop: '',
-                mob:false, // if to open device default select= settings.csvDispCount && settings.csvDis
+                mob:false, // if to open device default select
                 Pstate: [],
 
                 createElems: function () {
