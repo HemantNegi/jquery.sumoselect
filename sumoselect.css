@@ -1,3 +1,4 @@
+.SumoSelect p {margin: 0;}
 .SlectBox { width: 200px; padding: 5px 8px;}
 
 /*this is applied on that hidden select. DO NOT USE display:none; or visiblity:hidden; and Do not override any of these properties. */
