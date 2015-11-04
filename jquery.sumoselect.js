@@ -29,8 +29,8 @@
             okCancelInMulti: false,       //display ok cancel buttons in desktop mode multiselect also.
             triggerChangeCombined: true,  // im multi select mode wether to trigger change event on individual selection or combined selection.
             selectAll: false,             // to display select all button in multiselect mode.|| also select all will not be available on mobile devices.
-            selectAlltext: 'Select All'   // the text to display for select all.
-
+            selectAlltext: 'Select All',  // the text to display for select all.
+            selectAllFilter: true         // to display input for filtering content. selectAlltext will be input text placeholder
         }, options);
 
         var ret = this.each(function () {
@@ -196,17 +196,33 @@
                     var O = this;
                     if(!O.is_multi)return;
                     O.chkAll = $('<i>');
-                    O.selAll = $('<p class="select-all"><label>' + settings.selectAlltext + '</label></p>').prepend($('<span></span>').append(O.chkAll));
+					if (!settings.selectAllFilter) 
+						O.selAll = $('<p class="select-all"><label>' + settings.selectAlltext + '</label></p>').prepend($('<span></span>').append(O.chkAll));
+					else {
+						O.filter = $('<input type="text" class="text-filter" value="" placeholder="' + settings.selectAlltext + '">');
+						O.selAll = $('<p class="select-all"></p>').prepend(O.filter).prepend($('<span></span>').append(O.chkAll));
+						
+						O.filter.on('keyup',function(){
+							O.optDiv.find('ul.options li').each(function(ix,e){
+								e = $(e);
+								if(e.text().toLowerCase().indexOf(O.filter.val().toLowerCase()) > -1)
+									e.removeClass('hidden');
+								else
+									e.addClass('hidden');
+							});
+							O.selAllState();
+						});
+					}
                     O.chkAll.on('click',function(){
                         //O.toggSelAll(!);
                         O.selAll.toggleClass('selected');
                         O.optDiv.find('ul.options li').each(function(ix,e){
                             e = $(e);
                             if(O.selAll.hasClass('selected')){
-                                if(!e.hasClass('selected'))e.trigger('click');
+                                if(!e.hasClass('selected') && !$(e).hasClass('hidden'))e.trigger('click');
                             }
                             else
-                                if(e.hasClass('selected'))e.trigger('click');
+                                if(e.hasClass('selected')  && !$(e).hasClass('hidden'))e.trigger('click');
                         });
                     });
 
@@ -218,8 +234,8 @@
                     if (settings.selectAll) {
                         var sc = 0, vc = 0;
                         O.optDiv.find('ul.options li').each(function (ix, e) {
-                            if ($(e).hasClass('selected')) sc++;
-                            if (!$(e).hasClass('disabled')) vc++;
+                            if ($(e).hasClass('selected') && !$(e).hasClass('hidden')) sc++;
+                            if (!$(e).hasClass('disabled') && !$(e).hasClass('hidden')) vc++;
                         });
                         //select all checkbox state change.
                         if (sc == vc) O.selAll.removeClass('partial').addClass('selected');
