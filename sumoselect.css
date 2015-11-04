@@ -1,4 +1,6 @@
 .SlectBox { width: 200px; padding: 5px 8px;}
+.hidden { display:none; }
+.SumoSelect .text-filter {margin-top: -4px; width: 90%; }
 
 /*this is applied on that hidden select. DO NOT USE display:none; or visiblity:hidden; and Do not override any of these properties. */
 .SelectClass { position: absolute; top: 0px; left: 0px; right: 0px; height: 100%; width: 100%; border: none; z-index: 1; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter: alpha(opacity=0); -moz-opacity: 0; -khtml-opacity: 0; opacity: 0; }
