@@ -165,7 +165,8 @@
                             }
 
                             if (changed) {
-                                O.E.trigger('change').trigger('click');
+                                O.E.trigger('change');
+                                if (O.mob) O.E.trigger('click');
                                 O.setText();
                             }
                         }
@@ -301,7 +302,7 @@
                 basicEvents: function () {
                     var O = this;
                     O.CaptionCont.click(function (evt) {
-                        O.E.trigger('click');
+                        if (O.mob) O.E.trigger('click');
                         if (O.is_opened) O.hideOpts(); else O.showOpts();
                         evt.stopPropagation();
                     });
@@ -369,7 +370,8 @@
                         //branch for combined change event.
                         if (!(O.is_multi && settings.triggerChangeCombined && (O.is_floating || settings.okCancelInMulti))) {
                             O.setText();
-                            O.E.trigger('change').trigger('click');
+                            O.E.trigger('change');
+                            if (O.mob) O.E.trigger('click');
                         }
 
                         if (!O.is_multi) O.hideOpts(); //if its not a multiselect then hide on single select.
