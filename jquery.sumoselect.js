@@ -19,6 +19,7 @@
         // This is the easiest way to have default options.
         var settings = $.extend({
             placeholder: 'Select Here',   // Dont change it here.
+            captionDispPlaceholder: false,// true to display placeholder before items in caption. 
             csvDispCount: 3,              // display no. of items in multiselect. 0 to display all.
             captionFormat:'{0} Selected', // format of caption text. you can set your locale.
             floatWidth: 400,              // Screen width of device at which the list is rendered in floating popup fashion.
@@ -375,6 +376,11 @@
                         if (!O.is_multi) O.hideOpts(); //if its not a multiselect then hide on single select.
                     });
                 },
+                
+                getInitedPlaceholder: function () {
+                	var O = this;                	
+                	return (O.E.attr('placeholder')) ? O.E.attr('placeholder') : settings.placeholder;
+                },
 
                 setText: function () {
                     var O = this;
@@ -413,6 +419,9 @@
 
                     O.placeholder = O.placeholder ? O.placeholder : settings.placeholder
 
+                    if (settings.captionDispPlaceholder && O.placeholder != O.getInitedPlaceholder()) {
+                    	O.placeholder = O.getInitedPlaceholder() + ((typeof(settings.captionDispPlaceholder) == 'string') ? settings.captionDispPlaceholder : ': ') + O.placeholder;
+                    }
                     //set display text
                     O.caption.text(O.placeholder);
 
