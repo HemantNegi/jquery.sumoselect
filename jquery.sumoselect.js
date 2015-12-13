@@ -78,7 +78,7 @@
                     }
 
                     //hide original select
-                    O.E.hide();
+                    O.E.addClass('sumo_under');
 
                     //## Creating the list...
                     O.optDiv = $('<div class="optWrapper">');
