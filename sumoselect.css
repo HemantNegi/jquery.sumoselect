@@ -1,6 +1,14 @@
 .SumoSelect p {margin: 0;}
 .SlectBox { width: 200px; padding: 5px 8px;}
 
+/* Filtering style */
+.hidden { display:none; }
+.SumoSelect .filter .text-filter {margin-top: -4px; width: 200px; }
+.SumoSelect .multiple .text-filter { width: 170px; margin-left: 30px; }
+.SumoSelect .select-all .text-filter { width: 170px; margin-left: 0; }
+.SumoSelect .filter{border-radius: 3px 3px 0px 0px;position: relative;border-bottom: 1px solid #ddd;background: #eee !important;padding: 8px 6px 3px;height: 20px;}
+.SumoSelect .filter input {border: none; background: #eee; font-style:italic;}
+
 /*this is applied on that hidden select. DO NOT USE display:none; or visiblity:hidden; and Do not override any of these properties. */
 .SelectClass { position: absolute; top: 0px; left: 0px; right: 0px; height: 100%; width: 100%; border: none; z-index: 1; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter: alpha(opacity=0); -moz-opacity: 0; -khtml-opacity: 0; opacity: 0; }
 
