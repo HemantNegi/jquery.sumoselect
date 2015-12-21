@@ -383,7 +383,7 @@
                         sels = O.E.children(':selected').not(':disabled'); //selected options.
 
                         for (i = 0; i < sels.length; i++) {
-                            if (i >= settings.csvDispCount && settings.csvDispCount) {
+                            if (i + 1 >= settings.csvDispCount && settings.csvDispCount) {
                                 O.placeholder = settings.captionFormat.replace('{0}', sels.length);
                                 //O.placeholder = i + '+ Selected';
                                 break;
