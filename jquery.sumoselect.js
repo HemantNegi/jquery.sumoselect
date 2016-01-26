@@ -18,18 +18,19 @@
 
         // This is the easiest way to have default options.
         var settings = $.extend({
-            placeholder: 'Select Here',   // Dont change it here.
-            csvDispCount: 3,              // display no. of items in multiselect. 0 to display all.
-            captionFormat:'{0} Selected', // format of caption text. you can set your locale.
-            floatWidth: 400,              // Screen width of device at which the list is rendered in floating popup fashion.
-            forceCustomRendering: false,  // force the custom modal on all devices below floatWidth resolution.
+            placeholder: 'Select Here',          // Dont change it here.
+            csvDispCount: 3,                     // display no. of items in multiselect. 0 to display all.
+            captionFormat:'{0} Selected',        // format of caption text. you can set your locale.
+            allSelectedCaptionFormat: undefined, // format of caption text when all items are selected. uses the captionFormat value by default.
+            floatWidth: 400,                     // Screen width of device at which the list is rendered in floating popup fashion.
+            forceCustomRendering: false,         // force the custom modal on all devices below floatWidth resolution.
             nativeOnDevice: ['Android', 'BlackBerry', 'iPhone', 'iPad', 'iPod', 'Opera Mini', 'IEMobile', 'Silk'], //
-            outputAsCSV: false,           // true to POST data as csv ( false for Html control array ie. deafault select )
-            csvSepChar: ',',              // seperation char in csv mode
-            okCancelInMulti: false,       //display ok cancel buttons in desktop mode multiselect also.
-            triggerChangeCombined: true,  // im multi select mode wether to trigger change event on individual selection or combined selection.
-            selectAll: false,             // to display select all button in multiselect mode.|| also select all will not be available on mobile devices.
-            selectAlltext: 'Select All'   // the text to display for select all.
+            outputAsCSV: false,                  // true to POST data as csv ( false for Html control array ie. deafault select )
+            csvSepChar: ',',                     // seperation char in csv mode
+            okCancelInMulti: false,              //display ok cancel buttons in desktop mode multiselect also.
+            triggerChangeCombined: true,         // im multi select mode wether to trigger change event on individual selection or combined selection.
+            selectAll: false,                    // to display select all button in multiselect mode.|| also select all will not be available on mobile devices.
+            selectAlltext: 'Select All'          // the text to display for select all.
 
         }, options);
 
@@ -380,17 +381,23 @@
                     var O = this;
                     O.placeholder = "";
                     if (O.is_multi) {
-                        sels = O.E.children(':selected').not(':disabled'); //selected options.
-
-                        for (i = 0; i < sels.length; i++) {
-                            if (i + 1 >= settings.csvDispCount && settings.csvDispCount) {
-                                O.placeholder = settings.captionFormat.replace('{0}', sels.length);
-                                //O.placeholder = i + '+ Selected';
-                                break;
+                        var sels = O.E.children(':selected').not(':disabled'); //selected options.
+                        var n = sels.length;
+                        
+                        if (O.areAllSelected()) {
+                            var fmt = settings.allSelectedCaptionFormat || settings.captionFormat;
+                            O.placeholder = fmt.replace('{0}', n);
+                        } else {
+                            for (i = 0; i < sels.length; i++) {
+                                if (i + 1 >= settings.csvDispCount && settings.csvDispCount) {
+                                    O.placeholder = settings.captionFormat.replace('{0}', sels.length);
+                                    //O.placeholder = i + '+ Selected';
+                                    break;
+                                }
+                                else O.placeholder += $(sels[i]).text() + ", ";
                             }
-                            else O.placeholder += $(sels[i]).text() + ", ";
+                            O.placeholder = O.placeholder.replace(/,([^,]*)$/, '$1'); //remove unexpected "," from last.
                         }
-                        O.placeholder = O.placeholder.replace(/,([^,]*)$/, '$1'); //remove unexpected "," from last.
                     }
                     else {
                         O.placeholder = O.E.children(':selected').not(':disabled').text();
@@ -516,6 +523,12 @@
                         O.setText();
                     });
                     if(!O.mob && settings.selectAll)O.selAll.removeClass('partial').toggleClass('selected',c);
+                },
+                
+                areAllSelected: function() {
+                    var os = this.E.children(':not(:disabled)');
+                    var n = os.length;
+                    return n > 0 && n == os.filter(':selected').length;
                 },
 
                 /* outside accessibility options

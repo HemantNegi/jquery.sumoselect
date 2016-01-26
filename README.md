@@ -135,6 +135,8 @@ The following settings are available now:
 
 - `captionFormat` `(string)` Its the format in which you want to see the caption when more than csvDispCount items are selected. its default value is `'{0} Selected'` ( here `{0}` will be replaced by the seletion count )
 
+- `allSelectedCaptionFormat` `(string)` The format to use when all the items are selected. Its default value is `captionFormat`.
+
 - `floatWidth` `(int)` Minimum screen width of device below which the options list is rendered in floating popup fashion.
 
 - `forceCustomRendering`  `(boolean)` Force the custom modal ( Floating list ) on all devices below floatWidth resolution.
@@ -160,6 +162,7 @@ The following settings are available now:
 	placeholder: 'Select Here',
 	csvDispCount: 3,
 	captionFormat: '{0} Selected',
+	allSelectedCaptionFormat: undefined,
 	floatWidth: 400,
 	forceCustomRendering: false,
 	nativeOnDevice: ['Android', 'BlackBerry', 'iPhone', 'iPad', 'iPod', 'Opera Mini', 'IEMobile', 'Silk'],
