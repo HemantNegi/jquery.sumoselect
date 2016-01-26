@@ -388,10 +388,9 @@
                             var fmt = settings.allSelectedCaptionFormat || settings.captionFormat;
                             O.placeholder = fmt.replace('{0}', n);
                         } else {
-                            for (i = 0; i < sels.length; i++) {
+                            for (var i = 0; i < n; i++) {
                                 if (i + 1 >= settings.csvDispCount && settings.csvDispCount) {
-                                    O.placeholder = settings.captionFormat.replace('{0}', sels.length);
-                                    //O.placeholder = i + '+ Selected';
+                                    O.placeholder = settings.captionFormat.replace('{0}', n);
                                     break;
                                 }
                                 else O.placeholder += $(sels[i]).text() + ", ";
@@ -403,7 +402,7 @@
                         O.placeholder = O.E.children(':selected').not(':disabled').text();
                     }
 
-                    is_placeholder = false;
+                    var is_placeholder = false;
 
                     if (!O.placeholder) {
 
