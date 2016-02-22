@@ -29,6 +29,7 @@
             okCancelInMulti: false,       //display ok cancel buttons in desktop mode multiselect also.
             triggerChangeCombined: true,  // im multi select mode wether to trigger change event on individual selection or combined selection.
             selectAll: false,             // to display select all button in multiselect mode.|| also select all will not be available on mobile devices.
+
             selectAlltext: 'Select All',  // the text to display for select all.
             filter: false,                // to display input for filtering content. selectAlltext will be input text placeholder
             filterText: 'Search...'       // to display input for filtering content. selectAlltext will be input text placeholder
@@ -40,7 +41,7 @@
 
             this.sumo = {
                 E: $(selObj),   //the jquery object of original select element.
-                is_multi: $(selObj).attr('multiple'),  //if its a mmultiple select
+                is_multi: $(selObj).attr('multiple'),  //if its a multiple select
                 select: '',
                 caption: '',
                 placeholder: '',
