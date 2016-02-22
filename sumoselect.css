@@ -1,13 +1,12 @@
 .SumoSelect p {margin: 0;}
-.SlectBox { width: 200px; padding: 5px 8px;}
+.SelectBox { width: 200px; padding: 5px 8px;}
 
 /* Filtering style */
-.hidden { display:none; }
-.SumoSelect .filter .text-filter {margin-top: -4px; width: 200px; }
-.SumoSelect .multiple .text-filter { width: 170px; margin-left: 30px; }
-.SumoSelect .select-all .text-filter { width: 170px; margin-left: 0; }
-.SumoSelect .filter{border-radius: 3px 3px 0px 0px;position: relative;border-bottom: 1px solid #ddd;background: #eee !important;padding: 8px 6px 3px;height: 20px;}
-.SumoSelect .filter input {border: none; background: #eee; font-style:italic;}
+.SumoSelect .hidden { display:none; }
+.SumoSelect .search-txt{display:none;outline:none;}
+.SumoSelect .no-match{display:none;padding: 6px;}
+.SumoSelect.open .search-txt{display: inline-block;position: absolute;top: 0;left: 0;width: 100%;margin: 0;padding: 5px 8px;border: none;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;border-radius: 5px;}
+.SumoSelect.open>.search>span, .SumoSelect.open>.search>label{visibility:hidden;}
 
 /*this is applied on that hidden select. DO NOT USE display:none; or visiblity:hidden; and Do not override any of these properties. */
 .SelectClass { position: absolute; top: 0px; left: 0px; right: 0px; height: 100%; width: 100%; border: none; z-index: 1; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter: alpha(opacity=0); -moz-opacity: 0; -khtml-opacity: 0; opacity: 0; }
@@ -15,7 +14,7 @@
     .SumoSelect > .optWrapper > .options > li label, .SumoSelect > .CaptionCont { user-select: none; -o-user-select: none; -moz-user-select: none; -khtml-user-select: none; -webkit-user-select: none; }
 
 .SumoSelect { display: inline-block; position: relative;outline:none;}
-.SumoSelect:focus > .CaptionCont,.SumoSelect:hover > .CaptionCont {box-shadow: 0px 0px 2px #7799D0;border-color: #7799D0;}
+.SumoSelect:focus > .CaptionCont,.SumoSelect:hover > .CaptionCont, .SumoSelect.open > .CaptionCont {box-shadow: 0px 0px 2px #7799D0;border-color: #7799D0;}
     .SumoSelect > .CaptionCont { position: relative; border: 1px solid #A4A4A4; min-height: 14px; background-color: #fff;border-radius:2px;margin:0px;}
         .SumoSelect > .CaptionCont > span { display: block; padding-right: 30px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;cursor:default;}
             /*placeholder style*/
@@ -26,7 +25,7 @@
                 background-position: center center; width: 16px; height: 16px; display: block; position: absolute; top: 0px; left: 0px; right: 0px; bottom: 0px; margin: auto;background-repeat: no-repeat;opacity: 0.8;}
 
     .SumoSelect > .optWrapper { top: 30px; width: 100%; position: absolute; left: 0; opacity: 0; visibility: hidden; transition: opacity 200ms ease-out, top 200ms ease-out, visibility 200ms ease-out; -webkit-transition: opacity 200ms ease-out, top 200ms ease-out, visibility 200ms ease-out; -moz-transition: opacity 200ms ease-out, top 200ms ease-out, visibility 200ms ease-out; -ms-transition: opacity 200ms ease-out, top 200ms ease-out, visibility 200ms ease-out; -o-transition: opacity 200ms ease-out, top 200ms ease-out, visibility 200ms ease-out; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; z-index: -100; background: #fff; border: 1px solid #ddd; box-shadow: 2px 3px 3px rgba(0, 0, 0, 0.11); border-radius: 3px;overflow: hidden;}
-        .SumoSelect > .optWrapper.open { top: 35px; visibility: visible; opacity: 1; z-index: 1000; }
+        .SumoSelect.open > .optWrapper { top: 35px; visibility: visible; opacity: 1; z-index: 1000; }
 
         .SumoSelect > .optWrapper > .options { list-style: none; display: block; padding: 0px; margin: 0px; overflow: auto; border-radius: 2px;
          /*Set the height of pop up here (only for desktop mode)*/
