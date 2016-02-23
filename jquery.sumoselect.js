@@ -21,10 +21,11 @@
             placeholder: 'Select Here',   // Dont change it here.
             csvDispCount: 3,              // display no. of items in multiselect. 0 to display all.
             captionFormat:'{0} Selected', // format of caption text. you can set your locale.
+            captionFormatAllSelected:'{0} all selected!', // format of caption text when all elements are selected. set null to use captionFormat. It will not work if there are disabled elements in select.
             floatWidth: 400,              // Screen width of device at which the list is rendered in floating popup fashion.
             forceCustomRendering: false,  // force the custom modal on all devices below floatWidth resolution.
             nativeOnDevice: ['Android', 'BlackBerry', 'iPhone', 'iPad', 'iPod', 'Opera Mini', 'IEMobile', 'Silk'], //
-            outputAsCSV: false,           // true to POST data as csv ( false for Html control array ie. deafault select )
+            outputAsCSV: false,           // true to POST data as csv ( false for Html control array ie. default select )
             csvSepChar: ',',              // seperation char in csv mode
             okCancelInMulti: false,       //display ok cancel buttons in desktop mode multiselect also.
             triggerChangeCombined: true,  // im multi select mode wether to trigger change event on individual selection or combined selection.
@@ -409,14 +410,18 @@
                         sels = O.E.children(':selected').not(':disabled'); //selected options.
 
                         for (i = 0; i < sels.length; i++) {
-                            if (i + 1 >= settings.csvDispCount && settings.csvDispCount) {
-                                O.placeholder = settings.captionFormat.replace(/\{0\}/g, sels.length);
-                                //O.placeholder = i + '+ Selected';
-                                break;
+                                if (i + 1 >= settings.csvDispCount && settings.csvDispCount) {
+                                    if (sels.length == O.E.find('option').length && settings.captionFormatAllSelected) {
+                                        O.placeholder = settings.captionFormatAllSelected.replace(/\{0\}/g, sels.length);
+                                    } else {
+                                        O.placeholder = settings.captionFormat.replace(/\{0\}/g, sels.length);
+                                    }
+
+                                    break;
+                                }
+                                else O.placeholder += $(sels[i]).text() + ", ";
                             }
-                            else O.placeholder += $(sels[i]).text() + ", ";
-                        }
-                        O.placeholder = O.placeholder.replace(/,([^,]*)$/, '$1'); //remove unexpected "," from last.
+                            O.placeholder = O.placeholder.replace(/,([^,]*)$/, '$1'); //remove unexpected "," from last.
                     }
                     else {
                         O.placeholder = O.E.children(':selected').not(':disabled').text();
