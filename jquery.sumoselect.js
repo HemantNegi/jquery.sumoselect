@@ -29,10 +29,10 @@
             okCancelInMulti: false,       //display ok cancel buttons in desktop mode multiselect also.
             triggerChangeCombined: true,  // im multi select mode wether to trigger change event on individual selection or combined selection.
             selectAll: false,             // to display select all button in multiselect mode.|| also select all will not be available on mobile devices.
-            selectAlltext: 'Select All',   // the text to display for select all.
+            selectAlltext: 'Select All',  // the text to display for select all.
 
             search: false,                // to display input for filtering content. selectAlltext will be input text placeholder
-            searchText: 'Search...',       // to display input for filtering content. selectAlltext will be input text placeholder
+            searchText: 'Search...',      // placeholder for search input
             noMatch: 'No matches for "{0}"'
         }, options);
 
@@ -299,19 +299,20 @@
                     $(document).off('click.sumo');
                 },
                 setOnOpen: function () {
-                    var O = this;
-                    var li = O.optDiv.find('ul li').eq(O.E[0].selectedIndex);
+                    var O = this,
+                        li = O.optDiv.find('ul li').eq(O.E[0].selectedIndex);
+                    O.optDiv.find('ul li.sel').removeClass('sel');
                     li.addClass('sel');
                     O.showOpts();
                 },
                 nav: function (up) {
-                    var O = this, c;
-                    var sel = O.optDiv.find('ul li.sel');
+                    var O = this, c, s='li:not(.disabled, .hidden)',
+                    sel = O.optDiv.find('ul li.sel:not(.hidden)');
                     if (O.is_opened && sel.length) {
                         if (up)
-                            c = sel.prevAll('li:not(.disabled)');
+                            c = sel.prevAll(s);
                         else
-                            c = sel.nextAll('li:not(.disabled)');
+                            c = sel.nextAll(s);
                         if (!c.length)return;
                         sel.removeClass('sel');
                         sel = c.first().addClass('sel');
@@ -338,15 +339,7 @@
                         evt.stopPropagation();
                     });
 
-                  /*  O.select.on('blur focusout', function () {
-                        if(!O.is_opened)return;
-                        //O.hideOpts();
-                        O.hideOpts();
-
-                    if (O.is_multi && settings.okCancelInMulti)
-                         O._cnbtn();
-                    })*/
-                        O.select.on('keydown', function (e) {
+                        O.select.on('keydown.sumo', function (e) {
                             switch (e.which) {
                                 case 38: // up
                                     O.nav(true);
@@ -357,6 +350,7 @@
                                     break;
 
                                 case 32: // space
+                                    if(e.target.is(O.ftxt))return;
                                 case 13: // enter
                                     if (O.is_opened)
                                         O.optDiv.find('ul li.sel').trigger('click');
@@ -416,7 +410,7 @@
 
                         for (i = 0; i < sels.length; i++) {
                             if (i + 1 >= settings.csvDispCount && settings.csvDispCount) {
-                                O.placeholder = settings.captionFormat.replace('{0}', sels.length);
+                                O.placeholder = settings.captionFormat.replace(/\{0\}/g, sels.length);
                                 //O.placeholder = i + '+ Selected';
                                 break;
                             }
