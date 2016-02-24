@@ -26,15 +26,16 @@
             forceCustomRendering: false,  // force the custom modal on all devices below floatWidth resolution.
             nativeOnDevice: ['Android', 'BlackBerry', 'iPhone', 'iPad', 'iPod', 'Opera Mini', 'IEMobile', 'Silk'], //
             outputAsCSV: false,           // true to POST data as csv ( false for Html control array ie. default select )
-            csvSepChar: ',',              // seperation char in csv mode
-            okCancelInMulti: false,       //display ok cancel buttons in desktop mode multiselect also.
+            csvSepChar: ',',              // separation char in csv mode
+            okCancelInMulti: false,       // display ok cancel buttons in desktop mode multiselect also.
             triggerChangeCombined: true,  // im multi select mode wether to trigger change event on individual selection or combined selection.
             selectAll: false,             // to display select all button in multiselect mode.|| also select all will not be available on mobile devices.
-            selectAlltext: 'Select All',  // the text to display for select all.
 
             search: false,                // to display input for filtering content. selectAlltext will be input text placeholder
             searchText: 'Search...',      // placeholder for search input
-            noMatch: 'No matches for "{0}"'
+            noMatch: 'No matches for "{0}"',
+            prefix: '',                   // some prefix usually the field name. eg. '<b>Hello</b>'
+            locale: ['OK', 'Cancel', 'Select All']  // all text that is used. don't change the index.
         }, options);
 
         var ret = this.each(function () {
@@ -59,7 +60,7 @@
                     var O = this;
                     O.E.wrap('<div class="SumoSelect" tabindex="0">');
                     O.select = O.E.parent();
-                    O.caption = $('<span></span>');
+                    O.caption = $('<span>');
                     O.CaptionCont = $('<p class="CaptionCont"><label><i></i></label></p>').addClass('SelectBox').attr('style', O.E.attr('style')).prepend(O.caption);
                     O.select.append(O.CaptionCont);
 
@@ -82,7 +83,7 @@
                     }
 
                     //hide original select
-                    O.E.addClass('SumoUnder');
+                    O.E.addClass('SumoUnder').attr('tabindex','-1');
 
                     //## Creating the list...
                     O.optDiv = $('<div class="optWrapper">');
@@ -154,7 +155,7 @@
                 multiSelelect: function () {
                     var O = this;
                     O.optDiv.addClass('multiple');
-                    O.okbtn = $('<p class="btnOk">OK</p>').click(function () {
+                    O.okbtn = $('<p class="btnOk">'+settings.locale[0]+'</p>').click(function () {
 
                         //if combined change event is set.
                         if (settings.triggerChangeCombined) {
@@ -178,7 +179,7 @@
                         }
                         O.hideOpts();
                     });
-                    O.cancelBtn = $('<p class="btnCancel">Cancel</p>').click(function () {
+                    O.cancelBtn = $('<p class="btnCancel">'+settings.locale[1]+'</p>').click(function () {
                         O._cnbtn();
                         O.hideOpts();
                     });
@@ -203,7 +204,7 @@
                     var O = this;
                     if(!O.is_multi)return;
                     O.chkAll = $('<i>');
-                    O.selAll = $('<p class="select-all"><label>' + settings.selectAlltext + '</label></p>').prepend($('<span></span>').append(O.chkAll));
+                    O.selAll = $('<p class="select-all"><label>' + settings.locale[2] + '</label></p>').prepend($('<span></span>').append(O.chkAll));
 					O.chkAll.on('click',function(){
 						//O.toggSelAll(!);
 						O.selAll.toggleClass('selected');
@@ -295,13 +296,16 @@
                 },
                 hideOpts: function () {
                     var O = this;
-                    O.is_opened = false;
-                    O.select.removeClass('open').find('ul li.sel').removeClass('sel');
-                    $(document).off('click.sumo');
-                },
+                    if(O.is_opened){
+                        O.is_opened = false;
+                        O.select.removeClass('open').find('ul li.sel').removeClass('sel');
+                        $(document).off('click.sumo');
+                        O.select.focus();
+                    }
+                 },
                 setOnOpen: function () {
                     var O = this,
-                        li = O.optDiv.find('ul li').eq(O.E[0].selectedIndex);
+                        li = O.optDiv.find('ul li:not(.hidden)').eq(settings.search?0:O.E[0].selectedIndex);
                     O.optDiv.find('ul li.sel').removeClass('sel');
                     li.addClass('sel');
                     O.showOpts();
@@ -351,14 +355,14 @@
                                     break;
 
                                 case 32: // space
-                                    if(e.target.is(O.ftxt))return;
+                                    if(O.ftxt.is(e.target))return;
                                 case 13: // enter
                                     if (O.is_opened)
                                         O.optDiv.find('ul li.sel').trigger('click');
                                     else
                                         O.setOnOpen();
                                     break;
-								case 9:	 //tab
+				case 9:	 //tab
                                 case 27: // esc
                                      if (O.is_multi && settings.okCancelInMulti)O._cnbtn();
                                     O.hideOpts();
@@ -442,10 +446,10 @@
                         }
                     }
 
-                    O.placeholder = O.placeholder ? O.placeholder : settings.placeholder
+                    O.placeholder = O.placeholder ? (settings.prefix + ' ' + O.placeholder) : settings.placeholder
 
                     //set display text
-                    O.caption.text(O.placeholder);
+                    O.caption.html(O.placeholder);
 
                     //set the hidden field if post as csv is true.
                     csvField = O.select.find('input.HEMANT123');
