@@ -28,6 +28,7 @@
 
     .SumoSelect > .optWrapper {display:none; z-index: 1000; top: 30px; width: 100%; position: absolute; left: 0; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; background: #fff; border: 1px solid #ddd; box-shadow: 2px 3px 3px rgba(0, 0, 0, 0.11); border-radius: 3px;overflow: hidden;}
         .SumoSelect.open > .optWrapper {top:35px; display:block;}
+        .SumoSelect.open > .optWrapper.up {top: auto;bottom: 100%;margin-bottom: 5px;}
 
         .SumoSelect > .optWrapper > .options { list-style: none; display: block; padding: 0; margin: 0; overflow: auto; border-radius: 2px;
          /*Set the height of pop up here (only for desktop mode)*/

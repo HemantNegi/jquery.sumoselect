@@ -35,7 +35,8 @@
             searchText: 'Search...',      // placeholder for search input
             noMatch: 'No matches for "{0}"',
             prefix: '',                   // some prefix usually the field name. eg. '<b>Hello</b>'
-            locale: ['OK', 'Cancel', 'Select All']  // all text that is used. don't change the index.
+            locale: ['OK', 'Cancel', 'Select All'],  // all text that is used. don't change the index.
+            up: false                     // set true to open upside.
         }, options);
 
         var ret = this.each(function () {
@@ -89,7 +90,7 @@
                     O.E.addClass('SumoUnder').attr('tabindex','-1');
 
                     //## Creating the list...
-                    O.optDiv = $('<div class="optWrapper">');
+                    O.optDiv = $('<div class="optWrapper '+ (settings.up?'up':'') +'">');
 
                     //branch for floating list in low res devices.
                     O.floatingList();
