@@ -82,6 +82,9 @@
                         return;
                     }
 
+                    // copy classes to container div
+                    O.select.addClass(O.E.attr('class'))
+
                     //hide original select
                     O.E.addClass('SumoUnder').attr('tabindex','-1');
 
@@ -274,12 +277,12 @@
 
                     // hide options on click outside.
                     $(document).on('click.sumo', function (e) {
-                            if (!O.select.is(e.target)                  // if the target of the click isn't the container...
-                                && O.select.has(e.target).length === 0){ // ... nor a descendant of the container
-								if(!O.is_opened)return;
-								O.hideOpts();
-								if (O.is_multi && settings.okCancelInMulti)O._cnbtn();
-                            }
+                        if (!O.select.is(e.target)                  // if the target of the click isn't the container...
+                            && O.select.has(e.target).length === 0){ // ... nor a descendant of the container
+                            if(!O.is_opened)return;
+                            O.hideOpts();
+                            if (O.is_multi && settings.okCancelInMulti)O._cnbtn();
+                        }
                     });
 
                     if (O.is_floating) {
