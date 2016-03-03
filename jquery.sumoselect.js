@@ -51,6 +51,7 @@
                 placeholder: '',
                 optDiv: '',
                 CaptionCont: '',
+                ul:'',
                 is_floating: false,
                 is_opened: false,
                 //backdrop: '',
@@ -83,8 +84,8 @@
                         return;
                     }
 
-                    // copy classes to container div
-                    O.select.addClass(O.E.attr('class'))
+                    // if there is a name attr in select add a class to container div
+                    if(O.E.attr('name')) O.select.addClass('sumo_'+O.E.attr('name'))
 
                     //hide original select
                     O.E.addClass('SumoUnder').attr('tabindex','-1');
@@ -96,7 +97,8 @@
                     O.floatingList();
 
                     //Creating the markup for the available options
-                    O.optDiv.append('<ul class="options">');
+                    O.ul = $('<ul class="options">');
+                    O.optDiv.append(O.ul);
 
                     // Select all functionality
                     if(settings.selectAll) O.selAll();
@@ -104,10 +106,11 @@
                     // search functionality
                     if(settings.search) O.Search();
 
+                    var lis = []
                     $(O.E.children('option')).each(function (i, opt) {       // parsing options to li
-                        opt = $(opt);
-                        O.createLi(opt);
+                        lis.push(O.createLi($(opt)));
                     });
+                    O.ul.append(lis);
 
                     //if multiple then add the class multiple and add OK / CANCEL button
                     if (O.is_multi) O.multiSelelect();
@@ -118,7 +121,7 @@
                 },
 
                 //## Creates a LI element from a given option and binds events to it
-                //## Adds it to UL at a given index (Last by default)
+                //## returns the jquery instance of li (not inserted in dom)
                 createLi: function (opt,i) {
                     var O = this;
 
@@ -137,12 +140,6 @@
 
                     if (opt.attr('class'))
                         li.addClass(opt.attr('class'));
-
-                    ul = O.optDiv.children('ul.options');
-                    if (typeof i == "undefined")
-                        ul.append(li);
-                    else
-                        ul.children('li').eq(i).before(li);
 
                     return li;
                 },
@@ -593,11 +590,11 @@
 
                     if (typeof i == "undefined" || opts.length == i) { // add it to the last if given index is last no or no index provides.
                         O.E.append(opt);
-                        if(!O.mob)O.createLi(opt);
+                        if(!O.mob)O.ul.append(O.createLi(opt));
                     }
                     else {
                         opts.eq(i).before(opt);
-                        if(!O.mob)O.createLi(opt, i);
+                        if(!O.mob)O.ul.children('li').eq(i).before(O.createLi(opt));
                     }
 
                     return selObj;
