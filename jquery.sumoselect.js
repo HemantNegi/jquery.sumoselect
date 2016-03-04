@@ -302,6 +302,13 @@
                         O.select.removeClass('open').find('ul li.sel').removeClass('sel');
                         $(document).off('click.sumo');
                         O.select.focus();
+
+                        // clear the search
+                        if(settings.search){
+                            O.ftxt.val('');
+                            O.optDiv.find('ul.options li').removeClass('hidden');
+                            O.optDiv.find('.no-match').toggle(false);
+                        }
                     }
                  },
                 setOnOpen: function () {
