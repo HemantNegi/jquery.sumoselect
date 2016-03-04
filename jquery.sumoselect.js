@@ -304,7 +304,7 @@
                         // only add if it's not one of the selected options that were kept around
                         var isSelected = false;
                         $selectedOptions.each(function(index, element){
-                            if($(element).val().toLowerCase() == item.value){
+                            if($(element).val().toLowerCase() == item.value.toLowerCase()){
                                 isSelected = true;
                                 return false;
                             }
