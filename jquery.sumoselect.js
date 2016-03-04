@@ -272,6 +272,12 @@
 
                         // add new options
                         $.each(data, function(i, item){
+                            if(typeof item === 'string'){
+                                item = {
+                                    label: item,
+                                    value: item
+                                };
+                            }
                             // only add if it's not one of the selected options
                             var isSelected = false;
                             $selectedOptions.each(function(index, element){

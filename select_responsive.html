@@ -17,7 +17,8 @@
             window.Search = $('.search-box').SumoSelect({ csvDispCount: 3, search: true, searchText:'Enter here.' });
             window.searchSelAll = $('.search-box-sel-all').SumoSelect({ csvDispCount: 3, selectAll:true, search: true, searchText:'Enter here.', okCancelInMulti:true });
             window.searchSelAll = $('.search-box-open-up').SumoSelect({ csvDispCount: 3, selectAll:true, search: true, searchText:'Enter here.', up:true });
-            window.textAjax = $('.search-box-ajax').SumoSelect({ search: true, searchText:'Enter here.', ajaxSrc: 'data.json' });
+            window.textAjaxObjects = $('.search-box-ajax-objects').SumoSelect({ search: true, searchText:'Enter here.', ajaxSrc: 'data.objects.json' });
+            window.textAjaxStrings = $('.search-box-ajax-strings').SumoSelect({ search: true, searchText:'Enter here.', ajaxSrc: 'data.array.json' });
         });
     </script>
     <style type="text/css">
@@ -371,7 +372,11 @@
 
 
     <h1>AJAX SRC</h1>
-    <select multiple="multiple" placeholder="Hello  im from placeholder" onchange="console.log($(this).children(':selected').length)" class="search-box-ajax">
+    <!-- object array -->
+    <select multiple="multiple" placeholder="Hello  im from placeholder" onchange="console.log($(this).children(':selected').length)" class="search-box-ajax-objects">
+    </select>
+    <!-- string array -->
+    <select multiple="multiple" placeholder="Hello  im from placeholder" onchange="console.log($(this).children(':selected').length)" class="search-box-ajax-strings">
     </select>
 
     <br />
