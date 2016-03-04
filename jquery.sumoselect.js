@@ -255,7 +255,7 @@
                     });
                 },
 
-                retrieveOptionsViaAjax(url, term){
+                retrieveOptionsViaAjax: function(url, term){
                     var O = this;
                     $.ajax({
                         url: url,
