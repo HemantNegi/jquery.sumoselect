@@ -264,7 +264,6 @@
 
                 populateOptionsViaFunction: function(func, term){
                     var O = this;
-                    func.call(this, {'term': term}, O.replaceUnselectedOptions);
                     func({'term':term}, function(data){
                         O.replaceUnselectedOptions(data);
                     });
