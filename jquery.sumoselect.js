@@ -66,6 +66,9 @@
                     O.CaptionCont = $('<p class="CaptionCont"><label><i></i></label></p>').addClass('SelectBox').attr('style', O.E.attr('style')).prepend(O.caption);
                     O.select.append(O.CaptionCont);
 
+                    // default turn off if no multiselect
+                    if(!O.is_multi)settings.okCancelInMulti = false
+
                     if(O.E.attr('disabled'))
                         O.select.addClass('disabled').removeAttr('tabindex');
 
@@ -173,8 +176,7 @@
                             }
 
                             if (changed) {
-                                O.E.trigger('change');
-                                if (O.mob) O.E.trigger('click');
+                                O.callChange();
                                 O.setText();
                             }
                         }
@@ -278,7 +280,7 @@
                             && O.select.has(e.target).length === 0){ // ... nor a descendant of the container
                             if(!O.is_opened)return;
                             O.hideOpts();
-                            if (O.is_multi && settings.okCancelInMulti)O._cnbtn();
+                            if (settings.okCancelInMulti)O._cnbtn();
                         }
                     });
 
@@ -288,12 +290,22 @@
                         O.optDiv.css('height', H);
                     }
 
-                    //maintain state when ok/cancel buttons are available storing the indexes.
-                    if (O.is_multi && (O.is_floating || settings.okCancelInMulti)) {
+                    O.setPstate();
+                },
+
+                //maintain state when ok/cancel buttons are available storing the indexes.
+                setPstate: function(){
+                    var O = this;
+                    if (O.is_multi && (O.is_floating || settings.okCancelInMulti)){
                         O.Pstate = [];
                         O.E.children('option').each(function (i, e){if(e.selected) O.Pstate.push(i);});
                     }
                 },
+
+                callChange:function(){
+                    this.E.trigger('change').trigger('click');
+                },
+
                 hideOpts: function () {
                     var O = this;
                     if(O.is_opened){
@@ -371,7 +383,7 @@
                                     break;
 				                case 9:	 //tab
                                 case 27: // esc
-                                     if (O.is_multi && settings.okCancelInMulti)O._cnbtn();
+                                     if (settings.okCancelInMulti)O._cnbtn();
                                     O.hideOpts();
                                     return;
 
@@ -407,7 +419,7 @@
                         //branch for combined change event.
                         if (!(O.is_multi && settings.triggerChangeCombined && (O.is_floating || settings.okCancelInMulti))) {
                             O.setText();
-                            O.E.trigger('change').trigger('click');
+                            O.callChange();
                         }
 
                         if (!O.is_multi) O.hideOpts(); //if its not a multiselect then hide on single select.
@@ -513,11 +525,21 @@
 
                 //toggles selection on c as boolean.
                 toggSel: function (c, i) {
-                    var O = this.vRange(i);
-                    if (O.E.children('option')[i].disabled) return;
-                    O.E.children('option')[i].selected = c;
-                    if(!O.mob)O.optDiv.find('ul.options li').eq(i).toggleClass('selected',c);
-                    O.setText();
+                    var O = this.vRange(i),
+                        opt = O.E.children('option')[i];
+
+                    if (opt.disabled) 
+                        return;
+
+                    if(opt.selected != c){
+                        opt.selected = c;
+                        if(!O.mob)O.optDiv.find('ul.options li').eq(i).toggleClass('selected',c);
+                        
+                        O.callChange();
+                        O.setPstate();
+                        O.setText();
+                        O.selAllState();
+                    }
                 },
 
                 //toggles disabled on c as boolean.
@@ -558,6 +580,8 @@
                         O.setText();
                     });
                     if(!O.mob && (settings.selectAll || settings.search))O.selAll.removeClass('partial').toggleClass('selected',c);
+                    O.callChange();
+                    O.setPstate();
                 },
 
                 /* outside accessibility options
