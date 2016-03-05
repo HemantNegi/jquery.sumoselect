@@ -204,9 +204,8 @@
                 selAll:function(){
                     var O = this;
                     if(!O.is_multi)return;
-                    O.chkAll = $('<i>');
-                    O.selAll = $('<p class="select-all"><label>' + settings.locale[2] + '</label></p>').prepend($('<span></span>').append(O.chkAll));
-					O.chkAll.on('click',function(){
+                    O.selAll = $('<p class="select-all"><span><i></i></span><label>' + settings.locale[2] + '</label></p>');
+                    O.selAll.on('click',function(){
 						//O.toggSelAll(!);
 						O.selAll.toggleClass('selected');
 						O.optDiv.find('ul.options li').not('.hidden').each(function(ix,e){
