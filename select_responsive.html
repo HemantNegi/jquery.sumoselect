@@ -17,6 +17,12 @@
             window.Search = $('.search-box').SumoSelect({ csvDispCount: 3, search: true, searchText:'Enter here.' });
             window.searchSelAll = $('.search-box-sel-all').SumoSelect({ csvDispCount: 3, selectAll:true, search: true, searchText:'Enter here.', okCancelInMulti:true });
             window.searchSelAll = $('.search-box-open-up').SumoSelect({ csvDispCount: 3, selectAll:true, search: true, searchText:'Enter here.', up:true });
+            window.testDataSourceAjaxObjects = $('.search-box-ajax-objects').SumoSelect({ search: true, searchText:'Enter here.', dataSource: 'data.objects.json' });
+            window.testDataSourceAjaxArray = $('.search-box-ajax-strings').SumoSelect({ search: true, searchText:'Enter here.', dataSource: 'data.array.json' });
+            window.testDataSourceFunction = $('.search-box-function').SumoSelect({ search: true, searchText:'Enter here.', dataSource: function(request, callback){
+                    console.log(request.term);
+                    callback.call(this, ['First', 'Second', 'Third', 'Fourth']);
+                    }});
         });
     </script>
     <style type="text/css">
@@ -370,6 +376,18 @@
        <option value="mitsubishi">Mitsubishi</option>
     </select>
 
+
+    <h1>AJAX SRC</h1>
+    <!-- object array -->
+    <select multiple="multiple" placeholder="Hello  im from placeholder" onchange="console.log($(this).children(':selected').length)" class="search-box-ajax-objects">
+    </select>
+    <!-- string array -->
+    <select multiple="multiple" placeholder="Hello  im from placeholder" onchange="console.log($(this).children(':selected').length)" class="search-box-ajax-strings">
+    </select>
+    <!-- function -->
+    <select multiple="multiple" placeholder="Hello  im from placeholder" onchange="console.log($(this).children(':selected').length)" class="search-box-function">
+    </select>
+
     <br />
     <br />
     <br />  <br />
@@ -386,6 +404,7 @@
     <br />
     <br />  <br />
     <br />
+
 
 <select multiple="multiple" name="somename10" class="testselect10">
        <option value="volvo">Volvo</option>

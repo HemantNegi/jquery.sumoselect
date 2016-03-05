@@ -36,7 +36,11 @@
             noMatch: 'No matches for "{0}"',
             prefix: '',                   // some prefix usually the field name. eg. '<b>Hello</b>'
             locale: ['OK', 'Cancel', 'Select All'],  // all text that is used. don't change the index.
-            up: false                     // set true to open upside.
+            up: false,                     // set true to open upside.
+            dataSource : ''                // Either a function or a string.
+                                           // If it's a string it's assumed to be a URL to retrieve options on-the-fly, should accept a GET query parameter of "term" used to filter the results. 
+                                           //Must either return an array of strings or JSON objects with label and value attributes: [{label:"choice2", value:"value1"}]. 
+                                           // Search must be enabled.
         }, options);
 
         var ret = this.each(function () {
@@ -237,17 +241,79 @@
                     O.optDiv.children('ul').after(P);
 
                     O.ftxt.on('keyup.sumo',function(){
-                        var hid = O.optDiv.find('ul.options li').each(function(ix,e){
-                            e = $(e);
-                            if(e.text().toLowerCase().indexOf(O.ftxt.val().toLowerCase()) > -1)
-                                e.removeClass('hidden');
-                            else
-                                e.addClass('hidden');
-                        }).not('.hidden');
+                        if(settings.dataSource){
+                            if(typeof settings.dataSource === 'string'){
+                                O.populateOptionsViaAjax(settings.dataSource, O.ftxt.val());
+                            }else if (typeof settings.dataSource === 'function'){
+                                O.populateOptionsViaFunction(settings.dataSource, O.ftxt.val());
+                            }
+                        }else{
+                            var hid = O.optDiv.find('ul.options li').each(function(ix,e){
+                                e = $(e);
+                                if(e.text().toLowerCase().indexOf(O.ftxt.val().toLowerCase()) > -1)
+                                    e.removeClass('hidden');
+                                else
+                                    e.addClass('hidden');
+                            }).not('.hidden');
 
-                        P.html(settings.noMatch.replace(/\{0\}/g, O.ftxt.val())).toggle(!hid.length);
+                            P.html(settings.noMatch.replace(/\{0\}/g, O.ftxt.val())).toggle(!hid.length);
 
-                        O.selAllState();
+                            O.selAllState();
+                        }
+                    });
+                },
+
+                populateOptionsViaFunction: function(func, term){
+                    var O = this;
+                    func({'term':term}, function(data){
+                        O.replaceUnselectedOptions(data);
+                    });
+                },
+
+                populateOptionsViaAjax: function(url, term){
+                    var O = this;
+                    $.ajax({
+                        url: url,
+                        dataType: 'json',
+                        data: {
+                            term: term
+                        }
+                    }).done(function(data){
+                        O.replaceUnselectedOptions(data);
+                    });
+                },
+                
+                /**
+                 * Options are either an array of strings or an array of objects with value/label attributes.
+                 */
+                replaceUnselectedOptions: function(options){
+                    var O = this;
+
+                    // remove any unselected options
+                    O.optDiv.find('ul.options li:not(.selected)').remove();
+
+                    var $selectedOptions = O.E.children('option:selected');
+
+                    // add new options
+                    $.each(options, function(i, item){
+                        if(typeof item === 'string'){
+                            item = {
+                                label: item,
+                                value: item
+                            };
+                        }
+                        // only add if it's not one of the selected options that were kept around
+                        var isSelected = false;
+                        $selectedOptions.each(function(index, element){
+                            if($(element).val().toLowerCase() == item.value.toLowerCase()){
+                                isSelected = true;
+                                return false;
+                            }
+                        });
+
+                        if(!isSelected){
+                            O.add(item.value, item.label);
+                        }
                     });
                 },
 
@@ -269,6 +335,14 @@
                 showOpts: function () {
                     var O = this;
                     if (O.E.attr('disabled')) return; // if select is disabled then retrun
+
+                    // if there are no options, ex. ajax src, dont show the option div
+                    if (O.optDiv.find('ul.options li').length <=0){
+                        O.optDiv.addClass('hidden');
+                    }else{
+                        O.optDiv.removeClass('hidden');
+                    }
+
                     O.is_opened = true;
                     O.select.addClass('open');
 
@@ -625,6 +699,10 @@
                     else {
                         opts.eq(i).before(opt);
                         if(!O.mob)O.ul.children('li').eq(i).before(O.createLi(opt));
+                    }
+
+                    if(O.optDiv.hasClass('hidden')){
+                        O.optDiv.removeClass('hidden');
                     }
 
                     return selObj;
