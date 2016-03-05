@@ -273,6 +273,7 @@
                     O.select.addClass('open');
 
                     if(O.ftxt)O.ftxt.focus();
+                    else O.select.focus();
 
                     // hide options on click outside.
                     $(document).on('click.sumo', function (e) {
