@@ -9,9 +9,7 @@ View Live [Demo Here](http://hemantnegi.github.io/jquery.sumoselect/sumoselect_d
 
 Documentaion [Documentation Here](http://hemantnegi.github.io/jquery.sumoselect/)
 
-Sumoselect full :  [jquery.sumoselect.js](https://github.com/HemantNegi/jquery.sumoselect/blob/master/jquery.sumoselect.js)
-
-Minified : [jquery.sumoselect.min.js](https://github.com/HemantNegi/jquery.sumoselect/blob/master/jquery.sumoselect.min.js)
+Latest stable :  [Download from here](https://github.com/HemantNegi/jquery.sumoselect/releases)
 
 
 A jQuery plugin that progressively enhances an HTML Select Box into a Single/Multiple option dropdown list. The dropdown list can be fully customizable using simple css.
