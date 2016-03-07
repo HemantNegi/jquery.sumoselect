@@ -1,5 +1,5 @@
 /*!
- * jquery.sumoselect - v2.1.0
+ * jquery.sumoselect - v3.0.0
  * http://hemantnegi.github.io/jquery.sumoselect
  * 2014-04-08
  *
@@ -120,17 +120,14 @@
                     var lis = [], O=this;
                     $(opts).each(function (i, opt) {       // parsing options to li
                         opt = $(opt);
-                        if(opt.is('optgroup')){
-                            lis.push(
-                                    $('<li class="group '+ (opt[0].disabled?'disabled':'') +'"><label>' + opt.attr('label') +'</label><ul></ul><li>')
-                                    .find('ul')
-                                    .append(O.prepItems(opt.children(), opt[0].disabled))
-                                    .end()
-                                    );
-                        }
-                        else
-                            lis.push(O.createLi(opt, d));
-
+                        lis.push(opt.is('optgroup')?
+                            $('<li class="group '+ (opt[0].disabled?'disabled':'') +'"><label>' + opt.attr('label') +'</label><ul></ul><li>')
+                            .find('ul')
+                            .append(O.prepItems(opt.children(), opt[0].disabled))
+                            .end()
+                            :
+                            O.createLi(opt, d)
+                            );
                     });
                     return lis;
                 },
