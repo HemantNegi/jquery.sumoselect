@@ -116,17 +116,20 @@
                     O.selAllState();
                 },
 
-                prepItems: function(opts){
+                prepItems: function(opts, d){
                     var lis = [], O=this;
                     $(opts).each(function (i, opt) {       // parsing options to li
-                        var opt = $(opt);
+                        opt = $(opt);
                         if(opt.is('optgroup')){
-                            // check for disable
-                            var ul = $('<ul>').append(O.prepItems(opt.children()));
-                            lis.push($('<li class="group"><label>' + opt.attr('label') +'</label><li>').append(ul));
+                            lis.push(
+                                    $('<li class="group '+ (opt[0].disabled?'disabled':'') +'"><label>' + opt.attr('label') +'</label><ul></ul><li>')
+                                    .find('ul')
+                                    .append(O.prepItems(opt.children(), opt[0].disabled))
+                                    .end()
+                                    );
                         }
                         else
-                            lis.push(O.createLi(opt));
+                            lis.push(O.createLi(opt, d));
 
                     });
                     return lis;
@@ -134,7 +137,7 @@
 
                 //## Creates a LI element from a given option and binds events to it
                 //## returns the jquery instance of li (not inserted in dom)
-                createLi: function (opt) {
+                createLi: function (opt, d) {
                     var O = this;
 
                     if(!opt.attr('value'))opt.attr('value',opt.val());
@@ -143,7 +146,7 @@
                     li.data('opt', opt);    // store a direct reference to option.
                     if (O.is_multi) li.prepend('<span><i></i></span>');
 
-                    if (opt[0].disabled)
+                    if (opt[0].disabled || d)
                         li = li.addClass('disabled');
 
                     O.onOptClick(li);
