@@ -17,12 +17,15 @@ It can adapt itself according to any device, keeping in mind that the User Exper
 
 
 **Notable Features**
+   - Inline Search.
+
+   - Optgroup support.
   
    - Single and Multi select option.
 
    - Fully customizable by simple css.
 
-   - Supports almost all devices (Till now i didnt found one)
+   - Supports almost all devices.
 
    - Intelligently Renders itself according to the devices.
 
@@ -67,6 +70,21 @@ It can adapt itself according to any device, keeping in mind that the User Exper
    - Added some really useful new methods like ```reload(), selectAll(), unSelectAll(), enable(), disable()```
 
    - Better rensponse to lost focus and other events and non recognised devices.
+
+   - Lots of bug Fixings..
+
+
+**Update v3.0.0**
+
+   - Support for searching added.
+
+   - Optgroup support added
+
+   - Restructured markup
+
+   - Direction of select is controllable by settings.
+
+   - All the text can be customized (better localization support).
 
    - Lots of bug Fixings..
 
@@ -149,25 +167,40 @@ The following settings are available now:
 
 - `selectAll` `(boolean)` To display select all check or not
 
-- `selectAlltext` `(string)`  The display text for select all (default is Select All).
+- `search` `(boolean)`  To enable searching in sumoselect (default is false).
+
+- `searchText` `(string)`  placeholder for search input.
+
+- `noMatch` `(string)`  placeholder to display if no itmes matches the search term (default 'No matches for "{0}"').
+
+- `prefix` `(string)`  prefix to prepend the selected text (default is empty) eg. '<b>Hello</b>'.
+
+- `locale` `(array)`  change the text used in plugin (```['OK', 'Cancel', 'Select All']```). Note: don't break the sequence or skip items. 
+
+- `up` `(boolean)`   the direction in which to open the dropdown (default: false)
 
 **The default settings are :**
 
 ```javascript
 {
-	placeholder: 'Select Here',
-	csvDispCount: 3,
-	captionFormat: '{0} Selected',
-	floatWidth: 400,
-	forceCustomRendering: false,
-	nativeOnDevice: ['Android', 'BlackBerry', 'iPhone', 'iPad', 'iPod', 'Opera Mini', 'IEMobile', 'Silk'],
-	outputAsCSV : false,
-	csvSepChar : ',', 
-	okCancelInMulti: false, 
-	triggerChangeCombined : true,
-	selectAll: false,
-	selectAlltext: 'Select All'
-
+    placeholder: 'Select Here',
+    csvDispCount: 3,
+    captionFormat:'{0} Selected', 
+    captionFormatAllSelected:'{0} all selected!',
+    floatWidth: 400,
+    forceCustomRendering: false,
+    nativeOnDevice: ['Android', 'BlackBerry', 'iPhone', 'iPad', 'iPod', 'Opera Mini', 'IEMobile', 'Silk'],
+    outputAsCSV: false,
+    csvSepChar: ',',
+    okCancelInMulti: false,
+    triggerChangeCombined: true,
+    selectAll: false,
+    search: false,
+    searchText: 'Search...',
+    noMatch: 'No matches for "{0}"',
+    prefix: '',
+    locale: ['OK', 'Cancel', 'Select All'],
+    up: false 
 }
 ```
 
@@ -175,4 +208,4 @@ The following settings are available now:
 
 ## License
 
-Copyright (c) 2015 Hemant Negi Licensed under the MIT license.
+Copyright (c) 2016 Hemant Negi Licensed under the MIT license.
