@@ -28,6 +28,8 @@
             triggerChangeCombined: true,  // im multi select mode wether to trigger change event on individual selection or combined selection.
             selectAll: false,             // to display select all button in multiselect mode.|| also select all will not be available on mobile devices.
 
+            sync: true, //sync values with original element via change event
+
             search: false,                // to display input for filtering content. selectAlltext will be input text placeholder
             searchText: 'Search...',      // placeholder for search input
             noMatch: 'No matches for "{0}"',
@@ -54,6 +56,32 @@
                 //backdrop: '',
                 mob:false, // if to open device default select
                 Pstate: [],
+                indexByValue: {}, //option index by option value value:index
+
+                initSyncEvent: function() {
+                    if(!settings.sync) {
+                        return false;
+                    }
+                    this.E.on('change', this._syncWithElement.bind(this));
+                },
+
+                _syncWithElement: function(event) {
+                    if(this.preventSync) {
+                        this.preventSync = false;
+                        return false;
+                    }
+
+                    var values = $(event.target).val();
+                    if(!$.isArray(values)) {
+                        values = [values];
+                    }
+
+                    $.each(values, function(index, value) {
+                        if(this.indexByValue.hasOwnProperty(value)) {
+                            this.toggSel(true, this.indexByValue[value], true);
+                        }
+                    }.bind(this));
+                },
 
                 createElems: function () {
                     var O = this;
@@ -120,6 +148,7 @@
                     var lis = [], O=this;
                     $(opts).each(function (i, opt) {       // parsing options to li
                         opt = $(opt);
+                        O.indexByValue[opt.val()] = i;
                         lis.push(opt.is('optgroup')?
                             $('<li class="group '+ (opt[0].disabled?'disabled':'') +'"><label>' + opt.attr('label') +'</label><ul></ul><li>')
                             .find('ul')
@@ -315,7 +344,9 @@
                 },
 
                 callChange:function(){
+                    this.preventSync = true;
                     this.E.trigger('change').trigger('click');
+                    this.preventSync = false;
                 },
 
                 hideOpts: function () {
@@ -536,14 +567,14 @@
                 },
 
                 //toggles selection on c as boolean.
-                toggSel: function (c, i) {
+                toggSel: function (c, i, isSync) {
                     var O = this.vRange(i),
                         opt = O.E.find('option')[i];
 
                     if (opt.disabled) 
                         return;
 
-                    if(opt.selected != c){
+                    if(opt.selected != c || isSync){
                         opt.selected = c;
                         if(!O.mob)O.optDiv.find('ul.options li.opt').eq(i).toggleClass('selected',c);
                         
@@ -680,6 +711,7 @@
 
                 init: function () {
                     var O = this;
+                    O.initSyncEvent();
                     O.createElems();
                     O.setText();
                     return O
