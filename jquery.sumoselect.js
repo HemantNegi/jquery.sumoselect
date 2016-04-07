@@ -481,6 +481,7 @@
 
                     //set display text
                     O.caption.html(O.placeholder);
+                    O.CaptionCont.attr('title', O.placeholder);
 
                     //set the hidden field if post as csv is true.
                     csvField = O.select.find('input.HEMANT123');
@@ -537,10 +538,15 @@
 
                 //toggles selection on c as boolean.
                 toggSel: function (c, i) {
-                    var O = this.vRange(i),
+                    var O = this;
+                    if (typeof(i) === "number"){
+                        O.vRange(i);
                         opt = O.E.find('option')[i];
-
-                    if (opt.disabled) 
+                    }
+                    else{
+                        opt = O.E.find('option[value="'+i+'"]')[0]||0;
+                    }
+                    if (!opt || opt.disabled) 
                         return;
 
                     if(opt.selected != c){

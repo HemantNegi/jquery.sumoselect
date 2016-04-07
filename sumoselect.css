@@ -1,6 +1,7 @@
 .SumoSelect p {margin: 0;}
+.SumoSelect{width: 200px;}
 
-.SelectBox { width: 200px; padding: 5px 8px;}
+.SelectBox {padding: 5px 8px;}
 
 /* Filtering style */
 .SumoSelect .hidden { display:none; }
