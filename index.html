@@ -106,6 +106,15 @@
         <p>Single and Multi select option.</p>
     </li>
     <li>
+        <p>Search Support</p>
+    </li>
+    <li>
+        <p>Optgroup support.</p>
+    </li>
+    <li>
+        <p>Localization support.</p>
+    </li>
+    <li>
         <p>Fully customizable by simple css.</p>
     </li>
     <li>
@@ -268,9 +277,34 @@
         <td>To display select all check or not</td>
     </tr>
     <tr>
-        <td><code>selectAlltext</code></td>
+        <td><code>search</code></td>
+        <td><code>(boolean)</code></td>
+        <td>To enable searching in sumoselect (default is false).</td>
+    </tr>
+    <tr>
+        <td><code>searchText</code></td>
         <td><code>(string)</code></td>
-        <td>The display text for select all (default is Select All).</td>
+        <td>placeholder for search input.</td>
+    </tr>
+    <tr>
+        <td><code>noMatch</code></td>
+        <td><code>(string)</code></td>
+        <td>placeholder to display if no itmes matches the search term (default 'No matches for "{0}"').</td>
+    </tr>
+    <tr>
+        <td><code>prefix</code></td>
+        <td><code>(string)</code></td>
+        <td>prefix to prepend the selected text (default is empty) eg. '&lt;b&gt;Hello&lt;/b&gt;'.</td>
+    </tr>
+    <tr>
+        <td><code>locale</code></td>
+        <td><code>(array)</code></td>
+        <td>change the text used in plugin (['OK', 'Cancel', 'Select All']). Note: don't break the sequence or skip items.</td>
+    </tr>
+    <tr>
+        <td><code>up</code></td>
+        <td><code>(boolean)</code></td>
+        <td>the direction in which to open the dropdown (default: false)</td>
     </tr>
 </table>
 
@@ -302,8 +336,14 @@
     <span class="nx">triggerChangeCombined</span> <span class="o">:</span> <span class="kc">true</span><span
                                 class="p">,</span>
     <span class="nx">selectAll</span> <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="nx">selectAlltext</span> <span class="o">:</span> <span class="kc">'Select All'</span>
-
+    <span class="nx">search</span> <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nx">searchText</span> <span class="o">:</span> <span class="kc">'Search...'</span><span class="p">,</span>
+    <span class="nx">noMatch</span> <span class="o">:</span> <span class="kc">'No matches for "{0}"'</span><span class="p">,</span>
+    <span class="nx">prefix</span> <span class="o">:</span> <span class="kc">''</span><span class="p">,</span>
+    <span class="nx">locale</span> <span class="o">:</span> <span class="p"> [</span><span
+                                class="s1">'OK'</span><span class="p">,</span> <span class="s1">'Cancel'</span><span
+                                class="p">,</span> <span class="s1">'Select All'</span>],</span>
+    <span class="nx">up</span> <span class="o">:</span> <span class="kc">'false'</span><span class="p">,</span>
 <span class="p">}</span>
 </pre>
 </div>
@@ -386,24 +426,28 @@ $</span><span class="p">(</span><span class="nb">document</span><span class="p">
 
     </li>
     <li>
-        <code>.selectItem(index)</code>
+        <code>.selectItem(index/value)</code>
 
-        <p>Selects ( check an item ) an item in the list. You can select multiple items in case of a multiselect.</p>
+        <p>Selects (check an item) an item in the list by index or by its value. You can select multiple items in case of a multiselect.</p>
 
         <div class="highlight highlight-javascript">
                     <pre><span class="cm">//selects the item at index 2</span>
- <span class="nx">$</span><span class="p">(</span><span class="s1">'select.SlectBox'</span><span class="p">)[0].sumo.selectItem(2);</span></pre>
+ <span class="nx">$</span><span class="p">(</span><span class="s1">'select.SlectBox'</span><span class="p">)[0].sumo.selectItem(2);</span><span class="cm">
+ //selects the item having value "volo"</span>
+ <span class="nx">$</span><span class="p">(</span><span class="s1">'select.SlectBox'</span><span class="p">)[0].sumo.selectItem('volo');</span></pre>
         </div>
 
     </li>
     <li>
-        <code>.unSelectItem(index)</code>
+        <code>.unSelectItem(index/value)</code>
 
-        <p>unselect ( uncheck an item ) an item</p>
+        <p>unselect (uncheck an item) an item in list by index or by value</p>
 
         <div class="highlight highlight-javascript">
                     <pre><span class="cm">//unselects the item at index 2</span>
- <span class="nx">$</span><span class="p">(</span><span class="s1">'select.SlectBox'</span><span class="p">)[0].sumo.unSelectItem(2);</span></pre>
+ <span class="nx">$</span><span class="p">(</span><span class="s1">'select.SlectBox'</span><span class="p">)[0].sumo.unSelectItem(2);</span>
+ <span class="cm">//unselects the item having value "volvo"</span>
+ <span class="nx">$</span><span class="p">(</span><span class="s1">'select.SlectBox'</span><span class="p">)[0].sumo.unSelectItem('volvo');</span></pre>
         </div>
 
     </li>
@@ -451,27 +495,6 @@ $</span><span class="p">(</span><span class="nb">document</span><span class="p">
         </div>
 
     </li>
-
-
-    <li style="text-decoration:line-through;">
-        <code>.disabled = true/false</code> <span style="text-decoration:none;">(deprecated due to compatibility issues!)</span>
-
-        <p>This is a property to enable or disable the SumoSelect control</p>
-
-        <div class="highlight highlight-javascript">
-                    <pre><span class="cm">// Disables the control</span>
- <span class="nx">$</span><span class="p">(</span><span class="s1">'select.SlectBox'</span><span class="p">)[0].sumo.disabled = </span><span
-                                class="nb">true</span><span class="p">;
-
-<span class="cm">// Enables the control</span>
- <span class="nx">$</span>(<span class="s1">'select.SlectBox'</span>)[0].sumo.disabled = <span class="nb">true</span>;
-
-<span class="cm">// Prints current state of control</span>
-console.log( <span class="nx">$</span>(<span class="s1">'select.SlectBox'</span>)[0].sumo.disabled )</span></pre>
-        </div>
-
-    </li>
-
     <li>
         <code>.enable()</code>
         <p>Enables the SumoSelect control</p>
@@ -506,7 +529,7 @@ console.log( <span class="nx">$</span>(<span class="s1">'select.SlectBox'</span>
 
 </ul>
 
-<p>>> The css classes added to options are added to generated li</p>
+<p>*** You can add custom css class to options (css class added to option is added to the generated li.)</p>
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- comments above ad -->
