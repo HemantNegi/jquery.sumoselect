@@ -1,5 +1,5 @@
 /*!
- * jquery.sumoselect - v3.0.0
+ * jquery.sumoselect - v3.0.1
  * http://hemantnegi.github.io/jquery.sumoselect
  * 2014-04-08
  *
