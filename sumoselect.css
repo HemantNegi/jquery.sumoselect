@@ -3,6 +3,8 @@
 
 .SelectBox {padding: 5px 8px;}
 
+.sumoStopScroll{overflow:hidden;}
+
 /* Filtering style */
 .SumoSelect .hidden { display:none; }
 .SumoSelect .search-txt{display:none;outline:none;}

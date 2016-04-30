@@ -101,7 +101,7 @@
                     O.optDiv.append(O.ul);
 
                     // Select all functionality
-                    if(settings.selectAll) O.selAll();
+                    if(settings.selectAll) O.SelAll();
 
                     // search functionality
                     if(settings.search) O.Search();
@@ -214,7 +214,7 @@
                     O.selAllState();
                 },
 
-                selAll:function(){
+                SelAll:function(){
                     var O = this;
                     if(!O.is_multi)return;
                     O.selAll = $('<p class="select-all"><span><i></i></span><label>' + settings.locale[2] + '</label></p>');
@@ -300,6 +300,7 @@
                         H = O.optDiv.children('ul').outerHeight() + 2;  // +2 is clear fix
                         if (O.is_multi) H = H + parseInt(O.optDiv.css('padding-bottom'));
                         O.optDiv.css('height', H);
+                        $('body').addClass('sumoStopScroll');
                     }
 
                     O.setPstate();
@@ -326,6 +327,7 @@
                         O.select.removeClass('open').find('ul li.sel').removeClass('sel');
                         $(document).off('click.sumo');
                         O.select.focus();
+                        $('body').removeClass('sumoStopScroll');
 
                         // clear the search
                         if(settings.search){
@@ -598,7 +600,7 @@
 							O.optDiv.find('ul.options li').eq($(this).index()).toggleClass('selected', c);
                         O.setText();
                     });
-                    if(!O.mob && (settings.selectAll || settings.search))O.selAll.removeClass('partial').toggleClass('selected',c);
+                    if(!O.mob && O.selAll)O.selAll.removeClass('partial').toggleClass('selected',c);
                     O.callChange();
                     O.setPstate();
                 },
