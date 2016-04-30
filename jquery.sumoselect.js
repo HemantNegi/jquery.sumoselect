@@ -141,6 +141,7 @@
                                                                                     // todo: remove this data val 
                     li = $('<li class="opt"><label>' + opt.text() + '</label></li>');//.data('val',opt.val());
                     li.data('opt', opt);    // store a direct reference to option.
+                    opt.data('li', li);    // store a direct reference to list item.
                     if (O.is_multi) li.prepend('<span><i></i></span>');
 
                     if (opt[0].disabled || d)
@@ -551,7 +552,7 @@
 
                     if(opt.selected != c){
                         opt.selected = c;
-                        if(!O.mob)O.optDiv.find('ul.options li.opt').eq(i).toggleClass('selected',c);
+                        if(!O.mob) $(opt).data('li').toggleClass('selected',c);
                         
                         O.callChange();
                         O.setPstate();
