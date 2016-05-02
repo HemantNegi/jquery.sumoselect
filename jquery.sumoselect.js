@@ -283,6 +283,8 @@
                     O.is_opened = true;
                     O.select.addClass('open');
 
+                    O.E.trigger( 'toggled', true );
+
                     if(O.ftxt)O.ftxt.focus();
                     else O.select.focus();
 
@@ -325,6 +327,9 @@
                     if(O.is_opened){
                         O.is_opened = false;
                         O.select.removeClass('open').find('ul li.sel').removeClass('sel');
+
+                        O.E.trigger( 'toggled', false );
+
                         $(document).off('click.sumo');
                         O.select.focus();
                         $('body').removeClass('sumoStopScroll');
