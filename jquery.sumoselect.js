@@ -280,8 +280,10 @@
                 showOpts: function () {
                     var O = this;
                     if (O.E.attr('disabled')) return; // if select is disabled then retrun
+                    O.E.trigger('sumo:opening');
                     O.is_opened = true;
                     O.select.addClass('open');
+                    O.E.trigger('sumo:opened');
 
                     if(O.ftxt)O.ftxt.focus();
                     else O.select.focus();
@@ -323,8 +325,10 @@
                 hideOpts: function () {
                     var O = this;
                     if(O.is_opened){
+                        O.E.trigger('sumo:closing');
                         O.is_opened = false;
                         O.select.removeClass('open').find('ul li.sel').removeClass('sel');
+                        O.E.trigger('sumo:closed');
                         $(document).off('click.sumo');
                         O.select.focus();
                         $('body').removeClass('sumoStopScroll');
