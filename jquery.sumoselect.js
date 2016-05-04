@@ -29,6 +29,7 @@
             selectAll: false,             // to display select all button in multiselect mode.|| also select all will not be available on mobile devices.
 
             search: false,                // to display input for filtering content. selectAlltext will be input text placeholder
+            add: false,                // adding your values by Enter button
             searchText: 'Search...',      // placeholder for search input
             noMatch: 'No matches for "{0}"',
             prefix: '',                   // some prefix usually the field name. eg. '<b>Hello</b>'
@@ -239,8 +240,24 @@
                     var O = this,
                         cc = O.CaptionCont.addClass('search'),
                         P = $('<p class="no-match">');
-
-                    O.ftxt = $('<input type="text" class="search-txt" value="" placeholder="' + settings.searchText + '">')
+						if(settings.add){
+							sumoAdd = " sumo-add";
+							$(document).off('keyup', '.sumo-add');
+							$(document).on('keyup', '.sumo-add', function(event) {
+								if(event.keyCode == 13) {
+									newopt = $(this).val();
+									var sumoFind = $(this).parents('.SumoSelect').find('select');
+									sumoFind[0].sumo.add(newopt);
+									sumoFind[0].sumo.unSelectAll();
+									sumoFind[0].sumo.selectItem(newopt);
+									sumoFind[0].sumo.reload();
+								}
+							});
+						}
+						else {
+							sumoAdd = "";
+						}
+                    O.ftxt = $('<input type="text" class="search-txt' + sumoAdd + '" value="" placeholder="' + settings.searchText + '">')
                         .on('click', function(e){
                             e.stopPropagation();
                         });
