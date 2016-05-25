@@ -33,7 +33,8 @@
             noMatch: 'No matches for "{0}"',
             prefix: '',                   // some prefix usually the field name. eg. '<b>Hello</b>'
             locale: ['OK', 'Cancel', 'Select All'],  // all text that is used. don't change the index.
-            up: false                     // set true to open upside.
+            up: false,                    // set true to open upside.
+            showTitle: true               // set to false to prevent title (tooltip) from appearing
         }, options);
 
         var ret = this.each(function () {
@@ -484,7 +485,7 @@
 
                     //set display text
                     O.caption.html(O.placeholder);
-                    O.CaptionCont.attr('title', O.placeholder);
+                    if (settings.showTitle) O.CaptionCont.attr('title', O.placeholder);
 
                     //set the hidden field if post as csv is true.
                     csvField = O.select.find('input.HEMANT123');
