@@ -156,7 +156,7 @@
                     var O = this;
 
                     if (!opt.attr('value')) opt.attr('value', opt.val());
-                    var li = $('<li class="opt"><label>' + opt.text() + '</label></li>');
+                    var li = $('<li class="opt"><label>' + opt.html() + '</label></li>');
 
                     li.data('opt', opt);    // store a direct reference to option.
                     opt.data('li', li);    // store a direct reference to list item.
@@ -547,7 +547,7 @@
                     O.placeholder = O.placeholder ? (settings.prefix + ' ' + O.placeholder) : settings.placeholder
 
                     //set display text
-                    O.caption.html(O.placeholder);
+                    O.caption.text(O.placeholder);
                     if (settings.showTitle) O.CaptionCont.attr('title', O.placeholder);
 
                     //set the hidden field if post as csv is true.
