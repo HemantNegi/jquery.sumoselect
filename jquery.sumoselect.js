@@ -139,7 +139,7 @@
 
                     if(!opt.attr('value'))opt.attr('value',opt.val());
                                                                                     // todo: remove this data val 
-                    li = $('<li class="opt"><label>' + opt.text() + '</label></li>');//.data('val',opt.val());
+                    li = $('<li class="opt"><label>' + opt.html() + '</label></li>');//.data('val',opt.val());
                     li.data('opt', opt);    // store a direct reference to option.
                     opt.data('li', li);    // store a direct reference to list item.
                     if (O.is_multi) li.prepend('<span><i></i></span>');
@@ -483,8 +483,8 @@
                     O.placeholder = O.placeholder ? (settings.prefix + ' ' + O.placeholder) : settings.placeholder
 
                     //set display text
-                    O.caption.html(O.placeholder);
-                    O.CaptionCont.attr('title', O.placeholder);
+                    O.caption.text(O.placeholder);
+                    O.CaptionCont.attr('title', $('<span></span>').text(O.placeholder).html());
 
                     //set the hidden field if post as csv is true.
                     csvField = O.select.find('input.HEMANT123');
