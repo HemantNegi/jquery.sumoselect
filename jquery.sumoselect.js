@@ -139,7 +139,7 @@
 
                     if(!opt.attr('value'))opt.attr('value',opt.val());
                                                                                     // todo: remove this data val 
-                    li = $('<li class="opt"><label>' + opt.text() + '</label></li>');//.data('val',opt.val());
+                    var li = $('<li class="opt"><label>' + opt.text() + '</label></li>');//.data('val',opt.val());
                     li.data('opt', opt);    // store a direct reference to option.
                     opt.data('li', li);    // store a direct reference to list item.
                     if (O.is_multi) li.prepend('<span><i></i></span>');
@@ -423,7 +423,7 @@
                     li.click(function () {
                         var li = $(this);
                         if(li.hasClass('disabled'))return;
-                        txt = "";
+                        var txt = "";
                         if (O.is_multi) {
                             li.toggleClass('selected');
                             li.data('opt')[0].selected = li.hasClass('selected');
@@ -469,7 +469,7 @@
                         O.placeholder = O.E.find(':selected').not(':disabled').text();
                     }
 
-                    is_placeholder = false;
+                    var is_placeholder = false;
 
                     if (!O.placeholder) {
 
@@ -487,7 +487,7 @@
                     O.CaptionCont.attr('title', O.placeholder);
 
                     //set the hidden field if post as csv is true.
-                    csvField = O.select.find('input.HEMANT123');
+                    var csvField = O.select.find('input.HEMANT123');
                     if (csvField.length) csvField.val(O.getSelStr());
 
                     //add class placeholder if its a placeholder text.
@@ -534,7 +534,7 @@
                 // validates range of given item operations
                 vRange: function (i) {
                     var O = this;
-                    opts = O.E.find('option');
+                    var opts = O.E.find('option');
                     if (opts.length <= i || i < 0) throw "index out of bounds"
                     return O;
                 },
@@ -542,6 +542,7 @@
                 //toggles selection on c as boolean.
                 toggSel: function (c, i) {
                     var O = this;
+                    var opt;
                     if (typeof(i) === "number"){
                         O.vRange(i);
                         opt = O.E.find('option')[i];
