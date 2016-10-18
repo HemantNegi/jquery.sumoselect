@@ -155,6 +155,9 @@
                     if (opt.attr('class'))
                         li.addClass(opt.attr('class'));
 
+                    if (opt.attr('title'))
+                        li.attr('title', opt.attr('title'));
+
                     return li;
                 },
 
