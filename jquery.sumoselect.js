@@ -219,17 +219,17 @@
                     if(!O.is_multi)return;
                     O.selAll = $('<p class="select-all"><span><i></i></span><label>' + settings.locale[2] + '</label></p>');
                     O.selAll.on('click',function(){
-						//O.toggSelAll(!);
-						O.selAll.toggleClass('selected');
-						O.optDiv.find('li.opt').not('.hidden').each(function(ix,e){
-							e = $(e);
-							if(O.selAll.hasClass('selected')){
-								if(!e.hasClass('selected'))e.trigger('click');
-							}
-							else
-								if(e.hasClass('selected'))e.trigger('click');
-						});
-					});
+                    //O.toggSelAll(!);
+                    O.selAll.toggleClass('selected');
+                    O.optDiv.find('li.opt').not('.hidden').each(function(ix,e){
+                      e = $(e);
+                      if(O.selAll.hasClass('selected')){
+                        if(!e.hasClass('selected'))O.itemClicked(e, false);
+                      }
+                      else
+                        if(e.hasClass('selected'))O.itemClicked(e, false);
+                    });
+                  });
 
                     O.optDiv.prepend(O.selAll);
                 },
@@ -418,30 +418,36 @@
                     });
                 },
 
-                onOptClick: function (li) {
+                itemClicked: function(li, refresh) {
                     var O = this;
-                    li.click(function () {
-                        var li = $(this);
-                        if(li.hasClass('disabled'))return;
-                        txt = "";
-                        if (O.is_multi) {
-                            li.toggleClass('selected');
-                            li.data('opt')[0].selected = li.hasClass('selected');
-                            O.selAllState();
-                        }
-                        else {
-                            li.parent().find('li.selected').removeClass('selected'); //if not multiselect then remove all selections from this list
-                            li.toggleClass('selected');
-                            li.data('opt')[0].selected = true;
-                        }
+                    if(li.hasClass('disabled'))return;
+                    txt = "";
+                    if (O.is_multi) {
+                        li.toggleClass('selected');
+                        li.data('opt')[0].selected = li.hasClass('selected');
+                        O.selAllState();
+                    }
+                    else {
+                        li.parent().find('li.selected').removeClass('selected'); //if not multiselect then remove all selections from this list
+                        li.toggleClass('selected');
+                        li.data('opt')[0].selected = true;
+                    }
 
-                        //branch for combined change event.
-                        if (!(O.is_multi && settings.triggerChangeCombined && (O.is_floating || settings.okCancelInMulti))) {
+                    //branch for combined change event.
+                    if (!(O.is_multi && settings.triggerChangeCombined && (O.is_floating || settings.okCancelInMulti))) {
+                        if (refresh) {
                             O.setText();
                             O.callChange();
                         }
+                    }
+                    if (!O.is_multi) O.hideOpts(); //if its not a multiselect then hide on single select.
+                },
 
-                        if (!O.is_multi) O.hideOpts(); //if its not a multiselect then hide on single select.
+                onOptClick: function (li) {
+                    var O = this;
+                    li.click(function (event) {
+                        event.stopImmediatePropagation();
+                        O.itemClicked($(this), true);
                     });
                 },
 
@@ -508,7 +514,7 @@
                 setNativeMobile: function () {
                     var O = this;
                     O.E.addClass('SelectClass')//.css('height', O.select.outerHeight());
-					O.mob = true;
+					          O.mob = true;
                     O.E.change(function () {
                         O.setText();
                     });
@@ -566,8 +572,9 @@
                 //toggles disabled on c as boolean.
                 toggDis: function (c, i) {
                     var O = this.vRange(i);
-                    O.E.find('option')[i].disabled = c;
-                    if(c)O.E.find('option')[i].selected = false;
+                    var $option = O.E.find('option')[i];
+                    $option.disabled = c;
+                    if(c)$option.selected = false;
                     if(!O.mob)O.optDiv.find('ul.options li').eq(i).toggleClass('disabled', c).removeClass('selected');
                     O.setText();
                 },
@@ -594,12 +601,13 @@
                 toggSelAll: function (c) {
                     var O = this;
                     O.E.find('option').each(function (ix, el) {
-                        if (O.E.find('option')[$(this).index()].disabled) return;
-                        O.E.find('option')[$(this).index()].selected = c;
+                        var $option = O.E.find('option')[ix];
+                        if ($option.disabled) return;
+                        $option.selected = c;
                         if (!O.mob)
-							O.optDiv.find('ul.options li').eq($(this).index()).toggleClass('selected', c);
-                        O.setText();
+							          O.optDiv.find('ul.options li').eq(ix).toggleClass('selected', c);
                     });
+                    O.setText();
                     if(!O.mob && O.selAll)O.selAll.removeClass('partial').toggleClass('selected',c);
                     O.callChange();
                     O.setPstate();
