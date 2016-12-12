@@ -223,7 +223,7 @@
                         var opt, isSelectedAll = O.selAll.hasClass('selected');
                         O.optDiv.find('li.opt').not('.hidden').each(function(ix,e){
                             e = $(e);
-                            opt = e.data('opt');
+                            opt = e.data('opt')[0];
                             if(opt.selected != isSelectedAll){
                                 opt.selected = isSelectedAll;
                                 if(!O.mob) {
