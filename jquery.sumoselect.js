@@ -594,10 +594,10 @@
                 toggSelAll: function (c) {
                     var O = this;
                     O.E.find('option').each(function (ix, el) {
-                        if (O.E.find('option')[$(this).index()].disabled) return;
-                        O.E.find('option')[$(this).index()].selected = c;
+                        if (O.E.find('option')[ix].disabled) return;
+                        O.E.find('option')[ix].selected = c;
                         if (!O.mob)
-							O.optDiv.find('ul.options li').eq($(this).index()).toggleClass('selected', c);
+							O.optDiv.find('ul.options li.opt').eq($(this).index()).toggleClass('selected', c);
                         O.setText();
                     });
                     if(!O.mob && O.selAll)O.selAll.removeClass('partial').toggleClass('selected',c);
