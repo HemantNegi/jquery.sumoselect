@@ -101,7 +101,7 @@
                     O.optDiv.append(O.ul);
 
                     // Select all functionality
-                    if(settings.selectAll) O.SelAll();
+                    if(settings.selectAll && O.is_multi) O.SelAll();
 
                     // search functionality
                     if(settings.search) O.Search();
@@ -285,7 +285,7 @@
 
                 selAllState: function () {
                     var O = this;
-                    if (settings.selectAll) {
+                    if (settings.selectAll && O.is_multi) {
                         var sc = 0, vc = 0;
                         O.optDiv.find('li.opt').not('.hidden').each(function (ix, e) {
                             if ($(e).hasClass('selected')) sc++;
