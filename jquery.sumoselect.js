@@ -1,5 +1,5 @@
 /*!
- * jquery.sumoselect - v3.0.2
+ * jquery.sumoselect - v3.0.3
  * http://hemantnegi.github.io/jquery.sumoselect
  * 2014-04-08
  *
@@ -170,7 +170,7 @@
                 multiSelelect: function () {
                     var O = this;
                     O.optDiv.addClass('multiple');
-                    O.okbtn = $('<p class="btnOk">'+settings.locale[0]+'</p>').click(function () {
+                    O.okbtn = $('<p tabindex="0" class="btnOk">'+settings.locale[0]+'</p>').click(function () {
 
                         //if combined change event is set.
                         if (settings.triggerChangeCombined) {
@@ -193,11 +193,32 @@
                         }
                         O.hideOpts();
                     });
-                    O.cancelBtn = $('<p class="btnCancel">'+settings.locale[1]+'</p>').click(function () {
+                    O.cancelBtn = $('<p tabindex="0" class="btnCancel">'+settings.locale[1]+'</p>').click(function () {
                         O._cnbtn();
                         O.hideOpts();
                     });
-                    O.optDiv.append($('<div class="MultiControls">').append(O.okbtn).append(O.cancelBtn));
+                    var btns = O.okbtn.add(O.cancelBtn);
+                    O.optDiv.append($('<div class="MultiControls">').append(btns));
+
+                    // handling keyboard navigation on ok cancel buttons.
+                    btns.on('keydown.sumo', function (e) {
+                            var el = $(this);
+                            switch (e.which) {
+                                case 32: // space
+                                case 13: // enter
+                                    el.trigger('click');
+                                    break;
+
+                                case 9:  //tab
+                                    if(el.hasClass('btnOk'))return;
+                                case 27: // esc
+                                    O._cnbtn();
+                                    O.hideOpts();
+                                    return;
+                            }
+                            e.stopPropagation();
+                            e.preventDefault();
+                        });
                 },
 
                 _cnbtn:function(){
@@ -402,8 +423,11 @@
                                         O.setOnOpen();
                                     break;
 				                case 9:	 //tab
+                                    if(!settings.okCancelInMulti)
+                                        O.hideOpts();
+                                    return;
                                 case 27: // esc
-                                     if (settings.okCancelInMulti)O._cnbtn();
+                                    if(settings.okCancelInMulti)O._cnbtn();
                                     O.hideOpts();
                                     return;
 
