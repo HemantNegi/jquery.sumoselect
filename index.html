@@ -354,9 +354,29 @@
 </pre>
 </div>
 
+    <h2><a name="Methods" class="anchor" href="#Methods"><span class="octicon octicon-link"></span></a>Events</h2>
+    <p>Sumoselect raise some very helpful events on which you can hook your custom handlers.</p>
 
-<h2>
-    <a name="Methods" class="anchor" href="#Methods"><span class="octicon octicon-link"></span></a>Methods</h2>
+    <div class="highlight highlight-javascript"><pre>
+$(<span class="s1">'select.SlectBox'</span>).on(<span class="s1">'sumo:opened'</span>, function(sumo) {
+    <span class="cm">// Do stuff here</span>
+    console.log(<span class="s1">"Drop down opened"</span>, sumo)
+});</pre>
+    </div>
+    <p>
+    Available events
+    </p>
+    <div class="highlight highlight-javascript"><pre>
+<span class="cm">// Drop down opening</span>
+<span class="nb">sumo:opening</span>
+<span class="cm">// Drop down opened</span>
+<span class="nb">sumo:opened</span>
+<span class="cm">// Drop down closing</span>
+<span class="nb">sumo:closing</span>
+<span class="cm">// Drop down closed.</span>
+<span class="nb">sumo:closed</span></pre>
+    </div>
+    <h2><a name="Methods" class="anchor" href="#Methods"><span class="octicon octicon-link"></span></a>Methods</h2>
 
 <p>To call below functions you need to get the instance of SumoSelect object which can be done as
 
