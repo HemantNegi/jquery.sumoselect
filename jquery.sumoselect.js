@@ -617,14 +617,15 @@
                 //toggles alloption on c as boolean.
                 toggSelAll: function (c) {
                     var O = this;
-                    O.E.find('option').each(function (ix, el) {
-                        if (O.E.find('option')[ix].disabled) return;
-                        O.E.find('option')[ix].selected = c;
+                    O.E.find('option:not(optgroup[disabled="disabled"] option)').each(function (ix, el) {
+                        if (el.disabled) return;
+                        el.selected = !!c;
                         if (!O.mob)
-							O.optDiv.find('ul.options li.opt').eq($(this).index()).toggleClass('selected', c);
-                        O.setText();
+							$(el).data('li').toggleClass('selected', !!c);
                     });
-                    if(!O.mob && O.selAll)O.selAll.removeClass('partial').toggleClass('selected',c);
+                    O.setText();
+                    
+                    if(!O.mob && O.selAll)O.selAll.removeClass('partial').toggleClass('selected',!!c);
                     O.callChange();
                     O.setPstate();
                 },
