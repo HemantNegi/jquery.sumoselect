@@ -179,6 +179,8 @@ The following settings are available now:
 
 - `up` `(boolean)`   the direction in which to open the dropdown (default: false)
 
+- `showTitle` `(boolean)` set to false to prevent title (tooltip) from appearing (deafult `true`)
+
 **The default settings are :**
 
 ```javascript
@@ -200,7 +202,8 @@ The following settings are available now:
     noMatch: 'No matches for "{0}"',
     prefix: '',
     locale: ['OK', 'Cancel', 'Select All'],
-    up: false 
+    up: false,
+    showTitle: true
 }
 ```
 
