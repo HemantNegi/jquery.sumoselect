@@ -138,8 +138,7 @@
                     var O = this;
 
                     if(!opt.attr('value'))opt.attr('value',opt.val());
-                                                                                    // todo: remove this data val 
-                    li = $('<li class="opt"><label>' + opt.text() + '</label></li>');//.data('val',opt.val());
+                    li = $('<li class="opt"><label>' + opt.text() + '</label></li>');
                     li.data('opt', opt);    // store a direct reference to option.
                     opt.data('li', li);    // store a direct reference to list item.
                     if (O.is_multi) li.prepend('<span><i></i></span>');
@@ -617,7 +616,8 @@
                 //toggles alloption on c as boolean.
                 toggSelAll: function (c) {
                     var O = this;
-                    O.E.find('option:not(optgroup[disabled="disabled"] option)').each(function (ix, el) {
+                    O.E.find('option:not(optgroup[disabled="disabled"] option)')
+                    .each(function (ix, el) {
                         if (el.disabled) return;
                         el.selected = !!c;
                         if (!O.mob)
