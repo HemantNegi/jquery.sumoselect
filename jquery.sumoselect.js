@@ -8,7 +8,17 @@
  * Compressor http://refresh-sf.com/
  */
 
-(function ($) {
+(function(factory) {
+    'use strict';
+    if (typeof define === 'function' && define.amd) {
+        define(['jquery'], factory);
+    } else if (typeof exports !== 'undefined') {
+        module.exports = factory(require('jquery'));
+    } else {
+        factory(jQuery);
+    }
+
+})(function ($) {
 
     'namespace sumo';
     $.fn.SumoSelect = function (options) {
@@ -365,9 +375,9 @@
                 },
                 nav: function (up) {
                     var O = this, c,
-                        s=O.ul.find('li.opt:not(.disabled, .hidden)'),
-                        sel = O.ul.find('li.opt.sel:not(.hidden)'),
-                        idx = s.index(sel);
+                    s=O.ul.find('li.opt:not(.disabled, .hidden)'),
+                    sel = O.ul.find('li.opt.sel:not(.hidden)'),
+                    idx = s.index(sel);
                     if (O.is_opened && sel.length) {
 
                         if (up && idx > 0)
@@ -729,4 +739,4 @@
     };
 
 
-}(jQuery));
+});
