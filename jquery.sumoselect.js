@@ -619,7 +619,7 @@
 							$(el).data('li').toggleClass('selected', !!c);
                     });
                     O.setText();
-                    
+
                     if(!O.mob && O.selAll)O.selAll.removeClass('partial').toggleClass('selected',!!c);
                     O.callChange();
                     O.setText();
