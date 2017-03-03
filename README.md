@@ -141,6 +141,21 @@ You can perform all the operations on underlying original select and then reload
 	$('select.SlectBox')[0].sumo.reload();
 ```
 
+#####You can bind your handlers to some sumoselect specific events eg.
+```javascript
+$('select.SlectBox').on('sumo:opened', function(sumo) {
+   // Do stuff here
+   console.log("Drop down opened", sumo)
+});
+```
+Available events
+
+- `sumo:opened`
+- `sumo:opening`
+- `sumo:closing`
+- `sumo:closed`
+
+
 **Settings**
 
 The following settings are available now:
