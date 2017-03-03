@@ -1,7 +1,7 @@
 /*!
  * jquery.sumoselect - v3.0.3
  * http://hemantnegi.github.io/jquery.sumoselect
- * 2014-04-08
+ * 2016-12-12
  *
  * Copyright 2015 Hemant Negi
  * Email : hemant.frnz@gmail.com
@@ -85,7 +85,7 @@
                     }
 
                     // if there is a name attr in select add a class to container div
-                    if(O.E.attr('name')) O.select.addClass('sumo_'+O.E.attr('name'))
+                    if(O.E.attr('name')) O.select.addClass('sumo_'+O.E.attr('name').replace(/\[\]/, ''))
 
                     //hide original select
                     O.E.addClass('SumoUnder').attr('tabindex','-1');
@@ -127,7 +127,7 @@
                             .end()
                             :
                             O.createLi(opt, d)
-                            );
+                        );
                     });
                     return lis;
                 },
@@ -223,14 +223,14 @@
                 _cnbtn:function(){
                     var O = this;
                     //remove all selections
-                        O.E.find('option:selected').each(function () { this.selected = false; });
-                        O.optDiv.find('li.selected').removeClass('selected')
+                    O.E.find('option:selected').each(function () { this.selected = false; });
+                    O.optDiv.find('li.selected').removeClass('selected')
 
-                        //restore selections from saved state.
-                        for(var i = 0; i < O.Pstate.length; i++) {
-                            O.E.find('option')[O.Pstate[i]].selected = true;
-                            O.ul.find('li.opt').eq(O.Pstate[i]).addClass('selected');
-                        }
+                    //restore selections from saved state.
+                    for(var i = 0; i < O.Pstate.length; i++) {
+                        O.E.find('option')[O.Pstate[i]].selected = true;
+                        O.ul.find('li.opt').eq(O.Pstate[i]).addClass('selected');
+                    }
                     O.selAllState();
                 },
 
@@ -238,18 +238,12 @@
                     var O = this;
                     if(!O.is_multi)return;
                     O.selAll = $('<p class="select-all"><span><i></i></span><label>' + settings.locale[2] + '</label></p>');
+
                     O.selAll.on('click',function(){
-						//O.toggSelAll(!);
-						O.selAll.toggleClass('selected');
-						O.optDiv.find('li.opt').not('.hidden').each(function(ix,e){
-							e = $(e);
-							if(O.selAll.hasClass('selected')){
-								if(!e.hasClass('selected'))e.trigger('click');
-							}
-							else
-								if(e.hasClass('selected'))e.trigger('click');
-						});
-					});
+                        O.selAll.toggleClass('selected');
+                        O.toggSelAll(O.selAll.hasClass('selected'));
+                        O.selAllState();
+                    });
 
                     O.optDiv.prepend(O.selAll);
                 },
@@ -356,7 +350,7 @@
                             O.optDiv.find('.no-match').toggle(false);
                         }
                     }
-                 },
+                },
                 setOnOpen: function () {
                     var O = this,
                         li = O.optDiv.find('li.opt:not(.hidden)').eq(settings.search?0:O.E[0].selectedIndex);
@@ -366,12 +360,12 @@
                     O.showOpts();
                 },
                 nav: function (up) {
-                    var O = this, c, 
-                    s=O.ul.find('li.opt:not(.disabled, .hidden)'),
-                    sel = O.ul.find('li.opt.sel:not(.hidden)'),
-                    idx = s.index(sel);
+                    var O = this, c,
+                        s=O.ul.find('li.opt:not(.disabled, .hidden)'),
+                        sel = O.ul.find('li.opt.sel:not(.hidden)'),
+                        idx = s.index(sel);
                     if (O.is_opened && sel.length) {
-                        
+
                         if (up && idx > 0)
                             c = s.eq(idx-1);
                         else if(!up && idx < s.length-1 && idx > -1)
@@ -384,7 +378,7 @@
                         // setting sel item to visible view.
                         var ul = O.ul,
                             st = ul.scrollTop(),
-                            t = sel.position().top + st;                            
+                            t = sel.position().top + st;
                         if(t >= st + ul.height()-sel.outerHeight())
                             ul.scrollTop(t - ul.height() + sel.outerHeight());
                         if(t<st)
@@ -403,38 +397,38 @@
                         evt.stopPropagation();
                     });
 
-                        O.select.on('keydown.sumo', function (e) {
-                            switch (e.which) {
-                                case 38: // up
-                                    O.nav(true);
-                                    break;
+                    O.select.on('keydown.sumo', function (e) {
+                        switch (e.which) {
+                            case 38: // up
+                                O.nav(true);
+                                break;
 
-                                case 40: // down
-                                    O.nav(false);
-                                    break;
+                            case 40: // down
+                                O.nav(false);
+                                break;
 
-                                case 32: // space
-                                    if(settings.search && O.ftxt.is(e.target))return;
-                                case 13: // enter
-                                    if (O.is_opened)
-                                        O.optDiv.find('ul li.sel').trigger('click');
-                                    else
-                                        O.setOnOpen();
-                                    break;
-				                case 9:	 //tab
-                                    if(!settings.okCancelInMulti)
-                                        O.hideOpts();
-                                    return;
-                                case 27: // esc
-                                    if(settings.okCancelInMulti)O._cnbtn();
+                            case 32: // space
+                                if(settings.search && O.ftxt.is(e.target))return;
+                            case 13: // enter
+                                if (O.is_opened)
+                                    O.optDiv.find('ul li.sel').trigger('click');
+                                else
+                                    O.setOnOpen();
+                                break;
+                            case 9:	 //tab
+                                if(!settings.okCancelInMulti)
                                     O.hideOpts();
-                                    return;
+                                return;
+                            case 27: // esc
+                                if(settings.okCancelInMulti)O._cnbtn();
+                                O.hideOpts();
+                                return;
 
-                                default:
-                                    return; // exit this handler for other keys
-                            }
-                            e.preventDefault(); // prevent the default action (scroll / move caret)
-                        });
+                            default:
+                                return; // exit this handler for other keys
+                        }
+                        e.preventDefault(); // prevent the default action (scroll / move caret)
+                    });
 
                     $(window).on('resize.sumo', function () {
                         O.floatingList();
@@ -475,18 +469,18 @@
                         sels = O.E.find(':selected').not(':disabled'); //selected options.
 
                         for (i = 0; i < sels.length; i++) {
-                                if (i + 1 >= settings.csvDispCount && settings.csvDispCount) {
-                                    if (sels.length == O.E.find('option').length && settings.captionFormatAllSelected) {
-                                        O.placeholder = settings.captionFormatAllSelected.replace(/\{0\}/g, sels.length)+',';
-                                    } else {
-                                        O.placeholder = settings.captionFormat.replace(/\{0\}/g, sels.length)+',';
-                                    }
-
-                                    break;
+                            if (i + 1 >= settings.csvDispCount && settings.csvDispCount) {
+                                if (sels.length == O.E.find('option').length && settings.captionFormatAllSelected) {
+                                    O.placeholder = settings.captionFormatAllSelected.replace(/\{0\}/g, sels.length)+',';
+                                } else {
+                                    O.placeholder = settings.captionFormat.replace(/\{0\}/g, sels.length)+',';
                                 }
-                                else O.placeholder += $(sels[i]).text() + ", ";
+
+                                break;
                             }
-                            O.placeholder = O.placeholder.replace(/,([^,]*)$/, '$1'); //remove unexpected "," from last.
+                            else O.placeholder += $(sels[i]).text() + ", ";
+                        }
+                        O.placeholder = O.placeholder.replace(/,([^,]*)$/, '$1'); //remove unexpected "," from last.
                     }
                     else {
                         O.placeholder = O.E.find(':selected').not(':disabled').text();
@@ -531,7 +525,7 @@
                 setNativeMobile: function () {
                     var O = this;
                     O.E.addClass('SelectClass')//.css('height', O.select.outerHeight());
-					O.mob = true;
+                    O.mob = true;
                     O.E.change(function () {
                         O.setText();
                     });
@@ -572,13 +566,13 @@
                     else{
                         opt = O.E.find('option[value="'+i+'"]')[0]||0;
                     }
-                    if (!opt || opt.disabled) 
+                    if (!opt || opt.disabled)
                         return;
 
                     if(opt.selected != c){
                         opt.selected = c;
                         if(!O.mob) $(opt).data('li').toggleClass('selected',c);
-                        
+
                         O.callChange();
                         O.setPstate();
                         O.setText();
@@ -616,6 +610,7 @@
                 //toggles alloption on c as boolean.
                 toggSelAll: function (c) {
                     var O = this;
+
                     O.E.find('option:not(optgroup[disabled="disabled"] option)')
                     .each(function (ix, el) {
                         if (el.disabled) return;
@@ -627,12 +622,13 @@
                     
                     if(!O.mob && O.selAll)O.selAll.removeClass('partial').toggleClass('selected',!!c);
                     O.callChange();
+                    O.setText();
                     O.setPstate();
                 },
 
                 /* outside accessibility options
-                   which can be accessed from the element instance.
-                */
+                 which can be accessed from the element instance.
+                 */
                 reload:function(){
                     var elm = this.unload();
                     return $(elm).SumoSelect(settings);
