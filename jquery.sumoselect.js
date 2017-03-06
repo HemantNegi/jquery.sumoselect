@@ -285,8 +285,8 @@
                                 e.addClass('hidden');
                         }).not('.hidden');
 
-                        P.html(settings.noMatch.replace(/\{0\}/g, O.ftxt.val())).toggle(!hid.length);
-
+                        P.html(settings.noMatch.replace(/\{0\}/g, '<em></em>')).toggle(!hid.length);
+                        P.find('em').text(O.ftxt.val());
                         O.selAllState();
                     });
                 },
