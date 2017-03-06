@@ -3,6 +3,8 @@
 
 .SelectBox {padding: 5px 8px;}
 
+.sumoStopScroll{overflow:hidden;}
+
 /* Filtering style */
 .SumoSelect .hidden { display:none; }
 .SumoSelect .search-txt{display:none;outline:none;}
@@ -36,15 +38,20 @@
          /*Set the height of pop up here (only for desktop mode)*/
             max-height: 250px;
              /*height*/ }
+         .SumoSelect > .optWrapper.okCancelInMulti > .options { border-radius: 2px 2px 0 0;}
+         .SumoSelect > .optWrapper.selall > .options { border-radius: 0 0 2px 2px;}
+         .SumoSelect > .optWrapper.selall.okCancelInMulti > .options { border-radius: 0;}
         .SumoSelect > .optWrapper > .options li.group.disabled > label{opacity:0.5;}
         .SumoSelect > .optWrapper > .options li ul li.opt{padding-left: 22px;}
         .SumoSelect > .optWrapper.multiple > .options li ul li.opt{padding-left: 50px;}
         .SumoSelect > .optWrapper.isFloating > .options {max-height: 100%;box-shadow: 0 0 100px #595959;}
         .SumoSelect > .optWrapper > .options  li.opt { padding: 6px 6px; position: relative;border-bottom: 1px solid #f5f5f5;}
             .SumoSelect > .optWrapper > .options > li.opt:first-child { border-radius: 2px 2px 0 0; }
+            .SumoSelect > .optWrapper.selall > .options > li.opt:first-child { border-radius:0; }
             .SumoSelect > .optWrapper > .options > li.opt:last-child {border-radius: 0 0 2px 2px; border-bottom: none;}
+            .SumoSelect > .optWrapper.okCancelInMulti > .options > li.opt:last-child {border-radius: 0;}
             .SumoSelect > .optWrapper > .options li.opt:hover { background-color: #E4E4E4; }
-            .SumoSelect > .optWrapper > .options li.opt.sel{background-color: #a1c0e4; border-bottom: 1px solid #a1c0e4;}
+            .SumoSelect > .optWrapper > .options li.opt.sel, .SumoSelect .select-all.sel{background-color: #a1c0e4;}
 
             .SumoSelect > .optWrapper > .options li label { text-overflow: ellipsis; white-space: nowrap; overflow: hidden; display: block;cursor: pointer;}
             .SumoSelect > .optWrapper > .options li span { display: none; }
@@ -69,6 +76,7 @@
 
     .SumoSelect > .optWrapper.multiple.okCancelInMulti > .MultiControls { display: block; }
         .SumoSelect > .optWrapper.multiple.okCancelInMulti > .MultiControls > p { padding: 6px; }
+        .SumoSelect > .optWrapper.multiple.okCancelInMulti > .MultiControls > p:focus {box-shadow: 0 0 2px #a1c0e4;border-color: #a1c0e4;outline: none;background-color: #a1c0e4;}
 
     .SumoSelect > .optWrapper.multiple > .MultiControls > p { display: inline-block; cursor: pointer; padding: 12px; width: 50%; box-sizing: border-box; text-align: center; }
         .SumoSelect > .optWrapper.multiple > .MultiControls > p:hover { background-color: #f1f1f1; }
