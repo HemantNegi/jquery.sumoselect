@@ -253,7 +253,7 @@
                     var O = this;
                     if(!O.is_multi)return;
                     O.selAll = $('<p class="select-all"><span><i></i></span><label>' + settings.locale[2] + '</label></p>');
-
+                    O.optDiv.addClass('selall');
                     O.selAll.on('click',function(){
                         O.selAll.toggleClass('selected');
                         O.toggSelAll(O.selAll.hasClass('selected'));
@@ -373,7 +373,10 @@
                 setOnOpen: function () {
                     var O = this,
                         li = O.optDiv.find('li.opt:not(.hidden)').eq(settings.search?0:O.E[0].selectedIndex);
-
+                    if(li.hasClass('disabled')){
+                        li = li.next(':not(disabled)')
+                        if(!li.length) return;
+                     }
                     O.optDiv.find('li.sel').removeClass('sel');
                     li.addClass('sel');
                     O.showOpts();
@@ -425,6 +428,14 @@
                             case 40: // down
                                 O.nav(false);
                                 break;
+
+                            case 65: // shortcut ctrl + a to select all and ctrl + shift + a to unselect all.
+                                if (O.is_multi && e.ctrlKey){
+                                    O.toggSelAll(!e.shiftKey);
+                                    break;
+                                }
+                                else
+                                    return;
 
                             case 32: // space
                                 if(settings.search && O.ftxt.is(e.target))return;

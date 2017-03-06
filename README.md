@@ -4,6 +4,8 @@ jquery.sumoselect
 
 jquery.sumoselect.js - A beautiful cross device Single/Multi Select jQuery Select plugin.
 -------------------------------------------------------------------------------
+A jQuery plugin that progressively enhances an HTML Select Box into a Single/Multiple option dropdown list. The dropdown list can be fully customizable using simple css.
+It can adapt itself according to any device, keeping in mind that the User Experience is not broken. 
 
 View Live [Demo Here](http://hemantnegi.github.io/jquery.sumoselect/sumoselect_demo.html)
 
@@ -11,9 +13,17 @@ Documentaion [Documentation Here](http://hemantnegi.github.io/jquery.sumoselect/
 
 Latest stable :  [Download from here](https://github.com/HemantNegi/jquery.sumoselect/releases)
 
+**CDNJS**
 
-A jQuery plugin that progressively enhances an HTML Select Box into a Single/Multiple option dropdown list. The dropdown list can be fully customizable using simple css.
-It can adapt itself according to any device, keeping in mind that the User Experience is not broken. 
+The folks at CDNJS host a copy of the library. The CDN is updated after the release is made public, which means there is a delay between the publishing of a release and its availability on the CDN, so keep that in mind. Just use these links:
+
+```html
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.sumoselect/3.0.2/sumoselect.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.sumoselect/3.0.2/jquery.sumoselect.min.js"></script>
+```
 
 
 **Notable Features**
