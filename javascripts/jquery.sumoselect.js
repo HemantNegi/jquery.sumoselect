@@ -68,10 +68,12 @@
 
                 createElems: function () {
                     var O = this;
-                    O.E.wrap('<div class="SumoSelect" tabindex="0">');
+                    O.E.wrap('<div class="SumoSelect" tabindex="0" role="button" aria-expanded="false">');
                     O.select = O.E.parent();
                     O.caption = $('<span>');
-                    O.CaptionCont = $('<p class="CaptionCont"><label><i></i></label></p>').addClass('SelectBox').attr('style', O.E.attr('style')).prepend(O.caption);
+                    O.CaptionCont = $('<p class="CaptionCont SelectBox" ><label><i></i></label></p>')
+                        .attr('style', O.E.attr('style'))
+                        .prepend(O.caption);
                     O.select.append(O.CaptionCont);
 
                     // default turn off if no multiselect
@@ -285,8 +287,8 @@
                                 e.addClass('hidden');
                         }).not('.hidden');
 
-                        P.html(settings.noMatch.replace(/\{0\}/g, O.ftxt.val())).toggle(!hid.length);
-
+                        P.html(settings.noMatch.replace(/\{0\}/g, '<em></em>')).toggle(!hid.length);
+                        P.find('em').text(O.ftxt.val());
                         O.selAllState();
                     });
                 },
@@ -311,7 +313,7 @@
                     if (O.E.attr('disabled')) return; // if select is disabled then retrun
                     O.E.trigger('sumo:opening', O);
                     O.is_opened = true;
-                    O.select.addClass('open');
+                    O.select.addClass('open').attr('aria-expanded', 'true');
                     O.E.trigger('sumo:opened', O);
 
                     if(O.ftxt)O.ftxt.focus();
@@ -356,7 +358,7 @@
                     if(O.is_opened){
                         O.E.trigger('sumo:closing', O);
                         O.is_opened = false;
-                        O.select.removeClass('open').find('ul li.sel').removeClass('sel');
+                        O.select.removeClass('open').attr('aria-expanded', 'true').find('ul li.sel').removeClass('sel');
                         O.E.trigger('sumo:closed', O);
                         $(document).off('click.sumo');
                         O.select.focus();
