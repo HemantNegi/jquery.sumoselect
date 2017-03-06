@@ -176,6 +176,8 @@ The following settings are available now:
 
 - `captionFormat` `(string)` Its the format in which you want to see the caption when more than csvDispCount items are selected. its default value is `'{0} Selected'` ( here `{0}` will be replaced by the seletion count )
 
+- `captionFormatAllSelected` `(string)` Format of caption text when all elements are selected. set null to use captionFormat. It will not work if there are disabled elements in select. default is `'{0} all selected!'`
+
 - `floatWidth` `(int)` Minimum screen width of device below which the options list is rendered in floating popup fashion.
 
 - `forceCustomRendering`  `(boolean)` Force the custom modal ( Floating list ) on all devices below floatWidth resolution.
