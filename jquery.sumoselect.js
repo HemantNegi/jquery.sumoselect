@@ -258,8 +258,8 @@
                     O.optDiv.addClass('selall');
                     O.selAll.on('click',function(){
                         O.selAll.toggleClass('selected');
-                        O.toggSelAll(O.selAll.hasClass('selected'));
-                        O.selAllState();
+                        O.toggSelAll(O.selAll.hasClass('selected'), 1);
+                        //O.selAllState();
                     });
 
                     O.optDiv.prepend(O.selAll);
@@ -433,7 +433,7 @@
 
                             case 65: // shortcut ctrl + a to select all and ctrl + shift + a to unselect all.
                                 if (O.is_multi && e.ctrlKey){
-                                    O.toggSelAll(!e.shiftKey);
+                                    O.toggSelAll(!e.shiftKey, 1);
                                     break;
                                 }
                                 else
@@ -640,23 +640,28 @@
                     return O;
                 },
 
-                //toggles alloption on c as boolean.
-                toggSelAll: function (c) {
+                // toggles all option on c as boolean.
+                // set direct=false/0 bypasses okCancelInMulti behaviour.
+                toggSelAll: function (c, direct) {
                     var O = this;
-
-                    O.E.find('option:not(optgroup[disabled="disabled"] option)')
-                    .each(function (ix, el) {
-                        if (el.disabled) return;
-                        el.selected = !!c;
-                        if (!O.mob)
-							$(el).data('li').toggleClass('selected', !!c);
+                    O.optDiv.find('li.opt:not(.hidden,.disabled)')
+                    .each(function(ix,e){
+                        var e = $(e),
+                            is_selected=e.hasClass('selected');
+                        if(!!c){
+                            if(!is_selected)e.trigger('click');
+                        }
+                        else{
+                            if(is_selected)e.trigger('click');
+                        }
                     });
-                    O.setText();
 
-                    if(!O.mob && O.selAll)O.selAll.removeClass('partial').toggleClass('selected',!!c);
-                    O.callChange();
-                    O.setText();
-                    O.setPstate();
+                    if(!direct){
+                        if(!O.mob && O.selAll)O.selAll.removeClass('partial').toggleClass('selected',!!c);
+                        O.callChange();
+                        O.setText();
+                        O.setPstate();
+                    }
                 },
 
                 /* outside accessibility options
