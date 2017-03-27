@@ -280,11 +280,10 @@
 
                     O.ftxt.on('keyup.sumo',function(){
                         var hid = O.optDiv.find('ul.options li.opt').each(function(ix,e){
-                            e = $(e);
-                            if(e.text().toLowerCase().indexOf(O.ftxt.val().toLowerCase()) > -1)
-                                e.removeClass('hidden');
-                            else
-                                e.addClass('hidden');
+                            var e = $(e),
+                                opt = e.data('opt')[0];
+                            opt.hidden = e.text().toLowerCase().indexOf(O.ftxt.val().toLowerCase()) < 0;
+                            e.toggleClass('hidden', opt.hidden);
                         }).not('.hidden');
 
                         P.html(settings.noMatch.replace(/\{0\}/g, '<em></em>')).toggle(!hid.length);
@@ -367,8 +366,7 @@
                         // clear the search
                         if(settings.search){
                             O.ftxt.val('');
-                            O.optDiv.find('ul.options li').removeClass('hidden');
-                            O.optDiv.find('.no-match').toggle(false);
+                            O.ftxt.trigger('keyup.sumo');
                         }
                     }
                 },
@@ -644,10 +642,11 @@
                 // set direct=false/0 bypasses okCancelInMulti behaviour.
                 toggSelAll: function (c, direct) {
                     var O = this;
-                    O.optDiv.find('li.opt:not(.hidden,.disabled)')
+                    O.E.find('option:not(:disabled,:hidden)')
                     .each(function(ix,e){
-                        var e = $(e),
-                            is_selected=e.hasClass('selected');
+                        var is_selected=e.selected,
+                            e = $(e).data('li');
+                        if(e.hasClass('hidden'))return;
                         if(!!c){
                             if(!is_selected)e.trigger('click');
                         }

@@ -4,7 +4,7 @@
     <title></title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-    <script src="jquery.sumoselect.min.js"></script>
+    <script src="jquery.sumoselect.js"></script>
     <link href="sumoselect.css" rel="stylesheet" />
 
     <script type="text/javascript">
@@ -21,6 +21,7 @@
 
 
             window.Search = $('.search-box').SumoSelect({ csvDispCount: 3, search: true, searchText:'Enter here.' });
+            window.sb = $('.SlectBox-grp-src').SumoSelect({ csvDispCount: 3, search: true, searchText:'Enter here.', selectAll:true });
             window.searchSelAll = $('.search-box-sel-all').SumoSelect({ csvDispCount: 3, selectAll:true, search: true, searchText:'Enter here.', okCancelInMulti:true });
             window.searchSelAll = $('.search-box-open-up').SumoSelect({ csvDispCount: 3, selectAll:true, search: false, searchText:'Enter here.', up:true });
 
@@ -384,7 +385,39 @@
        <option value="mitsubishi">Mitsubishi</option>
     </select>
 
-<h1>Over flow hidden test</h1>
+    <select multiple="multiple" placeholder="Hello  im from placeholder" class="SlectBox-grp-src">
+      <option selected value="saab">Saab</option>
+      <option value="opel">Opel</option>
+      <option disabled="disabled" value="mercedez">Mercedez</option>
+      <optgroup label="US Brands">
+        <option value="chrysler">Chrysler</option>
+        <option value="gm">General Motors</option>
+        <option value="ford">Ford</option>
+        <option disabled="disabled" value="plymouth">Plymouth</option>
+      </optgroup>
+      <optgroup label="French Brands">
+        <option value="citroen">Citroën</option>
+        <option value="peugeot">Peugeot</option>
+        <option selected value="renault">Renault</option>
+        <option value="nissan">Nissan</option>
+      </optgroup>
+      <optgroup label="Italian brands">
+        <option value="fiat">Fiat</option>
+        <option value="alpha-Romeo">Alpha Romeo</option>
+        <option value="lamborghini">Lamborghini</option>
+      </optgroup>
+      <optgroup disabled="disabled" label="German brands">
+        <option value="audi">Audi</option>
+        <option value="bMW">BMW</option>
+        <option value="volkswagen">Volkswagen</option>
+      </optgroup>
+      <option value="aston-martin">Aston Martin</option>
+      <option value="hyundai">Hyundai</option>
+      <option value="mitsubishi">Mitsubishi</option>
+    </select>
+
+
+    <h1>Over flow hidden test</h1>
     <style type="text/css">
         .sumo_name_will_become_class{
             position: absolute;
