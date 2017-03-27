@@ -35,7 +35,8 @@
             outputAsCSV: false,           // true to POST data as csv ( false for Html control array ie. default select )
             csvSepChar: ',',              // separation char in csv mode
             okCancelInMulti: false,       // display ok cancel buttons in desktop mode multiselect also.
-            triggerChangeCombined: true,  // im multi select mode wether to trigger change event on individual selection or combined selection.
+            isClickAwayOk: false,         // for okCancelInMulti=true. sets whether click outside will trigger Ok or Cancel (default is cancel).
+            triggerChangeCombined: true,  // im multi select mode whether to trigger change event on individual selection or combined selection.
             selectAll: false,             // to display select all button in multiselect mode.|| also select all will not be available on mobile devices.
 
             search: false,                // to display input for filtering content. selectAlltext will be input text placeholder
@@ -187,26 +188,8 @@
                     var O = this;
                     O.optDiv.addClass('multiple');
                     O.okbtn = $('<p tabindex="0" class="btnOk">'+settings.locale[0]+'</p>').click(function () {
-
                         //if combined change event is set.
-                        if (settings.triggerChangeCombined) {
-
-                            //check for a change in the selection.
-                            changed = false;
-                            if (O.E.find('option:selected').length != O.Pstate.length) {
-                                changed = true;
-                            }
-                            else {
-                                O.E.find('option').each(function (i,e) {
-                                    if(e.selected && O.Pstate.indexOf(i) < 0) changed = true;
-                                });
-                            }
-
-                            if (changed) {
-                                O.callChange();
-                                O.setText();
-                            }
-                        }
+                        O._okbtn();
                         O.hideOpts();
                     });
                     O.cancelBtn = $('<p tabindex="0" class="btnCancel">'+settings.locale[1]+'</p>').click(function () {
@@ -237,6 +220,26 @@
                         });
                 },
 
+                _okbtn:function(){
+                    var O = this, cg = 0;
+                    //if combined change event is set.
+                    if (settings.triggerChangeCombined) {
+                        //check for a change in the selection.
+                        if (O.E.find('option:selected').length != O.Pstate.length) {
+                            cg = 1;
+                        }
+                        else {
+                            O.E.find('option').each(function (i,e) {
+                                if(e.selected && O.Pstate.indexOf(i) < 0) cg = 1;
+                            });
+                        }
+
+                        if (cg) {
+                            O.callChange();
+                            O.setText();
+                        }
+                    }
+                },
                 _cnbtn:function(){
                     var O = this;
                     //remove all selections
@@ -280,11 +283,10 @@
 
                     O.ftxt.on('keyup.sumo',function(){
                         var hid = O.optDiv.find('ul.options li.opt').each(function(ix,e){
-                            e = $(e);
-                            if(e.text().toLowerCase().indexOf(O.ftxt.val().toLowerCase()) > -1)
-                                e.removeClass('hidden');
-                            else
-                                e.addClass('hidden');
+                            var e = $(e),
+                                opt = e.data('opt')[0];
+                            opt.hidden = e.text().toLowerCase().indexOf(O.ftxt.val().toLowerCase()) < 0;
+                            e.toggleClass('hidden', opt.hidden);
                         }).not('.hidden');
 
                         P.html(settings.noMatch.replace(/\{0\}/g, '<em></em>')).toggle(!hid.length);
@@ -325,7 +327,12 @@
                             && O.select.has(e.target).length === 0){ // ... nor a descendant of the container
                             if(!O.is_opened)return;
                             O.hideOpts();
-                            if (settings.okCancelInMulti)O._cnbtn();
+                            if (settings.okCancelInMulti){
+                              if(settings.isClickAwayOk)
+                                O._okbtn();
+                              else
+                                O._cnbtn();
+                            }
                         }
                     });
 
@@ -367,8 +374,7 @@
                         // clear the search
                         if(settings.search){
                             O.ftxt.val('');
-                            O.optDiv.find('ul.options li').removeClass('hidden');
-                            O.optDiv.find('.no-match').toggle(false);
+                            O.ftxt.trigger('keyup.sumo');
                         }
                     }
                 },
@@ -644,10 +650,11 @@
                 // set direct=false/0 bypasses okCancelInMulti behaviour.
                 toggSelAll: function (c, direct) {
                     var O = this;
-                    O.optDiv.find('li.opt:not(.hidden,.disabled)')
+                    O.E.find('option:not(:disabled,:hidden)')
                     .each(function(ix,e){
-                        var e = $(e),
-                            is_selected=e.hasClass('selected');
+                        var is_selected=e.selected,
+                            e = $(e).data('li');
+                        if(e.hasClass('hidden'))return;
                         if(!!c){
                             if(!is_selected)e.trigger('click');
                         }
