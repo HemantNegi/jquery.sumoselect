@@ -188,7 +188,9 @@ The following settings are available now:
 
 - `csvSepChar` `(string)`  Seperation char if `outputAsCSV`  is set to `true`
 
-- `okCancelInMulti` `(boolean)` Displays Ok Cancel buttons in desktop mode multiselect also. 
+- `okCancelInMulti` `(boolean)` Displays Ok Cancel buttons in desktop mode multiselect also.
+
+- `isClickAwayOk` `(false)` for okCancelInMulti=true. sets whether click outside will trigger Ok or Cancel (default is cancel).
 
 - `triggerChangeCombined` `(boolean)` In Multiselect mode whether to trigger change event on individual selection of each item or on combined selection ( pressing of OK or Cancel button ).
 
@@ -222,6 +224,7 @@ The following settings are available now:
     outputAsCSV: false,
     csvSepChar: ',',
     okCancelInMulti: false,
+    isClickAwayOk: false,
     triggerChangeCombined: true,
     selectAll: false,
     search: false,
