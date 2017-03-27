@@ -190,7 +190,7 @@ The following settings are available now:
 
 - `okCancelInMulti` `(boolean)` Displays Ok Cancel buttons in desktop mode multiselect also.
 
-- `isClickAwayOk` `(false)` for okCancelInMulti=true. sets whether click outside will trigger Ok or Cancel (default is cancel).
+- `isClickAwayOk` `(boolean)` for okCancelInMulti=true. sets whether click outside will trigger Ok or Cancel (default is cancel).
 
 - `triggerChangeCombined` `(boolean)` In Multiselect mode whether to trigger change event on individual selection of each item or on combined selection ( pressing of OK or Cancel button ).
 
