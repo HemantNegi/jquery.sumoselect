@@ -26,6 +26,7 @@
         // This is the easiest way to have default options.
         var settings = $.extend({
             placeholder: 'Select Here',   // Dont change it here.
+            captionDispPlaceholder: false,// true to display placeholder before items in caption. 
             csvDispCount: 3,              // display no. of items in multiselect. 0 to display all.
             captionFormat:'{0} Selected', // format of caption text. you can set your locale.
             captionFormatAllSelected:'{0} all selected!', // format of caption text when all elements are selected. set null to use captionFormat. It will not work if there are disabled elements in select.
@@ -499,6 +500,11 @@
                         if (!O.is_multi) O.hideOpts(); //if its not a multiselect then hide on single select.
                     });
                 },
+                
+                getInitedPlaceholder: function () {
+                	var O = this;                	
+                	return (O.E.attr('placeholder')) ? O.E.attr('placeholder') : settings.placeholder;
+                },
 
                 setText: function () {
                     var O = this;
@@ -537,6 +543,9 @@
 
                     O.placeholder = O.placeholder ? (settings.prefix + ' ' + O.placeholder) : settings.placeholder
 
+                    if (settings.captionDispPlaceholder && O.placeholder != O.getInitedPlaceholder()) {
+                    	O.placeholder = O.getInitedPlaceholder() + ((typeof(settings.captionDispPlaceholder) == 'string') ? settings.captionDispPlaceholder : ': ') + O.placeholder;
+                    }
                     //set display text
                     O.caption.html(O.placeholder);
                     if (settings.showTitle) O.CaptionCont.attr('title', O.placeholder);
