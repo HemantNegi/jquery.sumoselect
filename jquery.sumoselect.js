@@ -1,5 +1,5 @@
 /*!
- * jquery.sumoselect - v3.0.3
+ * jquery.sumoselect - v3.0.4
  * http://hemantnegi.github.io/jquery.sumoselect
  * 2016-12-12
  *
@@ -650,11 +650,14 @@
                 // set direct=false/0 bypasses okCancelInMulti behaviour.
                 toggSelAll: function (c, direct) {
                     var O = this;
+                    var cloneOriginalEvents = $.extend(true, {}, $._data( O.E.get(0), "events" )) // clone original select elements events
+                    O.E.off(); // unbind original select elements events because we do not want the following clicks to trigger change on it
                     O.E.find('option:not(:disabled,:hidden)')
                     .each(function(ix,e){
                         var is_selected=e.selected,
                             e = $(e).data('li');
-                        if(e.hasClass('hidden'))return;
+                        if (e.hasClass('hidden')) return;
+
                         if(!!c){
                             if(!is_selected)e.trigger('click');
                         }
@@ -662,10 +665,18 @@
                             if(is_selected)e.trigger('click');
                         }
                     });
+                    
+                    // rebind original select elements events
+                    $.each(cloneOriginalEvents, function (_, e) {
+                        $.each(e, function (_, e) {
+                            O.E.on(e.type, e.handler);
+                        });
+                    });
+
+                    O.callChange(); // call change on original select element
 
                     if(!direct){
                         if(!O.mob && O.selAll)O.selAll.removeClass('partial').toggleClass('selected',!!c);
-                        O.callChange();
                         O.setText();
                         O.setPstate();
                     }
