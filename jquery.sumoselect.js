@@ -66,6 +66,7 @@
                 //backdrop: '',
                 mob:false, // if to open device default select
                 Pstate: [],
+                cooperativeMultitaskingDelegateTimeout: 0, //The value to provide to setTimeout for cooperative multitasking. This ensure that all calls fire in the appropriate sequence. 
 
                 createElems: function () {
                     var O = this;
@@ -235,8 +236,10 @@
                         }
 
                         if (cg) {
-                            O.callChange();
-                            O.setText();
+                            setTimeout(function() {
+                                O.callChange();
+                                O.setText();
+                            }, O.cooperativeMultitaskingDelegateTimeout);
                         }
                     }
                 },
@@ -481,19 +484,28 @@
                         var txt = "";
                         if (O.is_multi) {
                             li.toggleClass('selected');
-                            li.data('opt')[0].selected = li.hasClass('selected');
+
+                            setTimeout(function(li) { li.data('opt')[0].selected = li.hasClass('selected'); },
+                                O.cooperativeMultitaskingDelegateTimeout,
+                                li);
+
                             O.selAllState();
                         }
                         else {
                             li.parent().find('li.selected').removeClass('selected'); //if not multiselect then remove all selections from this list
                             li.toggleClass('selected');
-                            li.data('opt')[0].selected = true;
+
+                            setTimeout(function (li) { li.data('opt')[0].selected = true; },
+                                O.cooperativeMultitaskingDelegateTimeout,
+                                li);
                         }
 
                         //branch for combined change event.
                         if (!(O.is_multi && settings.triggerChangeCombined && (O.is_floating || settings.okCancelInMulti))) {
-                            O.setText();
-                            O.callChange();
+                            setTimeout(function () {
+                                O.setText();
+                                O.callChange();
+                            }, O.cooperativeMultitaskingDelegateTimeout);
                         }
 
                         if (!O.is_multi) O.hideOpts(); //if its not a multiselect then hide on single select.
@@ -608,14 +620,16 @@
                     if (!opt || opt.disabled)
                         return;
 
-                    if(opt.selected != c){
-                        opt.selected = c;
-                        if(!O.mob) $(opt).data('li').toggleClass('selected',c);
+                    if (opt.selected != c) {
+                        if (!O.mob) $(opt).data('li').toggleClass('selected', c);
+                        setTimeout(function(opt, c) {
+                            opt.selected = c;
 
-                        O.callChange();
-                        O.setPstate();
-                        O.setText();
-                        O.selAllState();
+                            O.callChange();
+                            O.setPstate();
+                            O.setText();
+                            O.selAllState();
+                        }, O.cooperativeMultitaskingDelegateTimeout, opt, c);
                     }
                 },
 
@@ -664,10 +678,13 @@
                     });
 
                     if(!direct){
-                        if(!O.mob && O.selAll)O.selAll.removeClass('partial').toggleClass('selected',!!c);
-                        O.callChange();
-                        O.setText();
-                        O.setPstate();
+                        if (!O.mob && O.selAll) O.selAll.removeClass('partial').toggleClass('selected', !!c);
+
+                        setTimeout(function () {
+                            O.callChange();
+                            O.setText();
+                            O.setPstate();
+                        }, O.cooperativeMultitaskingDelegateTimeout);
                     }
                 },
 
