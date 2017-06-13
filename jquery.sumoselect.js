@@ -725,6 +725,14 @@
                     O.setText();
                 },
 
+                //## Remove all items of the select.
+                removeAll: function () {
+                    var O = this;
+                    O.E.find('option').remove();
+                    if (!O.mob)O.optDiv.find('ul.options li').remove();
+                    O.setText();
+                },
+
                 //## Select an item at a given index.
                 selectItem: function (i) { this.toggSel(true, i); },
 
