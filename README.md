@@ -98,22 +98,22 @@ The folks at CDNJS host a copy of the library. The CDN is updated after the rele
 
    - Lots of bug Fixings..
 
-##Requirements
+## Requirements
 jQuery 1.8.3+ (It is always recommended to use the latest version of jQuery)
 
 
-##Desktop Browser Support
+## Desktop Browser Support
 IE8+, Firefox 4+, Chrome, Safari 4+, Opera 11+ (Other browsers may work, but I did not test on them)
 
 
-##Mobile/Tablet Browser Support
+## Mobile/Tablet Browser Support
 iOs 3+, Android 2.1+ , Windows Mobile (Other browsers may work, but I did not test on them)
 
 
-##Forking
+## Forking
 If you find that you need a feature that SumoSelect does not currently support, either let me know via the SumoSelect issue tracker, or fork SumoSelect on Github and easily extend SumoSelect to create your own widget!
 
-##Usage
+## Usage
 
 *To just go with the default options simply do*
 
@@ -151,7 +151,7 @@ You can perform all the operations on underlying original select and then reload
 	$('select.SlectBox')[0].sumo.reload();
 ```
 
-#####You can bind your handlers to some sumoselect specific events eg.
+##### You can bind your handlers to some sumoselect specific events eg.
 ```javascript
 $('select.SlectBox').on('sumo:opened', function(sumo) {
    // Do stuff here
