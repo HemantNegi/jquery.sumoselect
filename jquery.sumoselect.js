@@ -24,7 +24,7 @@
     $.fn.SumoSelect = function (options) {
 
         // This is the easiest way to have default options.
-        var settings = $.extend({
+        var defaultOptions = {
             placeholder: 'Select Here',   // Dont change it here.
             csvDispCount: 3,              // display no. of items in multiselect. 0 to display all.
             captionFormat:'{0} Selected', // format of caption text. you can set your locale.
@@ -46,11 +46,13 @@
             locale: ['OK', 'Cancel', 'Select All'],  // all text that is used. don't change the index.
             up: false,                    // set true to open upside.
             showTitle: true               // set to false to prevent title (tooltip) from appearing
-        }, options);
+        };
 
         var ret = this.each(function () {
             var selObj = this; // the original select object.
             if (this.sumo || !$(this).is('select')) return; //already initialized
+            
+            var settings = $.extend({}, defaultOptions, options, $(this).data());
 
             this.sumo = {
                 E: $(selObj),   //the jquery object of original select element.
