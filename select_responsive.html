@@ -22,7 +22,10 @@
             window.sb = $('.SlectBox-grp-src').SumoSelect({ csvDispCount: 3, search: true, searchText:'Enter here.', selectAll:true });
             window.searchSelAll = $('.search-box-sel-all').SumoSelect({ csvDispCount: 3, selectAll:true, search: true, searchText:'Enter here.', okCancelInMulti:true });
             window.searchSelAll = $('.search-box-open-up').SumoSelect({ csvDispCount: 3, selectAll:true, search: false, searchText:'Enter here.', up:true });
-            window.Search = $('.search-box-custom-fn').SumoSelect({ csvDispCount: 3, search: true, searchText:'Enter here.', searchFn: function(haystack, needle) { return !haystack.match(RegExp('^' + needle.replace(/([^\w\d])/gi, '\\$1'), 'i'), 'i'); } });
+            window.Search = $('.search-box-custom-fn').SumoSelect({ csvDispCount: 3, search: true, searchText:'Enter here.', searchFn: function(haystack, needle) {
+              var re = RegExp('^' + needle.replace(/([^\w\d])/gi, '\\$1'), 'i');
+              return !haystack.match(re);
+            } });
 
             window.groups_eg_g = $('.groups_eg_g').SumoSelect({selectAll:true, search:true });
 
