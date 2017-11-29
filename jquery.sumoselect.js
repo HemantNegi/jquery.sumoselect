@@ -41,6 +41,9 @@
 
             search: false,                // to display input for filtering content. selectAlltext will be input text placeholder
             searchText: 'Search...',      // placeholder for search input
+            searchFn: function(haystack, needle) { // search function
+                return haystack.toLowerCase().indexOf(needle.toLowerCase()) < 0;
+            },
             noMatch: 'No matches for "{0}"',
             prefix: '',                   // some prefix usually the field name. eg. '<b>Hello</b>'
             locale: ['OK', 'Cancel', 'Select All'],  // all text that is used. don't change the index.
@@ -272,7 +275,8 @@
                 Search: function(){
                     var O = this,
                         cc = O.CaptionCont.addClass('search'),
-                        P = $('<p class="no-match">');
+                        P = $('<p class="no-match">'),
+                        fn = (options.searchFn && typeof options.searchFn == 'function') ? options.searchFn : settings.searchFn;
 
                     O.ftxt = $('<input type="text" class="search-txt" value="" placeholder="' + settings.searchText + '">')
                         .on('click', function(e){
@@ -285,7 +289,7 @@
                         var hid = O.optDiv.find('ul.options li.opt').each(function(ix,e){
                             var e = $(e),
                                 opt = e.data('opt')[0];
-                            opt.hidden = e.text().toLowerCase().indexOf(O.ftxt.val().toLowerCase()) < 0;
+                            opt.hidden = fn(e.text(), O.ftxt.val());
                             e.toggleClass('hidden', opt.hidden);
                         }).not('.hidden');
 
