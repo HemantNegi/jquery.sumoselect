@@ -506,8 +506,8 @@
                     if (O.is_multi) {
                         var sels = O.E.find(':selected').not(':disabled'); //selected options.
 
-                        for (i = 0; i < sels.length; i++) {
-                            if (var i + 1 >= settings.csvDispCount && settings.csvDispCount) {
+                        for (var i = 0; i < sels.length; i++) {
+                            if (i + 1 >= settings.csvDispCount && settings.csvDispCount) {
                                 if (sels.length == O.E.find('option').length && settings.captionFormatAllSelected) {
                                     O.placeholder = settings.captionFormatAllSelected.replace(/\{0\}/g, sels.length)+',';
                                 } else {
