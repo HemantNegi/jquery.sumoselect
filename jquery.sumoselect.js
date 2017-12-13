@@ -304,8 +304,8 @@
                             if (!$(e).hasClass('disabled')) vc++;
                         });
                         //select all checkbox state change.
-                        if (sc == vc) O.selAll.removeClass('partial').addClass('selected');
-                        else if (sc == 0) O.selAll.removeClass('selected partial');
+                        if (sc === vc) O.selAll.removeClass('partial').addClass('selected');
+                        else if (sc === 0) O.selAll.removeClass('selected partial');
                         else O.selAll.addClass('partial')//.removeClass('selected');
                     }
                 },
@@ -694,18 +694,18 @@
 
                 //## add a new option to select at a given index.
                 add: function (val, txt, i) {
-                    if (typeof val == "undefined") throw "No value to add"
+                    if (typeof val === "undefined") throw "No value to add"
 
                     var O = this;
                     opts=O.E.find('option')
-                    if (typeof txt == "number") { i = txt; txt = val; }
-                    if (typeof txt == "undefined") { txt = val; }
+                    if (typeof txt === "number") { i = txt; txt = val; }
+                    if (typeof txt === "undefined") { txt = val; }
 
                     opt = $("<option></option>").val(val).html(txt);
 
                     if (opts.length < i) throw "index out of bounds"
 
-                    if (typeof i == "undefined" || opts.length == i) { // add it to the last if given index is last no or no index provides.
+                    if (typeof i === "undefined" || opts.length === i) { // add it to the last if given index is last no or no index provides.
                         O.E.append(opt);
                         if(!O.mob)O.ul.append(O.createLi(opt));
                     }
@@ -765,7 +765,7 @@
             selObj.sumo.init();
         });
 
-        return ret.length == 1 ? ret[0] : ret;
+        return ret.length === 1 ? ret[0] : ret;
     };
 
 
