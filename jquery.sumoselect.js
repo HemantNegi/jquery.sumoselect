@@ -49,6 +49,7 @@
             locale: ['OK', 'Cancel', 'Select All'],  // all text that is used. don't change the index.
             up: false,                    // set true to open upside.
             showTitle: true               // set to false to prevent title (tooltip) from appearing
+            selectedFirst: false          // Show on top of list previously selected itmems
         }, options);
 
         var ret = this.each(function () {
@@ -136,6 +137,12 @@
 
                 prepItems: function (opts, d) {
                     var lis = [], O = this;
+                    if(settings.selectedFirst)
+                        opts.sort(function(a,b){
+                            if(a.selected && !b.selected) return -1;
+                            if(b.selected && !a.selected) return 1;
+                            return 0;
+                        });
                     $(opts).each(function (i, opt) {       // parsing options to li
                         opt = $(opt);
                         lis.push(opt.is('optgroup') ?
