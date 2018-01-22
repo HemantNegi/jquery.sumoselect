@@ -48,7 +48,7 @@
             prefix: '',                   // some prefix usually the field name. eg. '<b>Hello</b>'
             locale: ['OK', 'Cancel', 'Select All'],  // all text that is used. don't change the index.
             up: false,                    // set true to open upside.
-            showTitle: true               // set to false to prevent title (tooltip) from appearing
+            showTitle: true,              // set to false to prevent title (tooltip) from appearing
             selectedFirst: false          // Show on top of list previously selected itmems
         }, options);
 
