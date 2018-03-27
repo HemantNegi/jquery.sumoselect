@@ -652,7 +652,7 @@
                     var O = this;
                     var cloneOriginalEvents = $.extend(true, {}, $._data( O.E.get(0), "events" )) // clone original select elements events
                     O.E.off(); // unbind original select elements events because we do not want the following clicks to trigger change on it
-                    O.E.find('option:not(:disabled,:hidden)')
+                    O.E.find('option:not(:disabled), option:not(:hidden)')
                     .each(function(ix,e){
                         var is_selected=e.selected,
                             e = $(e).data('li');
