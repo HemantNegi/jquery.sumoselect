@@ -530,7 +530,11 @@
                         O.placeholder = O.placeholder.replace(/,([^,]*)$/, '$1'); //remove unexpected "," from last.
                     }
                     else {
-                        O.placeholder = O.E.find(':selected').not(':disabled').text();
+                        if ( settings.placeholder ) {
+                            O.placeholder = settings.placeholder;
+                        } else {
+                            O.placeholder = O.E.find(':selected').not(':disabled').text();
+                        }
                     }
 
                     var is_placeholder = false;
