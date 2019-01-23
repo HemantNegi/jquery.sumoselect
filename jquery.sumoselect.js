@@ -362,7 +362,10 @@
                 },
 
                 callChange: function () {
-                    this.E.trigger('change').trigger('click');
+					this.E.get().forEach(e => {
+						e.dispatchEvent(new Event('change'));
+						e.dispatchEvent(new Event('click'));
+					});
                 },
 
                 hideOpts: function () {
