@@ -82,7 +82,7 @@
                     O.select.append(O.CaptionCont);
 
                     // default turn off if no multiselect
-                    if (!O.is_multi) settings.okCancelInMulti = false
+                    if (!O.is_multi) settings.okCancelInMulti = false;
 
                     if (O.E.attr('disabled'))
                         O.select.addClass('disabled').removeAttr('tabindex');
@@ -103,7 +103,7 @@
                     }
 
                     // if there is a name attr in select add a class to container div
-                    if (O.E.attr('name')) O.select.addClass('sumo_' + O.E.attr('name').replace(/\[\]/, ''))
+                    if (O.E.attr('name')) O.select.addClass('sumo_' + O.E.attr('name').replace(/\[\]/, ''));
 
                     //hide original select
                     O.E.addClass('SumoUnder').attr('tabindex', '-1');
@@ -248,7 +248,7 @@
                     var O = this;
                     //remove all selections
                     O.E.find('option:selected').each(function () { this.selected = false; });
-                    O.optDiv.find('li.selected').removeClass('selected')
+                    O.optDiv.find('li.selected').removeClass('selected');
 
                     //restore selections from saved state.
                     for (var i = 0; i < O.Pstate.length; i++) {
@@ -311,7 +311,7 @@
                         //select all checkbox state change.
                         if (sc === vc) O.selAll.removeClass('partial').addClass('selected');
                         else if (sc === 0) O.selAll.removeClass('selected partial');
-                        else O.selAll.addClass('partial')//.removeClass('selected');
+                        else O.selAll.addClass('partial');//.removeClass('selected');
                     }
                 },
 
@@ -387,7 +387,7 @@
                     var O = this,
                         li = O.optDiv.find('li.opt:not(.hidden)').eq(settings.search ? 0 : O.E[0].selectedIndex);
                     if (li.hasClass('disabled')) {
-                        li = li.next(':not(disabled)')
+                        li = li.next(':not(disabled)');
                         if (!li.length) return;
                     }
                     O.optDiv.find('li.sel').removeClass('sel');
@@ -544,7 +544,7 @@
                             O.placeholder = O.E.find('option:disabled:selected').text();
                     }
 
-                    O.placeholder = O.placeholder ? (settings.prefix + ' ' + O.placeholder) : settings.placeholder
+                    O.placeholder = O.placeholder ? (settings.prefix + ' ' + O.placeholder) : settings.placeholder;
 
                     //set display text
                     O.caption.html(O.placeholder);
@@ -571,7 +571,7 @@
 
                 setNativeMobile: function () {
                     var O = this;
-                    O.E.addClass('SelectClass')//.css('height', O.select.outerHeight());
+                    O.E.addClass('SelectClass');//.css('height', O.select.outerHeight());
                     O.mob = true;
                     O.E.change(function () {
                         O.setText();
@@ -599,7 +599,7 @@
                 vRange: function (i) {
                     var O = this;
                     var opts = O.E.find('option');
-                    if (opts.length <= i || i < 0) throw "index out of bounds"
+                    if (opts.length <= i || i < 0) throw "index out of bounds";
                     return O;
                 },
 
@@ -703,16 +703,16 @@
 
                 //## add a new option to select at a given index.
                 add: function (val, txt, i) {
-                    if (typeof val === "undefined") throw "No value to add"
+                    if (typeof val === "undefined") throw "No value to add";
 
                     var O = this;
-                    var opts = O.E.find('option')
+                    var opts = O.E.find('option');
                     if (typeof txt === "number") { i = txt; txt = val; }
                     if (typeof txt === "undefined") { txt = val; }
 
                     var opt = $("<option></option>").val(val).html(txt);
 
-                    if (opts.length < i) throw "index out of bounds"
+                    if (opts.length < i) throw "index out of bounds";
 
                     if (typeof i === "undefined" || opts.length === i) { // add it to the last if given index is last no or no index provides.
                         O.E.append(opt);
@@ -774,26 +774,26 @@
                 unSelectAll: function () { this.toggSelAll(false); },
 
                 //## Disable an iten at a given index.
-                disableItem: function (i) { this.toggDis(true, i) },
+                disableItem: function (i) { this.toggDis(true, i); },
 
                 //## Removes disabled an iten at a given index.
-                enableItem: function (i) { this.toggDis(false, i) },
+                enableItem: function (i) { this.toggDis(false, i); },
 
                 //## New simple methods as getter and setter are not working fine in ie8-
                 //## variable to check state of control if enabled or disabled.
                 enabled: true,
                 //## Enables the control
-                enable: function () { return this.toggSumo(false) },
+                enable: function () { return this.toggSumo(false); },
 
                 //## Disables the control
-                disable: function () { return this.toggSumo(true) },
+                disable: function () { return this.toggSumo(true); },
 
 
                 init: function () {
                     var O = this;
                     O.createElems();
                     O.setText();
-                    return O
+                    return O;
                 }
 
             };
