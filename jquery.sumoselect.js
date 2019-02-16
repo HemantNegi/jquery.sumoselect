@@ -43,6 +43,7 @@
 			sumoStopScroll: true, // allows you to control the scroll lock in mobile view when list is open (dico mod)
 			addOption: false, // adding your custom options in search mode by pressing Enter button (dico mod)
 			allowFloating: true, // floating class control in mobile view (dico mod)
+			scrollToInput: false, // scroll to input form when list is opened [true or Value is subtracted from height (60 etc.)] (dico mod)
 			
             search: false,                // to display input for filtering content. selectAlltext will be input text placeholder
             searchText: 'Search...',      // placeholder for search input
@@ -339,6 +340,13 @@
 
                 showOpts: function () {
                     var O = this;
+					// Scroll to input when opened list (dico mod)
+					if (settings.scrollToInput) {
+						destination = O.select.offset().top;
+							$('html, body').animate({
+								scrollTop: (destination - settings.scrollToInput)
+							}, 1000);
+					}
                     if (O.E.attr('disabled')) return; // if select is disabled then retrun
                     O.E.trigger('sumo:opening', O);
                     O.is_opened = true;
