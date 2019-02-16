@@ -4,6 +4,8 @@ jquery.sumoselect
 
 jquery.sumoselect.js - A beautiful cross device Single/Multi Select jQuery Select plugin.
 -------------------------------------------------------------------------------
+A jQuery plugin that progressively enhances an HTML Select Box into a Single/Multiple option dropdown list. The dropdown list can be fully customizable using simple css.
+It can adapt itself according to any device, keeping in mind that the User Experience is not broken. 
 
 View Live [Demo Here](http://hemantnegi.github.io/jquery.sumoselect/sumoselect_demo.html)
 
@@ -11,9 +13,17 @@ Documentaion [Documentation Here](http://hemantnegi.github.io/jquery.sumoselect/
 
 Latest stable :  [Download from here](https://github.com/HemantNegi/jquery.sumoselect/releases)
 
+**CDNJS**
 
-A jQuery plugin that progressively enhances an HTML Select Box into a Single/Multiple option dropdown list. The dropdown list can be fully customizable using simple css.
-It can adapt itself according to any device, keeping in mind that the User Experience is not broken. 
+The folks at CDNJS host a copy of the library. The CDN is updated after the release is made public, which means there is a delay between the publishing of a release and its availability on the CDN, so keep that in mind. Just use these links:
+
+```html
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.sumoselect/3.0.2/sumoselect.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.sumoselect/3.0.2/jquery.sumoselect.min.js"></script>
+```
 
 
 **Notable Features**
@@ -88,22 +98,22 @@ It can adapt itself according to any device, keeping in mind that the User Exper
 
    - Lots of bug Fixings..
 
-##Requirements
+## Requirements
 jQuery 1.8.3+ (It is always recommended to use the latest version of jQuery)
 
 
-##Desktop Browser Support
+## Desktop Browser Support
 IE8+, Firefox 4+, Chrome, Safari 4+, Opera 11+ (Other browsers may work, but I did not test on them)
 
 
-##Mobile/Tablet Browser Support
+## Mobile/Tablet Browser Support
 iOs 3+, Android 2.1+ , Windows Mobile (Other browsers may work, but I did not test on them)
 
 
-##Forking
+## Forking
 If you find that you need a feature that SumoSelect does not currently support, either let me know via the SumoSelect issue tracker, or fork SumoSelect on Github and easily extend SumoSelect to create your own widget!
 
-##Usage
+## Usage
 
 *To just go with the default options simply do*
 
@@ -141,6 +151,21 @@ You can perform all the operations on underlying original select and then reload
 	$('select.SlectBox')[0].sumo.reload();
 ```
 
+##### You can bind your handlers to some sumoselect specific events eg.
+```javascript
+$('select.SlectBox').on('sumo:opened', function(sumo) {
+   // Do stuff here
+   console.log("Drop down opened", sumo)
+});
+```
+Available events
+
+- `sumo:opened`
+- `sumo:opening`
+- `sumo:closing`
+- `sumo:closed`
+
+
 **Settings**
 
 The following settings are available now:
@@ -150,6 +175,8 @@ The following settings are available now:
 - `csvDispCount` `(int)`  The number of items to be displayed in the widget seperated by a `,` after that the text will be warped as *3+ Selected*. Set `0` for all the options.
 
 - `captionFormat` `(string)` Its the format in which you want to see the caption when more than csvDispCount items are selected. its default value is `'{0} Selected'` ( here `{0}` will be replaced by the seletion count )
+
+- `captionFormatAllSelected` `(string)` Format of caption text when all elements are selected. set null to use captionFormat. It will not work if there are disabled elements in select. default is `'{0} all selected!'`
 
 - `floatWidth` `(int)` Minimum screen width of device below which the options list is rendered in floating popup fashion.
 
@@ -161,7 +188,9 @@ The following settings are available now:
 
 - `csvSepChar` `(string)`  Seperation char if `outputAsCSV`  is set to `true`
 
-- `okCancelInMulti` `(boolean)` Displays Ok Cancel buttons in desktop mode multiselect also. 
+- `okCancelInMulti` `(boolean)` Displays Ok Cancel buttons in desktop mode multiselect also.
+
+- `isClickAwayOk` `(boolean)` for okCancelInMulti=true. sets whether click outside will trigger Ok or Cancel (default is cancel).
 
 - `triggerChangeCombined` `(boolean)` In Multiselect mode whether to trigger change event on individual selection of each item or on combined selection ( pressing of OK or Cancel button ).
 
@@ -179,6 +208,8 @@ The following settings are available now:
 
 - `up` `(boolean)`   the direction in which to open the dropdown (default: false)
 
+- `showTitle` `(boolean)` set to false to prevent title (tooltip) from appearing (deafult `true`)
+
 **The default settings are :**
 
 ```javascript
@@ -193,6 +224,7 @@ The following settings are available now:
     outputAsCSV: false,
     csvSepChar: ',',
     okCancelInMulti: false,
+    isClickAwayOk: false,
     triggerChangeCombined: true,
     selectAll: false,
     search: false,
@@ -200,7 +232,8 @@ The following settings are available now:
     noMatch: 'No matches for "{0}"',
     prefix: '',
     locale: ['OK', 'Cancel', 'Select All'],
-    up: false 
+    up: false,
+    showTitle: true
 }
 ```
 

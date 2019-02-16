@@ -9,19 +9,31 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            window.asd = $('.SlectBox').SumoSelect({ csvDispCount: 3, captionFormatAllSelected: "Yeah, OK, so everything." });
+            window.asd = $('.SlectBox').SumoSelect({ csvDispCount: 3, selectAll:true, captionFormatAllSelected: "Yeah, OK, so everything." });
             window.test = $('.testsel').SumoSelect({okCancelInMulti:true, captionFormatAllSelected: "Yeah, OK, so everything." });
-            window.testSelAll = $('.testSelAll').SumoSelect({okCancelInMulti:true, selectAll:true });
-            window.testSelAlld = $('.SlectBox-grp').SumoSelect({okCancelInMulti:true, selectAll:true });
 
-            window.testSelAll2 = $('.testSelAll2').SumoSelect({selectAll:true });
-           
+            window.testSelAll = $('.testSelAll').SumoSelect({okCancelInMulti:true, selectAll:true });
+
+            window.testSelAll2 = $('.testSelAll2').SumoSelect({selectAll:true});
+
+            window.testSelAlld = $('.SlectBox-grp').SumoSelect({okCancelInMulti:true, selectAll:true, isClickAwayOk:true });
 
             window.Search = $('.search-box').SumoSelect({ csvDispCount: 3, search: true, searchText:'Enter here.' });
+            window.sb = $('.SlectBox-grp-src').SumoSelect({ csvDispCount: 3, search: true, searchText:'Enter here.', selectAll:true });
             window.searchSelAll = $('.search-box-sel-all').SumoSelect({ csvDispCount: 3, selectAll:true, search: true, searchText:'Enter here.', okCancelInMulti:true });
             window.searchSelAll = $('.search-box-open-up').SumoSelect({ csvDispCount: 3, selectAll:true, search: false, searchText:'Enter here.', up:true });
+            window.Search = $('.search-box-custom-fn').SumoSelect({ csvDispCount: 3, search: true, searchText:'Enter here.', searchFn: function(haystack, needle) {
+              var re = RegExp('^' + needle.replace(/([^\w\d])/gi, '\\$1'), 'i');
+              return !haystack.match(re);
+            } });
 
             window.groups_eg_g = $('.groups_eg_g').SumoSelect({selectAll:true, search:true });
+
+
+            $('.SlectBox').on('sumo:opened', function(o) {
+              console.log("dropdown opened", o)
+            });
+
         });
     </script>
     <style type="text/css">
@@ -35,10 +47,12 @@
     <select name="somename" class="SlectBox" onclick="console.log($(this).val())" onchange="console.log('change is firing')">
         <option disabled="disabled" selected="selected">disabled selected</option>
         <!--placeholder-->
-        <option value="volvo">Volvo</option>
+        <option title="Volvo is a car"  value="volvo">Volvo</option>
         <option value="saab">Saab</option>
         <option value="mercedes">Mercedes</option>
         <option value="audi">Audi</option>
+        <option value="4">5</option>
+        <option value="9">10</option>
     </select>
     &nbsp;&nbsp;&nbsp;
 
@@ -89,8 +103,8 @@
         &nbsp;&nbsp;&nbsp;
 
         &nbsp;&nbsp;&nbsp;  This is a inline select element
-        
-        <select multiple="multiple" placeholder="Hello  im from placeholder" class="SlectBox" required>
+
+        <select multiple="multiple" onchange="console.log('changed', this)" placeholder="Hello  im from placeholder" class="SlectBox" required>
        <option value="volvo">Volvo</option>
        <option value="saab">Saab</option>
        <option value="mercedes">Mercedes</option>
@@ -189,7 +203,7 @@
 
 
 </select>
-		
+
     <h1>Groups</h1>
 
     <select multiple="multiple" placeholder="Hello  im from placeholder" class="SlectBox-grp">
@@ -222,8 +236,8 @@
       <option value="hyundai">Hyundai</option>
       <option value="mitsubishi">Mitsubishi</option>
     </select>
-	
-	
+
+
 	 <select placeholder="Hello  im from placeholder" class="SlectBox">
       <option selected value="saab">Saab</option>
       <option value="opel">Opel</option>
@@ -254,8 +268,8 @@
       <option value="hyundai">Hyundai</option>
       <option value="mitsubishi">Mitsubishi</option>
     </select>
-	
-	
+
+
 	 <select  placeholder="Hello  im from placeholder" class="groups_eg">
       <option class="hemant" selected value="saab">Saab</option>
       <option class="hemant" value="opel">Opel</option>
@@ -271,7 +285,7 @@
         <option value="peugeot">Peugeot</option>
         <option selected value="renault">Renault</option>
         <option value="nissan">Nissan</option>
-      </optgroup>  
+      </optgroup>
       <optgroup disabled="disabled" label="German brands">
         <option value="audi">Audi</option>
         <option value="bMW">BMW</option>
@@ -287,8 +301,8 @@
       <option value="mitsubishi">Mitsubishi</option>
     </select>
 
-  
-  
+
+
    <select multiple="multiple"  placeholder="Hello  im from placeholder" class="groups_eg_g">
       <option class="hemant" selected value="saab">Saab</option>
       <option class="hemant" value="opel">Opel</option>
@@ -304,7 +318,7 @@
         <option value="peugeot">Peugeot</option>
         <option selected value="renault">Renault</option>
         <option value="nissan">Nissan</option>
-      </optgroup>  
+      </optgroup>
       <optgroup disabled="disabled" label="German brands">
         <option value="audi">Audi</option>
         <option value="bMW">BMW</option>
@@ -373,7 +387,72 @@
        <option value="mitsubishi">Mitsubishi</option>
     </select>
 
-<h1>Over flow hidden test</h1>
+    <select multiple="multiple" placeholder="Hello  im from placeholder" class="SlectBox-grp-src">
+      <option selected value="saab">Saab</option>
+      <option value="opel">Opel</option>
+      <option disabled="disabled" value="mercedez">Mercedez</option>
+      <optgroup label="US Brands">
+        <option value="chrysler">Chrysler</option>
+        <option value="gm">General Motors</option>
+        <option value="ford">Ford</option>
+        <option disabled="disabled" value="plymouth">Plymouth</option>
+      </optgroup>
+      <optgroup label="French Brands">
+        <option value="citroen">Citroën</option>
+        <option value="peugeot">Peugeot</option>
+        <option selected value="renault">Renault</option>
+        <option value="nissan">Nissan</option>
+      </optgroup>
+      <optgroup label="Italian brands">
+        <option value="fiat">Fiat</option>
+        <option value="alpha-Romeo">Alpha Romeo</option>
+        <option value="lamborghini">Lamborghini</option>
+      </optgroup>
+      <optgroup disabled="disabled" label="German brands">
+        <option value="audi">Audi</option>
+        <option value="bMW">BMW</option>
+        <option value="volkswagen">Volkswagen</option>
+      </optgroup>
+      <option value="aston-martin">Aston Martin</option>
+      <option value="hyundai">Hyundai</option>
+      <option value="mitsubishi">Mitsubishi</option>
+    </select>
+
+    <h2>Search via custom search function</h2>
+
+   <select  placeholder="Hello  im from placeholder" class="search-box-custom-fn">
+      <option class="hemant" selected value="saab">Saab</option>
+      <option class="hemant" value="opel">Opel</option>
+      <option disabled="disabled" value="mercedez">Mercedez</option>
+      <optgroup label="US Brands">
+        <option value="chrysler">Chrysler</option>
+        <option value="gm">General Motors</option>
+        <option value="ford">Ford</option>
+        <option disabled="disabled" value="plymouth">Plymouth</option>
+      </optgroup>
+      <optgroup label="French Brands">
+        <option value="citroen">Citroën</option>
+        <option value="peugeot">Peugeot</option>
+        <option selected value="renault">Renault</option>
+        <option value="nissan">Nissan</option>
+      </optgroup>
+      <optgroup label="Italian brands">
+        <option value="fiat">Fiat</option>
+        <option value="alpha-Romeo">Alpha Romeo</option>
+        <option value="lamborghini">Lamborghini</option>
+      </optgroup>
+      <optgroup disabled="disabled" label="German brands">
+        <option value="audi">Audi</option>
+        <option value="bMW">BMW</option>
+        <option value="volkswagen">Volkswagen</option>
+      </optgroup>
+      <option value="aston-martin">Aston Martin</option>
+      <option value="hyundai">Hyundai</option>
+      <option value="mitsubishi">Mitsubishi</option>
+    </select>
+
+
+    <h1>Over flow hidden test</h1>
     <style type="text/css">
         .sumo_name_will_become_class{
             position: absolute;
@@ -489,6 +568,6 @@
 </td>
                 </tr>
             </table>
- 
+
 </body>
 </html>
