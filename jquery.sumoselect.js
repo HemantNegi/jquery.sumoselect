@@ -7,7 +7,6 @@
  * Email : hemant.frnz@gmail.com
  * Compressor http://refresh-sf.com/
  */
- 
 
 (function ($) {
 
