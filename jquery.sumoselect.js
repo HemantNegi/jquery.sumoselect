@@ -40,6 +40,7 @@
             selectAll: false,             // to display select all button in multiselect mode.|| also select all will not be available on mobile devices.
 
 			scrollToSelectedOption: true, // display selected element on top (dico mod)
+			sumoStopScroll: true, // allows you to control the scroll lock in mobile view when list is open (dico mod)
 			
             search: false,                // to display input for filtering content. selectAlltext will be input text placeholder
             searchText: 'Search...',      // placeholder for search input
@@ -356,7 +357,7 @@
                         var H = O.optDiv.children('ul').outerHeight() + 2;  // +2 is clear fix
                         if (O.is_multi) H = H + parseInt(O.optDiv.css('padding-bottom'));
                         O.optDiv.css('height', H);
-                        $('body').addClass('sumoStopScroll');
+                        if (settings.sumoStopScroll) $('body').addClass('sumoStopScroll'); // scroll blocking param (dico mod)
                     }
 
                     O.setPstate();
