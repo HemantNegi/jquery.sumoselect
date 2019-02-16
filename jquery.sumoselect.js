@@ -42,6 +42,7 @@
 			scrollToSelectedOption: true, // display selected element on top (dico mod)
 			sumoStopScroll: true, // allows you to control the scroll lock in mobile view when list is open (dico mod)
 			addOption: false, // adding your custom options in search mode by pressing Enter button (dico mod)
+			allowFloating: true, // floating class control in mobile view (dico mod)
 			
             search: false,                // to display input for filtering content. selectAlltext will be input text placeholder
             searchText: 'Search...',      // placeholder for search input
@@ -615,7 +616,8 @@
                     O.is_floating = $(window).width() <= settings.floatWidth;
 
                     //set class isFloating
-                    O.optDiv.toggleClass('isFloating', O.is_floating);
+					if (settings.allowFloating) // Allow Floating in mobile view (dico mod)
+						O.optDiv.toggleClass('isFloating', O.is_floating);
 
                     //remove height if not floating
                     if (!O.is_floating) O.optDiv.css('height', '');
