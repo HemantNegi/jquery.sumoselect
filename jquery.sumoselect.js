@@ -41,6 +41,7 @@
 
 			scrollToSelectedOption: true, // display selected element on top (dico mod)
 			sumoStopScroll: true, // allows you to control the scroll lock in mobile view when list is open (dico mod)
+			addOption: false, // adding your custom options in search mode by pressing Enter button (dico mod)
 			
             search: false,                // to display input for filtering content. selectAlltext will be input text placeholder
             searchText: 'Search...',      // placeholder for search input
@@ -282,7 +283,24 @@
                         P = $('<p class="no-match">'),
                         fn = (options.searchFn && typeof options.searchFn == 'function') ? options.searchFn : settings.searchFn;
 
-                    O.ftxt = $('<input type="text" class="search-txt" value="" placeholder="' + settings.searchText + '">')
+						// Adding option by Enter (dico mod)
+						if (settings.addOption) {
+							sumoAdd = " sumo-add";
+							$(document).off('keyup', '.sumo-add');
+							$(document).on('keyup', '.sumo-add', function(event) {
+								if(event.keyCode == 13) {
+									newopt = $(this).val();
+									var sumoFind = $(this).parents('.SumoSelect').find('select');
+									sumoFind[0].sumo.add(newopt);
+									//sumoFind[0].sumo.unSelectAll();
+									sumoFind[0].sumo.selectItem(newopt);
+									sumoFind[0].sumo.reload();
+								}
+							});
+						}
+						else sumoAdd = '';
+						
+                    O.ftxt = $('<input type="text" class="search-txt' + sumoAdd + '" value="" placeholder="' + settings.searchText + '">')
                         .on('click', function (e) {
                             e.stopPropagation();
                         });
