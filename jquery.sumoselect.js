@@ -39,6 +39,8 @@
             triggerChangeCombined: true,  // im multi select mode whether to trigger change event on individual selection or combined selection.
             selectAll: false,             // to display select all button in multiselect mode.|| also select all will not be available on mobile devices.
 
+			scrollToSelectedOption: true, // display selected element on top (dico mod)
+			
             search: false,                // to display input for filtering content. selectAlltext will be input text placeholder
             searchText: 'Search...',      // placeholder for search input
             searchFn: function(haystack, needle) { // search function
@@ -326,6 +328,15 @@
                     if (O.ftxt) O.ftxt.focus();
                     else O.select.focus();
 
+					// Scroll to selected option when open (dico mod)
+					if (settings.scrollToSelectedOption) {
+						O.select.find('.options').scrollTop(0);
+						if (O.select.find('.opt.selected').length == 1) {
+							topCount = O.select.find('.opt.selected').position().top;
+							O.select.find('.options').scrollTop( topCount );
+						}
+					}
+					
                     // hide options on click outside.
                     $(document).on('click.sumo', function (e) {
                         if (!O.select.is(e.target)                  // if the target of the click isn't the container...
