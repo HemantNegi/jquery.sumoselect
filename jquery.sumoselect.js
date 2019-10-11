@@ -793,6 +793,7 @@
                     var O = this;
                     O.createElems();
                     O.setText();
+                    setTimeout(function(){ O.E.trigger('sumo:rendered'); }, 100);
                     return O
                 }
 
