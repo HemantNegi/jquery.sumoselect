@@ -271,7 +271,16 @@
 
                     O.optDiv.prepend(O.selAll);
                 },
-
+                deleteAccents: function(string){
+                    string = string.replace(/á/gi, 'a');
+                    string = string.replace(/é/gi, 'e');
+                    string = string.replace(/í/gi, 'i');
+                    string = string.replace(/ó/gi, 'o');
+                    string = string.replace(/ú/gi, 'u');
+                    string = string.replace(/ñ/gi, 'n');
+            
+                    return string;
+                },
                 // search module (can be removed if not required.)
                 Search: function () {
                     var O = this,
@@ -290,7 +299,11 @@
                         var hid = O.optDiv.find('ul.options li.opt').each(function (ix, e) {
                             var e = $(e),
                                 opt = e.data('opt')[0];
-                            opt.hidden = fn(e.text(), O.ftxt.val());
+
+                            let optText = O.deleteAccents(e.text());
+                            let searchText = O.deleteAccents(O.ftxt.val());
+
+                            opt.hidden = fn(optText, searchText);
                             e.toggleClass('hidden', opt.hidden);
                         }).not('.hidden');
 
