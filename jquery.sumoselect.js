@@ -139,7 +139,10 @@
                     $(opts).each(function (i, opt) {       // parsing options to li
                         opt = $(opt);
                         lis.push(opt.is('optgroup') ?
-                            $('<li class="group ' + (opt[0].disabled ? 'disabled' : '') + '"><label>' + opt.attr('label') + '</label><ul></ul></li>')
+                            $('<li class="group ' + (opt[0].disabled ? 'disabled' : '') + '"><label></label><ul></ul></li>')
+                                .find('label')
+                                .text(opt.attr('label'))
+                                .end()
                                 .find('ul')
                                 .append(O.prepItems(opt.children(), opt[0].disabled))
                                 .end()
