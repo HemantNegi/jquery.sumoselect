@@ -1,6 +1,8 @@
 jquery.sumoselect
 =============
 
+### _I am no longer actively maintaining this project. Please reachout to me on hemant.frnz@gmail.com if you want to manage this project._
+
 
 jquery.sumoselect.js - A beautiful cross device Single/Multi Select jQuery Select plugin.
 -------------------------------------------------------------------------------
