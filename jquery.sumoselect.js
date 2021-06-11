@@ -41,7 +41,7 @@
 
             search: false,                // to display input for filtering content. selectAlltext will be input text placeholder
             searchText: 'Search...',      // placeholder for search input
-            searchFn: function(haystack, needle) { // search function
+            searchFn: function (haystack, needle) { // search function
                 return haystack.toLowerCase().indexOf(needle.toLowerCase()) < 0;
             },
             noMatch: 'No matches for "{0}"',
@@ -183,7 +183,9 @@
                 getSelStr: function () {
                     // get the pre selected items.
                     var sopt = [];
-                    this.E.find('option:selected').each(function () { sopt.push($(this).val()); });
+                    this.E.find('option:selected').each(function () {
+                        sopt.push($(this).val());
+                    });
                     return sopt.join(settings.csvSepChar);
                 },
 
@@ -231,8 +233,7 @@
                         //check for a change in the selection.
                         if (O.E.find('option:selected').length !== O.Pstate.length) {
                             cg = 1;
-                        }
-                        else {
+                        } else {
                             O.E.find('option').each(function (i, e) {
                                 if (e.selected && O.Pstate.indexOf(i) < 0) cg = 1;
                             });
@@ -247,7 +248,9 @@
                 _cnbtn: function () {
                     var O = this;
                     //remove all selections
-                    O.E.find('option:selected').each(function () { this.selected = false; });
+                    O.E.find('option:selected').each(function () {
+                        this.selected = false;
+                    });
                     O.optDiv.find('li.selected').removeClass('selected')
 
                     //restore selections from saved state.
@@ -357,7 +360,9 @@
                     if (O.is_multi && (O.is_floating || settings.okCancelInMulti)) {
                         O.Pstate = [];
                         // assuming that find returns elements in tree order
-                        O.E.find('option').each(function (i, e) { if (e.selected) O.Pstate.push(i); });
+                        O.E.find('option').each(function (i, e) {
+                            if (e.selected) O.Pstate.push(i);
+                        });
                     }
                 },
 
@@ -419,8 +424,7 @@
                         if (t < st)
                             ul.scrollTop(t);
 
-                    }
-                    else
+                    } else
                         O.setOnOpen();
                 },
 
@@ -446,8 +450,7 @@
                                 if (O.is_multi && e.ctrlKey) {
                                     O.toggSelAll(!e.shiftKey, 1);
                                     break;
-                                }
-                                else
+                                } else
                                     return;
 
                             case 32: // space
@@ -491,8 +494,7 @@
                                 O.lastUnselected = li.data('opt')[0].textContent;
                             }
                             O.selAllState();
-                        }
-                        else {
+                        } else {
                             li.parent().find('li.selected').removeClass('selected'); //if not multiselect then remove all selections from this list
                             li.toggleClass('selected');
                             li.data('opt')[0].selected = true;
@@ -524,12 +526,10 @@
                                 }
 
                                 break;
-                            }
-                            else O.placeholder += $(sels[i]).text() + ", ";
+                            } else O.placeholder += $(sels[i]).text() + ", ";
                         }
                         O.placeholder = O.placeholder.replace(/,([^,]*)$/, '$1'); //remove unexpected "," from last.
-                    }
-                    else {
+                    } else {
                         O.placeholder = O.E.find(':selected').not(':disabled').text();
                     }
 
@@ -610,8 +610,7 @@
                     if (typeof (i) === "number") {
                         O.vRange(i);
                         opt = O.E.find('option')[i];
-                    }
-                    else {
+                    } else {
                         opt = O.E.find('option[value="' + i + '"]')[0] || 0;
                     }
                     if (!opt || opt.disabled)
@@ -646,8 +645,7 @@
                     if (val) {
                         O.E.attr('disabled', 'disabled');
                         O.select.removeAttr('tabindex');
-                    }
-                    else {
+                    } else {
                         O.E.removeAttr('disabled');
                         O.select.attr('tabindex', '0');
                     }
@@ -666,8 +664,7 @@
                             if (e.hasClass('hidden')) return;
                             if (!!c) {
                                 if (!is_selected) e.trigger('click');
-                            }
-                            else {
+                            } else {
                                 if (is_selected) e.trigger('click');
                             }
                         });
@@ -707,8 +704,13 @@
 
                     var O = this;
                     var opts = O.E.find('option')
-                    if (typeof txt === "number") { i = txt; txt = val; }
-                    if (typeof txt === "undefined") { txt = val; }
+                    if (typeof txt === "number") {
+                        i = txt;
+                        txt = val;
+                    }
+                    if (typeof txt === "undefined") {
+                        txt = val;
+                    }
 
                     var opt = $("<option></option>").val(val).html(txt);
 
@@ -717,8 +719,7 @@
                     if (typeof i === "undefined" || opts.length === i) { // add it to the last if given index is last no or no index provides.
                         O.E.append(opt);
                         if (!O.mob) O.ul.append(O.createLi(opt));
-                    }
-                    else {
+                    } else {
                         opts.eq(i).before(opt);
                         if (!O.mob) O.ul.find('li.opt').eq(i).before(O.createLi(opt));
                     }
@@ -762,31 +763,47 @@
                 },
 
                 //## Select an item at a given index.
-                selectItem: function (i) { this.toggSel(true, i); },
+                selectItem: function (i) {
+                    this.toggSel(true, i);
+                },
 
                 //## UnSelect an iten at a given index.
-                unSelectItem: function (i) { this.toggSel(false, i); },
+                unSelectItem: function (i) {
+                    this.toggSel(false, i);
+                },
 
                 //## Select all items  of the select.
-                selectAll: function () { this.toggSelAll(true); },
+                selectAll: function () {
+                    this.toggSelAll(true);
+                },
 
                 //## UnSelect all items of the select.
-                unSelectAll: function () { this.toggSelAll(false); },
+                unSelectAll: function () {
+                    this.toggSelAll(false);
+                },
 
                 //## Disable an iten at a given index.
-                disableItem: function (i) { this.toggDis(true, i) },
+                disableItem: function (i) {
+                    this.toggDis(true, i)
+                },
 
                 //## Removes disabled an iten at a given index.
-                enableItem: function (i) { this.toggDis(false, i) },
+                enableItem: function (i) {
+                    this.toggDis(false, i)
+                },
 
                 //## New simple methods as getter and setter are not working fine in ie8-
                 //## variable to check state of control if enabled or disabled.
                 enabled: true,
                 //## Enables the control
-                enable: function () { return this.toggSumo(false) },
+                enable: function () {
+                    return this.toggSumo(false)
+                },
 
                 //## Disables the control
-                disable: function () { return this.toggSumo(true) },
+                disable: function () {
+                    return this.toggSumo(true)
+                },
 
 
                 init: function () {
