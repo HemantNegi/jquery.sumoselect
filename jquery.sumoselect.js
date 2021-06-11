@@ -138,8 +138,10 @@
                     var lis = [], O = this;
                     $(opts).each(function (i, opt) {       // parsing options to li
                         opt = $(opt);
+                        
                         lis.push(opt.is('optgroup') ?
-                            $('<li class="group ' + (opt[0].disabled ? 'disabled' : '') + '"><label>' + opt.attr('label') + '</label><ul></ul></li>')
+                            $('<li class="group ' + (opt[0].disabled ? 'disabled' : '')
+                                 + (opt[0].hidden ? 'hidden' : '') + '"><label>' + opt.attr('label') + '</label><ul></ul></li>')
                                 .find('ul')
                                 .append(O.prepItems(opt.children(), opt[0].disabled))
                                 .end()
@@ -165,6 +167,9 @@
                     if (opt[0].disabled || d)
                         li = li.addClass('disabled');
 
+                    if (opt[0].hidden)
+                        li.attr('hidden', true)
+                    
                     O.onOptClick(li);
 
                     if (opt[0].selected)
@@ -513,7 +518,7 @@
                     var O = this;
                     O.placeholder = "";
                     if (O.is_multi) {
-                        var sels = O.E.find(':selected').not(':disabled'); //selected options.
+                        var sels = O.E.find(':selected').not(':disabled').not(':hidden'); //selected options.
 
                         for (var i = 0; i < sels.length; i++) {
                             if (i + 1 >= settings.csvDispCount && settings.csvDispCount) {
