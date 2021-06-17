@@ -2,9 +2,7 @@
 shx cp src/jquery.sumoselect.js ./
 
 # Generate IE friendly minified file at root
-babel src -o jquery.sumoselect-ie.min.js
-browserify jquery.sumoselect-ie.min.js | uglifyjs > jquery.sumoselect.min.js
-rm jquery.sumoselect-ie.min.js
+babel src -o jquery.sumoselect.min.js
 
 # Copy minified file in docs
 shx cp jquery.sumoselect.min.js docs/javascripts
