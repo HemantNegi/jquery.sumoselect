@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.1](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.1.0...v3.1.1) (2021-06-17)
+
+
+### Bug Fixes
+
+* Git not committing files ([3f6f90d](https://github.com/HemantNegi/jquery.sumoselect/commit/3f6f90d43718ddc33f8089a6a3a3ede669e4990a))
+* IE compatible minification ([f22242f](https://github.com/HemantNegi/jquery.sumoselect/commit/f22242f0df0beaa2d503e29d33a7cc069f6acf5c))
+
 ## [3.1.0](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.0.6...v3.1.0) (2021-06-17)
 
 
