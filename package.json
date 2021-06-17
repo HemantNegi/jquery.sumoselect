@@ -5,7 +5,7 @@
   "main": "jquery.sumoselect.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "release": "shx cp jquery.sumoselect.js docs/javascripts && git add docs/javascripts/jquery.sumoselect.js && git diff-index --quiet HEAD || git commit -m \"chore: Update documentation\" && standard-version"
+    "release": "shx cp src/jquery.sumoselect.js ./ && babel src -o jquery.sumoselect-ie.min.js && browserify jquery.sumoselect-ie.min.js | uglifyjs > jquery.sumoselect.min.js && rm jquery.sumoselect-ie.min.js && shx cp jquery.sumoselect.min.js docs/javascripts && git add docs/javascripts/jquery.sumoselect.min.js && git diff-index --quiet HEAD || git commit -m \"chore: Update documentation\" && standard-version"
   },
   "repository": {
     "type": "git",
@@ -30,6 +30,8 @@
   },
   "homepage": "https://github.com/HemantNegi/jquery.sumoselect#readme",
   "devDependencies": {
+    "babel": "^6.23.0",
+    "browserify": "^17.0.0",
     "shx": "^0.3.3",
     "standard-version": "^9.3.0"
   }
