@@ -13,7 +13,7 @@ shx cp jquery.sumoselect.min.js docs/javascripts
 git add docs/javascripts/jquery.sumoselect.min.js
 git add jquery.sumoselect.min.js 
 git add jquery.sumoselect.js
-git diff-index --quiet HEAD || git commit -m \"chore: Update documentation\"
+git diff-index --quiet HEAD || git commit -m "chore: Files minification"
 
 # Release
 standard-version
