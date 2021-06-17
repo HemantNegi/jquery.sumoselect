@@ -1,6 +1,3 @@
-# Copy source file at root
-shx cp src/jquery.sumoselect.js ./
-
 # Generate IE friendly minified file at root
 babel jquery.sumoselect.js -o jquery.sumoselect.min.js
 
