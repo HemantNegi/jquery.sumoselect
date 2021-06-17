@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.4](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.1.3...v3.1.4) (2021-06-17)
+
+
+### Bug Fixes
+
+* Ignore minified files with eslint ([5e4691d](https://github.com/HemantNegi/jquery.sumoselect/commit/5e4691d471e49da06de51af67147f5910998f296))
+
 ### [3.1.3](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.1.2...v3.1.3) (2021-06-17)
 
 
