@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.6](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.0.5...v3.0.6) (2021-06-17)
+
+
+### Bug Fixes
+
+* Selected options on safari ([c759fd3](https://github.com/HemantNegi/jquery.sumoselect/commit/c759fd384cf4084d5309edb29427540f01290c6f))
+
 ### [3.0.5](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.0.4...v3.0.5) (2021-06-17)
 
 ### [3.0.4](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.0.2...v3.0.4) (2021-06-17)
