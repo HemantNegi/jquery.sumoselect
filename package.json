@@ -5,7 +5,7 @@
   "main": "jquery.sumoselect.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "release": "shx cp jquery.sumoselect.js docs/javascripts && git add docs/javascripts/jquery.sumoselect.js && git commit -m \"chore: Update documentation\" && standard-version"
+    "release": "shx cp jquery.sumoselect.js docs/javascripts && git add docs/javascripts/jquery.sumoselect.js && git diff-index --quiet HEAD || git commit -m \"chore: Update documentation\" && standard-version"
   },
   "repository": {
     "type": "git",
