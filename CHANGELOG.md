@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.6](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.1.5...v3.1.6) (2021-06-17)
+
+
+### Bug Fixes
+
+* CSS update on release + Remove useless files ([71524af](https://github.com/HemantNegi/jquery.sumoselect/commit/71524af391bbad55de5239129982f137926b2854))
+* Stop copying missing file ([586ea5b](https://github.com/HemantNegi/jquery.sumoselect/commit/586ea5b07d2686a5c5510d3844a179fb6a019478))
+
 ### [3.1.5](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.1.4...v3.1.5) (2021-06-17)
 
 
