@@ -1,9 +1,6 @@
 jquery.sumoselect
 =============
 
-### _I am no longer actively maintaining this project. Please reachout to me on hemant.frnz@gmail.com if you want to manage this project._
-
-
 jquery.sumoselect.js - A beautiful cross device Single/Multi Select jQuery Select plugin.
 -------------------------------------------------------------------------------
 A jQuery plugin that progressively enhances an HTML Select Box into a Single/Multiple option dropdown list. The dropdown list can be fully customizable using simple css.
@@ -202,6 +199,8 @@ Below are the available settings:
 
 - `searchText` `(string)`  placeholder for search input.
 
+- `searchFn` `(function)`  Custom search function.
+
 - `noMatch` `(string)`  placeholder to display if no itmes matches the search term (default 'No matches for "{0}"').
 
 - `prefix` `(string)`  prefix to prepend the selected text (default is empty) eg. '<b>Hello</b>'.
@@ -231,6 +230,9 @@ Below are the available settings:
     selectAll: false,
     search: false,
     searchText: 'Search...',
+    searchFn: function (haystack, needle) {
+      return haystack.toLowerCase().indexOf(needle.toLowerCase()) < 0;
+    },
     noMatch: 'No matches for "{0}"',
     prefix: '',
     locale: ['OK', 'Cancel', 'Select All'],
