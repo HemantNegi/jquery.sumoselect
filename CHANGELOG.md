@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.5](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.1.4...v3.1.5) (2021-06-17)
+
+
+### Bug Fixes
+
+* Stop force focusing the select after close. Fixes [#277](https://github.com/HemantNegi/jquery.sumoselect/issues/277) ([ce71b8b](https://github.com/HemantNegi/jquery.sumoselect/commit/ce71b8bf1d3816674347fd9ad607de1773f4dd55))
+
 ### [3.1.4](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.1.3...v3.1.4) (2021-06-17)
 
 
