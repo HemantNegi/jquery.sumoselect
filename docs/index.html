@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print"/>
+
+    <meta name="description"
+          content="SumoSelect is a jquery plugin which beautifully renders a single or multiple HTML select element. Its cross device, cross browser all in one solution for complex select related problems. fully customizable and a vast set of functions.">
+    <link rel="author" href="https://plus.google.com/+HemantNegi"/>
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-49935576-1', 'hemantnegi.github.io');
+        ga('send', 'pageview');
+
+    </script>
+
+  
+
+
+    <title>Jquery.sumoselect by Hemant Negi</title>
+    <style type="text/css">
+        .auto-style1 {
+            width: 100%;
+        }
+
+        .auto-style2 {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <div class="inner">
+	    
+        <h1>Jquery.sumoselect</h1>
+
+        <h2>A beautiful jQuery Single/Multi Select plugin which can be used on almost any device</h2>
+        <a href="https://github.com/HemantNegi/jquery.sumoselect" class="button">
+            <small>View project on</small>
+            GitHub</a>
+    </div>
+</header>
+
+<div id="content-wrapper">
+<div class="inner clearfix">
+<section id="main-content">
+	<div style="height:90px">
+	    	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- responsive -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5462779613001343"
+     data-ad-slot="1391100519"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+	    </div>
+<h1>
+    <a name="jquerysumoselect" class="anchor" href="#jquerysumoselect"><span class="octicon octicon-link"></span></a>jquery.sumoselect
+</h1>
+
+<h2>
+    <a name="jquerysumoselectjs---a-cross-device-singlemulti-select-jquery-select-plugin" class="anchor"
+       href="#jquerysumoselectjs---a-cross-device-singlemulti-select-jquery-select-plugin"><span
+            class="octicon octicon-link"></span></a>jquery.sumoselect.js - A cross device Single/Multi Select jQuery
+    Select plugin.</h2>
+
+<p>LIVE <a href="sumoselect_demo.html">DEMO HERE</a>
+
+<p>Sumoselect full : <a href="https://github.com/HemantNegi/jquery.sumoselect/blob/master/jquery.sumoselect.js">jquery.sumoselect.js</a>
+
+
+<p>Minified : <a href="https://github.com/HemantNegi/jquery.sumoselect/blob/master/jquery.sumoselect.min.js">jquery.sumoselect.min.js</a>
+
+
+<p>
+    A jQuery plugin that progressively enhances an HTML Select Box into a Single/Multiple option dropdown list. The
+    dropdown list can be fully customiseable using siple css properties.
+    It can adapt itself according to any deveice, keeping in mind that the User Experience is not broken.
+
+
+<p><strong>Notable Features</strong>
+
+<ul>
+    <li>
+        Single and Multi select option.
+    </li>
+    <li>
+        Search Support
+    </li>
+    <li>
+        Optgroup support.
+    </li>
+    <li>
+        Localization support.
+    </li>
+    <li>
+        Fully customizable by simple css.
+    </li>
+    <li>
+        Supports almost all devices (Till now i didnt found one)
+    </li>
+    <li>
+        Intelligently Renders itself according to the devices.
+    </li>
+    <li>
+        Renders native Single/Multiple pop up on Android, ios, Windows and other devices.
+    </li>
+    <li>
+        Custom postback data format (Multiple select data can be passed either as csv or default select)
+    </li>
+    <li>
+        Selected, Disabled, Select All, keyboard navigation and Placeholder Support
+    </li>
+    <li>
+        Redesigned the UI (No external icons are used now and color scheme can be controlled by css)
+    </li>
+    <li>
+        Easily extendable to allow developers to create new widgets
+    </li>
+    <li>
+        Basic methods to handle all kinds of manipulations like adding item, remove item, disable, select etc.
+    </li>
+</ul>
+<h2>
+    <a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements
+</h2>
+
+<p>jQuery 1.8.3+ (It is always recommended to use the latest version of jQuery)
+
+<h2>
+    <a name="desktop-browser-support" class="anchor" href="#desktop-browser-support"><span
+            class="octicon octicon-link"></span></a>Desktop Browser Support</h2>
+
+<p>IE8+, Firefox 4+, Chrome, Safari 4+, Opera 11+ (Other browsers may work, but I did not test on them)
+
+<h2>
+    <a name="mobiletablet-browser-support" class="anchor" href="#mobiletablet-browser-support"><span
+            class="octicon octicon-link"></span></a>Mobile/Tablet Browser Support</h2>
+
+<p>iOs 3+, Android 2.1+ , Windows Mobile (Other browsers may work, but I did not test on them)
+
+<h2>
+    <a name="forking" class="anchor" href="#forking"><span class="octicon octicon-link"></span></a>Forking</h2>
+
+<p>If you find that you need a feature that SumoSelect does not currently support, either let me know via the SumoSelect
+    issue tracker, or fork SumoSelect on Github and easily extend SumoSelect to create your own widget!
+
+<h2>
+    <a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p><em>To just go with the default options simply do</em>
+
+<div class="highlight highlight-javascript">
+                    <pre> <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span
+                            class="p">).</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span> <span
+                            class="p">()</span> <span class="p">{</span>
+            <span class="nx">$</span><span class="p">(</span><span class="s1">'.SlectBox'</span><span
+                                class="p">).</span><span class="nx">SumoSelect</span><span class="p">();</span>
+     <span class="p">});</span>
+</pre>
+</div>
+
+<p><em>To provide optional settings, simply pass settings object to SumoSelect()</em>
+
+<div class="highlight highlight-javascript">
+                    <pre> <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span
+                            class="p">).</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span> <span
+                            class="p">()</span> <span class="p">{</span>
+            <span class="nx">$</span><span class="p">(</span><span class="s1">'.SlectBox'</span><span
+                                class="p">).</span><span class="nx">SumoSelect</span><span class="p">({
+			</span><span class="nx">placeholder</span><span class="o">:</span> <span
+                                class="s1">'This is a placeholder'</span><span class="p">,
+			</span><span class="nx">csvDispCount</span><span class="o">:</span> <span class="mi">3</span> <span
+                                class="p">
+			});</span>
+        <span class="p">});</span>
+</pre>
+</div>
+
+<p><strong>Settings</strong>
+
+<p>The following settings are available now:
+
+<table class="auto-style1">
+    <tr>
+        <td class="auto-style2">Option</td>
+        <td class="auto-style2">Type</td>
+        <td class="auto-style2">Discription</td>
+    </tr>
+    <tr>
+        <td><code>placeholder</code></td>
+        <td><code>(string)</code></td>
+        <td>The palceholder text to be displayed in the rendered select widget (on priority basis). *Maximum priority is
+            given to native placeholder attribute in select tag i.e. - <code>&lt;select placeholder="this is a
+                placeholder" /&gt;</code> - Then the option with disabled and selected attribute i.e. <code>&lt;option
+                disabled selected value="foo" &gt;</code> - Last to to the given placeholder attribute in the settings.
+            *
+        </td>
+    </tr>
+    <tr>
+        <td><code>csvDispCount</code></td>
+        <td><code>(int)</code></td>
+        <td>The number of items to be displayed in the widget seperated by a <code>,</code> after that the text will be
+            warped as <em>3+ Selected</em>. Set <code>0</code> for all the options.
+        </td>
+    </tr>
+    <tr>
+        <td><code>captionFormat</code></td>
+        <td><code>(string)</code></td>
+        <td>Its the format in which you want to see the caption when more than csvDispCount items are selected. its
+            default value is<code>'{0} Selected'</code> ( here {0} will be replaced by the seletion count )
+        </td>
+    </tr>
+
+    <tr>
+        <td><code>captionFormatAllSelected</code></td>
+        <td><code>(string)</code></td>
+        <td>I Format of caption text when all elements are selected. set null to use captionFormat. It will not work if
+            there are disabled elements in select. default is <code>'{0} all selected!'</code>
+        </td>
+    </tr>
+    <tr>
+        <td><code>floatWidth</code></td>
+        <td><code>(int)</code></td>
+        <td>Minimum screen width of device below which the options list is rendered in floating popup fashion.</td>
+    </tr>
+    <tr>
+        <td><code>forceCustomRendering</code></td>
+        <td><code>(boolean)</code></td>
+        <td>&nbsp;Force the custom modal ( Floating list ) on all devices below floatWidth resolution.</td>
+    </tr>
+    <tr>
+        <td><code>nativeOnDevice</code></td>
+        <td><code>(Array[string])</code></td>
+        <td>The keywords to identify a mobile device from useragent string. The system default select list is rendered
+            on the matched device.
+        </td>
+    </tr>
+    <tr>
+        <td><code>outputAsCSV</code></td>
+        <td><code>(boolean)</code></td>
+        <td><code>true</code> to POST data as csv ( false for deafault select )</td>
+    </tr>
+    <tr>
+        <td><code>csvSepChar</code></td>
+        <td><code>(string)</code></td>
+        <td>Seperation char if <code>outputAsCSV</code> is set to <code>true</code></td>
+    </tr>
+    <tr>
+        <td><code>okCancelInMulti</code></td>
+        <td><code>(boolean)</code></td>
+        <td>Displays Ok Cancel buttons in desktop mode multiselect also.</td>
+    </tr>
+    <tr>
+        <td><code>isClickAwayOk</code></td>
+        <td><code>(boolean)</code></td>
+        <td>for okCancelInMulti=true. sets whether click outside will trigger Ok or Cancel (default is cancel).</td>
+    </tr>
+    <tr>
+        <td><code>triggerChangeCombined</code></td>
+        <td><code>(boolean)</code></td>
+        <td>In Multiselect mode whether to trigger change event on individual selection of each item or on combined
+            selection ( pressing of OK or Cancel button ).
+        </td>
+    </tr>
+    <tr>
+        <td><code>selectAll</code></td>
+        <td><code>(boolean)</code></td>
+        <td>To display select all check or not</td>
+    </tr>
+    <tr>
+        <td><code>search</code></td>
+        <td><code>(boolean)</code></td>
+        <td>To enable searching in sumoselect (default is false).</td>
+    </tr>
+    <tr>
+        <td><code>searchText</code></td>
+        <td><code>(string)</code></td>
+        <td>placeholder for search input.</td>
+    </tr>
+    <tr>
+        <td><code>noMatch</code></td>
+        <td><code>(string)</code></td>
+        <td>placeholder to display if no itmes matches the search term (default 'No matches for "{0}"').</td>
+    </tr>
+    <tr>
+        <td><code>prefix</code></td>
+        <td><code>(string)</code></td>
+        <td>prefix to prepend the selected text (default is empty) eg. '&lt;b&gt;Hello&lt;/b&gt;'.</td>
+    </tr>
+    <tr>
+        <td><code>locale</code></td>
+        <td><code>(array)</code></td>
+        <td>change the text used in plugin (['OK', 'Cancel', 'Select All']). Note: don't break the sequence or skip items.</td>
+    </tr>
+    <tr>
+        <td><code>up</code></td>
+        <td><code>(boolean)</code></td>
+        <td>the direction in which to open the dropdown (default: false)</td>
+    </tr>
+    <tr>
+        <td><code>showTitle</code></td>
+        <td><code>(boolean)</code></td>
+        <td>set to false to prevent title (tooltip) from appearing (deafult: true)</td>
+    </tr>
+</table>
+
+<p>
+    <strong>
+        <br/>
+        The default settings are :</strong>
+
+
+<div class="highlight highlight-javascript">
+                    <pre><span class="p">{</span>
+    <span class="nx">placeholder</span><span class="o">:</span> <span class="s1">'Select Here'</span><span
+                                class="p">,</span>
+    <span class="nx">csvDispCount</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="nx">captionFormat</span><span class="o">:</span> <span class="mi">'{0} Selected'</span><span class="p">,</span>
+    <span class="nx">captionFormatAllSelected</span><span class="o">:</span> <span class="mi">''{0} all selected!''</span><span class="p">,</span>
+    <span class="nx">floatWidth</span><span class="o">:</span> <span class="mi">500</span><span class="p">,</span>
+    <span class="nx">forceCustomRendering</span><span class="o">:</span> <span class="kc">false</span><span
+                                class="p">,</span>
+    <span class="nx">nativeOnDevice</span><span class="o">:</span> <span class="p">[</span><span
+                                class="s1">'Android'</span><span class="p">,</span> <span class="s1">'BlackBerry'</span><span
+                                class="p">,</span> <span class="s1">'iPhone'</span><span class="p">,</span> <span
+                                class="s1">'iPad'</span><span class="p">,</span> <span class="s1">'iPod'</span><span
+                                class="p">,</span> <span class="s1">'Opera Mini'</span><span class="p">,</span> <span
+                                class="s1">'IEMobile'</span><span class="p">,</span> <span class="s1">'Silk'</span><span
+                                class="p">],</span>
+    <span class="nx">outputAsCSV</span> <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nx">csvSepChar</span> <span class="o">:</span> <span class="s1">','</span><span class="p">,</span> 
+    <span class="nx">okCancelInMulti</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span> 
+    <span class="nx">isClickAwayOk</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nx">triggerChangeCombined</span> <span class="o">:</span> <span class="kc">true</span><span
+                                class="p">,</span>
+    <span class="nx">selectAll</span> <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nx">search</span> <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nx">searchText</span> <span class="o">:</span> <span class="kc">'Search...'</span><span class="p">,</span>
+    <span class="nx">noMatch</span> <span class="o">:</span> <span class="kc">'No matches for "{0}"'</span><span class="p">,</span>
+    <span class="nx">prefix</span> <span class="o">:</span> <span class="kc">''</span><span class="p">,</span>
+    <span class="nx">locale</span> <span class="o">:</span> <span class="p"> [</span><span
+                                class="s1">'OK'</span><span class="p">,</span> <span class="s1">'Cancel'</span><span
+                                class="p">,</span> <span class="s1">'Select All'</span>],</span>
+    <span class="nx">up</span> <span class="o">:</span> <span class="kc">'false'</span><span class="p">,</span>
+    <span class="nx">showTitle</span> <span class="o">:</span> <span class="kc">'true'</span><span class="p">,</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+    <h2><a name="Methods" class="anchor" href="#Methods"><span class="octicon octicon-link"></span></a>Events</h2>
+    <p>Sumoselect raise some very helpful events on which you can hook your custom handlers.</p>
+
+    <div class="highlight highlight-javascript"><pre>
+$(<span class="s1">'select.SlectBox'</span>).on(<span class="s1">'sumo:opened'</span>, function(sumo) {
+    <span class="cm">// Do stuff here</span>
+    console.log(<span class="s1">"Drop down opened"</span>, sumo)
+});</pre>
+    </div>
+    <p>
+    Available events
+    </p>
+    <div class="highlight highlight-javascript"><pre>
+<span class="cm">// Drop down opening</span>
+<span class="nb">sumo:opening</span>
+<span class="cm">// Drop down opened</span>
+<span class="nb">sumo:opened</span>
+<span class="cm">// Drop down closing</span>
+<span class="nb">sumo:closing</span>
+<span class="cm">// Drop down closed.</span>
+<span class="nb">sumo:closed</span></pre>
+    </div>
+    <h2><a name="Methods" class="anchor" href="#Methods"><span class="octicon octicon-link"></span></a>Methods</h2>
+
+<p>To call below functions you need to get the instance of SumoSelect object which can be done as
+
+<div class="highlight highlight-javascript">
+                    <pre> <span class="nx"><span class="nb">var</span> MySelect;
+$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span
+                            class="nx">ready</span><span class="p">(</span><span class="kd">function</span> <span
+                            class="p">()</span> <span class="p">{</span>
+            <span class="nx">MySelect = $</span><span class="p">(</span><span class="s1">'.SlectBox'</span><span
+                                class="p">).</span><span class="nx">SumoSelect</span><span class="p">();</span>
+     <span class="p">});</span>
+</pre>
+</div>
+
+<p>Or simply you can get the instance from select element directly i.e.
+
+<div class="highlight highlight-javascript">
+    <pre> <span class="nx"><span class="nb">var</span> MySelect = $</span><span class="p">(</span><span class="s1">'select.SlectBox'</span><span
+            class="p">)[0].sumo;</span></pre>
+</div>
+
+<p><em>Note : The SumoSelect object is directly binded with native select element not with the jquery object of
+    element.</em>
+
+<p style="font-weight:bold;">Following is the list of methods of SumoSelect.
+<ul>
+    <li>
+        <code>.unload()</code>
+
+        <p>Deactivate the SumoSelect plugin and display original select element. ( You can reinitialize the SumoSelect
+            for this select. )
+
+        <div class="highlight highlight-javascript">
+            <pre> <span class="nx">$</span><span class="p">(</span><span class="s1">'select.SlectBox'</span><span
+                    class="p">)[0].sumo.unload();</span></pre>
+        </div>
+
+    </li>
+    <li>
+        <code>.add(value [,text][,index])</code>
+
+        <p>Insert an new item in the select at a given index if index is provided else added to last. use index 0 to
+            insert at the begining.
+
+        <div class="highlight highlight-javascript">
+                    <pre><span
+                            class="cm">// adds a option with value and html set to &#39;india&#39; at the last.</span>
+<span class="nx">$</span><span class="p">(</span><span class="s1">'select.SlectBox'</span><span class="p">)[0].sumo.add(&#39;</span><span
+                                class="gr">india</span><span class="p">&#39;);
+
+<span class="cm">// adds a option with value and html set to &#39;india&#39; at index no 3.</span>
+<span class="nx">$</span>(<span class="s1">'select.SlectBox'</span>)[0].sumo.add(&#39;<span class="gr">india</span>&#39;,3);
+
+<span class="cm">// adds a option with value = &#39;india&#39; and html = &#39;Indian&#39; at the last.</span>
+<span class="nx">$</span>(<span class="s1">'select.SlectBox'</span>)[0].sumo.add(&#39;<span class="gr">india</span>&#39;,&#39;</span><span
+                                class="gr">Indian</span><span class="p">&#39;);
+
+<span class="cm">// adds a option with value and html set to &#39;india&#39; at index no 0.</span>
+<span class="nx">$</span>(<span class="s1">'select.SlectBox'</span>)[0].sumo.add(&#39;<span class="gr">india</span>&#39;,&#39;</span><span
+                                class="gr">Indian&#39;</span><span class="p">,0);</span></pre>
+        </div>
+
+    </li>
+    <li>
+        <code>.remove(index)</code>
+
+        <p>Removes an item from a given index number.
+
+        <div class="highlight highlight-javascript">
+            <pre> <span class="nx">$</span><span class="p">(</span><span class="s1">'select.SlectBox'</span><span
+                    class="p">)[0].sumo.remove(2);</span></pre>
+        </div>
+
+    </li>
+    <li>
+        <code>.selectItem(index/value)</code>
+
+        <p>Selects (check an item) an item in the list by index or by its value. You can select multiple items in case of a multiselect.
+
+        <div class="highlight highlight-javascript">
+                    <pre><span class="cm">//selects the item at index 2</span>
+ <span class="nx">$</span><span class="p">(</span><span class="s1">'select.SlectBox'</span><span class="p">)[0].sumo.selectItem(2);</span><span class="cm">
+ //selects the item having value "volo"</span>
+ <span class="nx">$</span><span class="p">(</span><span class="s1">'select.SlectBox'</span><span class="p">)[0].sumo.selectItem('volo');</span></pre>
+        </div>
+
+    </li>
+    <li>
+        <code>.unSelectItem(index/value)</code>
+
+        <p>unselect (uncheck an item) an item in list by index or by value
+
+        <div class="highlight highlight-javascript">
+                    <pre><span class="cm">//unselects the item at index 2</span>
+ <span class="nx">$</span><span class="p">(</span><span class="s1">'select.SlectBox'</span><span class="p">)[0].sumo.unSelectItem(2);</span>
+ <span class="cm">//unselects the item having value "volvo"</span>
+ <span class="nx">$</span><span class="p">(</span><span class="s1">'select.SlectBox'</span><span class="p">)[0].sumo.unSelectItem('volvo');</span></pre>
+        </div>
+
+    </li>
+    <li>
+        <code>.disableItem(index)</code>
+
+        <p>Disables and item in the list
+
+        <div class="highlight highlight-javascript">
+                    <pre><span class="cm">//disables the item at index 2</span>
+ <span class="nx">$</span><span class="p">(</span><span class="s1">'select.SlectBox'</span><span class="p">)[0].sumo.disableItem(2);</span></pre>
+        </div>
+
+    </li>
+    <li>
+        <code>.enableItem(index)</code>
+
+        <p>Enables and item in the list
+
+        <div class="highlight highlight-javascript">
+                    <pre><span class="cm">//enables the item at index 2</span>
+ <span class="nx">$</span><span class="p">(</span><span class="s1">'select.SlectBox'</span><span class="p">)[0].sumo.enableItem(2);</span></pre>
+        </div>
+
+    </li>
+       <li>
+        <code>.selectAll()</code>
+
+        <p>Selects all items list
+
+        <div class="highlight highlight-javascript">
+                    <pre><span class="cm">//selects all items (excluding disabled)</span>
+ <span class="nx">$</span><span class="p">(</span><span class="s1">'select.SlectBox'</span><span class="p">)[0].sumo.selectAll();</span></pre>
+        </div>
+
+    </li>
+        <li>
+        <code>.unSelectAll()</code>
+
+        <p>Un selects all items in the list
+
+        <div class="highlight highlight-javascript">
+                    <pre><span class="cm">//Un select all items</span>
+ <span class="nx">$</span><span class="p">(</span><span class="s1">'select.SlectBox'</span><span class="p">)[0].sumo.unSelectAll();</span></pre>
+        </div>
+
+    </li>
+    <li>
+        <code>.enable()</code>
+        <p>Enables the SumoSelect control
+        <div class="highlight highlight-javascript">
+            <pre><span class="nx">$</span><span class="p">(</span><span class="s1">'select.SlectBox'</span><span class="p">)[0].sumo.enable();</span></pre>
+        </div>
+    </li>
+    <li>
+        <code>.disable()</code>
+        <p>Disable the SumoSelect control
+        <div class="highlight highlight-javascript">
+            <pre><span class="nx">$</span><span class="p">(</span><span class="s1">'select.SlectBox'</span><span class="p">)[0].sumo.disable();</span></pre>
+        </div>
+    </li>
+    <li>
+        <code>.unSelectAll()</code>
+        <p>Un selects all items in the list
+        <div class="highlight highlight-javascript">
+            <pre><span class="cm">//Un select all items</span>
+<span class="nx">$</span><span class="p">(</span><span class="s1">'select.SlectBox'</span><span class="p">)[0].sumo.unSelectAll();</span></pre>
+        </div>
+    </li>
+    <li>
+        <code>.reload()</code>
+        <p>This method reloads the UI over original select element. so now you can perform the desired operations on underlying select element and then update the UI od sumoselct after that.
+        <div class="highlight highlight-javascript">
+            <pre><span class="cm">//Reloads the UI of plugin.</span>
+<span class="nx">$</span><span class="p">(</span><span class="s1">'select.SlectBox'</span><span class="p">)[0].sumo.reload();</span></pre>
+        </div>
+    </li>
+
+
+</ul>
+
+<p>*** You can add custom css class to options (css class added to option is added to the generated li.)
+
+<h2>
+    <a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>Copyright (c) 2014 Hemant Negi Licensed under the MIT license.
+</section>
+
+<aside id="sidebar">
+    <a href="https://github.com/HemantNegi/jquery.sumoselect/zipball/master" class="button">
+        <small>Download</small>
+        .zip file
+    </a>
+    <a href="https://github.com/HemantNegi/jquery.sumoselect/tarball/master" class="button">
+        <small>Download</small>
+        .tar.gz file
+    </a>
+
+    <p class="repo-owner"><a href="https://github.com/HemantNegi/jquery.sumoselect"></a>is maintained by <a
+            href="https://github.com/HemantNegi">HemantNegi</a>.
+
+    <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a
+            href="https://twitter.com/jasonlong">Jason Long</a>.
+
+    <p>Visit my Websites <br>
+    	@<a href="https://www.4ono.com/" title="Job and Exam Notifications">admit card, sample papers, exam result</a><br>
+	@<a href="https://www.cbsenic2019.in/" title="CBSE Board Exam 2018">cbse 10th blueprints</a><br>
+	@<a href="https://www.4rnc.in/" title="all exam result and cutoff">Download Result</a><br>
+	@<a href="http://www.iplbhavishyavani.in/" title="IPL Prediction">IPL 2019 All Matches Prediction</a><br>
+	@<a href="http://www.iplt20prediction2019.in/" title="ipl today prediction">Today IPL Match Prediction</a><br>
+	@<a href="http://www.mahashivratri2019images.in/" title="mahashivratri animated images">Mahashivratri 2019 Wishes</a><br>
+	</p>
+	<div><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- responsive -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5462779613001343"
+     data-ad-slot="1391100519"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+  
+</aside>
+</div>
+</div>
+
+
+</body>
+</html>
