@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.1.0](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.0.6...v3.1.0) (2021-06-17)
+
+
+### Features
+
+* Pass origin class to generated element. Fixes [#294](https://github.com/HemantNegi/jquery.sumoselect/issues/294) ([6cd3963](https://github.com/HemantNegi/jquery.sumoselect/commit/6cd3963639ca3108c0cb3efcd3d67515d08d2607))
+
 ### [3.0.6](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.0.5...v3.0.6) (2021-06-17)
 
 
