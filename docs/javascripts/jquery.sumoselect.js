@@ -76,7 +76,7 @@
           O.E.wrap('<div class="SumoSelect" tabindex="0" role="button" aria-expanded="false">');
           O.select = O.E.parent();
           O.caption = $('<span>');
-          O.CaptionCont = $('<p class="CaptionCont SelectBox" ><label><i></i></label></p>')
+          O.CaptionCont = $(`<p class="CaptionCont SelectBox ${O.E.attr('class')}" ><label><i></i></label></p>`)
             .attr('style', O.E.attr('style'))
             .prepend(O.caption);
           O.select.append(O.CaptionCont);
