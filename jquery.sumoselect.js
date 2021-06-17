@@ -186,7 +186,7 @@
         getSelStr: function () {
           // get the pre selected items.
           var sopt = [];
-          this.E.find('option:selected').each(function () { sopt.push($(this).val()); });
+          this.E.find('option:checked').each(function () { sopt.push($(this).val()); });
           return sopt.join(settings.csvSepChar);
         },
 
@@ -233,7 +233,7 @@
           //if combined change event is set.
           if (settings.triggerChangeCombined) {
             //check for a change in the selection.
-            if (O.E.find('option:selected').length !== O.Pstate.length) {
+            if (O.E.find('option:checked').length !== O.Pstate.length) {
               cg = 1;
             }
             else {
@@ -251,7 +251,7 @@
         _cnbtn: function () {
           var O = this;
           //remove all selections
-          O.E.find('option:selected').each(function () { this.selected = false; });
+          O.E.find('option:checked').each(function () { this.selected = false; });
           O.optDiv.find('li.selected').removeClass('selected');
 
           //restore selections from saved state.
@@ -520,7 +520,7 @@
           var O = this;
           O.placeholder = "";
           if (O.is_multi) {
-            var sels = O.E.find(':selected').not(':disabled'); //selected options.
+            var sels = O.E.find(':checked').not(':disabled'); //selected options.
 
             for (var i = 0; i < sels.length; i++) {
               if (i + 1 >= settings.csvDispCount && settings.csvDispCount) {
@@ -537,7 +537,7 @@
             O.placeholder = O.placeholder.replace(/,([^,]*)$/, '$1'); //remove unexpected "," from last.
           }
           else {
-            O.placeholder = O.E.find(':selected').not(':disabled').text();
+            O.placeholder = O.E.find(':checked').not(':disabled').text();
           }
 
           var is_placeholder = false;
@@ -548,7 +548,7 @@
 
             O.placeholder = O.E.attr('placeholder');
             if (!O.placeholder)                  //if placeholder is there then set it
-              O.placeholder = O.E.find('option:disabled:selected').text();
+              O.placeholder = O.E.find('option:disabled:checked').text();
           }
 
           O.placeholder = O.placeholder ? (settings.prefix + ' ' + O.placeholder) : settings.placeholder;
