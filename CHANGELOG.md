@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.3](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.1.2...v3.1.3) (2021-06-17)
+
+
+### Bug Fixes
+
+* Remove uglify & browserify ([0c207eb](https://github.com/HemantNegi/jquery.sumoselect/commit/0c207ebd0eca1381b2aaf2f3de4e1822ab3d87bf))
+* Use babel preset env ([be9d3db](https://github.com/HemantNegi/jquery.sumoselect/commit/be9d3dbbd87c659a62c0b861ffd0556a12965a75))
+
 ### [3.1.2](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.1.1...v3.1.2) (2021-06-17)
 
 ### [3.1.1](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.1.0...v3.1.1) (2021-06-17)
