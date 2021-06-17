@@ -380,7 +380,6 @@
             O.select.removeClass('open').attr('aria-expanded', 'true').find('ul li.sel').removeClass('sel');
             O.E.trigger('sumo:closed', O);
             $(document).off('click.sumo');
-            O.select.focus();
             $('body').removeClass('sumoStopScroll');
 
             // clear the search
