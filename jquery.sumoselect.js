@@ -269,19 +269,21 @@
 
         _handleMax: function () {
           // Disable options if max reached
-          if (this.selectedCount >= +settings.max) {
-            this.optDiv.find('li.opt').not('.hidden').each(function (ix, e) {
-              if (!$(e).hasClass('selected')) {
-                $(e).addClass('temporary-disabled disabled');
-              }
-            });
-          } else {
-            // Enable options back
-            this.optDiv.find('li.opt').not('.hidden').each(function (ix, e) {
-              if ($(e).hasClass('temporary-disabled')) {
-                $(e).removeClass('temporary-disabled disabled');
-              }
-            });
+          if(settings.max){
+            if (this.selectedCount >= +settings.max) {
+              this.optDiv.find('li.opt').not('.hidden').each(function (ix, e) {
+                if (!$(e).hasClass('selected')) {
+                  $(e).addClass('temporary-disabled disabled');
+                }
+              });
+            } else {
+              // Enable options back
+              this.optDiv.find('li.opt').not('.hidden').each(function (ix, e) {
+                if ($(e).hasClass('temporary-disabled')) {
+                  $(e).removeClass('temporary-disabled disabled');
+                }
+              });
+            }
           }
         },
 
