@@ -199,15 +199,19 @@
         multiSelelect: function () {
           var O = this;
           O.optDiv.addClass('multiple');
-          O.okbtn = $('<p tabindex="0" class="btnOk">' + settings.locale[0] + '</p>').click(function () {
+          O.okbtn = $('<p tabindex="0" class="btnOk"></p>').click(function () {
             //if combined change event is set.
             O._okbtn();
             O.hideOpts();
           });
-          O.cancelBtn = $('<p tabindex="0" class="btnCancel">' + settings.locale[1] + '</p>').click(function () {
+          O.okbtn[0].innerText = settings.locale[0];
+
+          O.cancelBtn = $('<p tabindex="0" class="btnCancel"></p>').click(function () {
             O._cnbtn();
             O.hideOpts();
           });
+          O.cancelBtn[0].innerText = settings.locale[1];
+
           var btns = O.okbtn.add(O.cancelBtn);
           O.optDiv.append($('<div class="MultiControls">').append(btns));
 
@@ -290,7 +294,8 @@
         SelAll: function () {
           var O = this;
           if (!O.is_multi) return;
-          O.selAll = $('<p class="select-all"><span><i></i></span><label>' + settings.locale[2] + '</label></p>');
+          O.selAll = $('<p class="select-all"><span><i></i></span><label></label></p>');
+          O.selAll.find('label')[0].innerText = settings.locale[2];
           O.optDiv.addClass('selall');
           O.selAll.on('click', function () {
             O.selAll.toggleClass('selected');
@@ -308,10 +313,11 @@
             P = $('<p class="no-match">'),
             fn = (options.searchFn && typeof options.searchFn == 'function') ? options.searchFn : settings.searchFn;
 
-          O.ftxt = $('<input type="text" class="search-txt" value="" placeholder="' + settings.searchText + '">')
+          O.ftxt = $('<input type="text" class="search-txt" value="">')
             .on('click', function (e) {
               e.stopPropagation();
             });
+          O.ftxt.placeholder = settings.searchText;
           cc.append(O.ftxt);
           O.optDiv.children('ul').after(P);
 
