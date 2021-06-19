@@ -742,7 +742,7 @@
         },
 
         //## add a new option to select at a given index.
-        add: function (val, txt, i) {
+        add: function (val, txt, i, attr) {
           if (typeof val === "undefined") throw "No value to add";
 
           var O = this;
@@ -751,6 +751,12 @@
           if (typeof txt === "undefined") { txt = val; }
 
           var opt = $("<option></option>").val(val).html(txt);
+
+          if (attr && typeof attr == "object") {
+            $.each(attr, function (i, v) {
+              opt.attr(i, v);
+            });
+          }
 
           if (opts.length < i) throw "index out of bounds";
 

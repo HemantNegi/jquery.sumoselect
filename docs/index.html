@@ -302,6 +302,11 @@
         <td>placeholder for search input.</td>
     </tr>
     <tr>
+        <td><code>searchFn</code></td>
+        <td><code>(function)</code></td>
+        <td>Custom search function.</td>
+    </tr>
+    <tr>
         <td><code>noMatch</code></td>
         <td><code>(string)</code></td>
         <td>placeholder to display if no itmes matches the search term (default 'No matches for "{0}"').</td>
@@ -325,6 +330,11 @@
         <td><code>showTitle</code></td>
         <td><code>(boolean)</code></td>
         <td>set to false to prevent title (tooltip) from appearing (deafult: true)</td>
+    </tr>
+    <tr>
+        <td><code>max</code></td>
+        <td><code>(int)</code></td>
+        <td>Maximum number of selected options (if multiple)</td>
     </tr>
 </table>
 
@@ -360,6 +370,7 @@
     <span class="nx">selectAll</span> <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
     <span class="nx">search</span> <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
     <span class="nx">searchText</span> <span class="o">:</span> <span class="kc">'Search...'</span><span class="p">,</span>
+    <span class="nx">searchFn</span> <span class="o">:</span> <span class="kc">function(haystack, needle){ ... }</span><span class="p">,</span>
     <span class="nx">noMatch</span> <span class="o">:</span> <span class="kc">'No matches for "{0}"'</span><span class="p">,</span>
     <span class="nx">prefix</span> <span class="o">:</span> <span class="kc">''</span><span class="p">,</span>
     <span class="nx">locale</span> <span class="o">:</span> <span class="p"> [</span><span
@@ -367,6 +378,7 @@
                                 class="p">,</span> <span class="s1">'Select All'</span>],</span>
     <span class="nx">up</span> <span class="o">:</span> <span class="kc">'false'</span><span class="p">,</span>
     <span class="nx">showTitle</span> <span class="o">:</span> <span class="kc">'true'</span><span class="p">,</span>
+    <span class="nx">max</span> <span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
 <span class="p">}</span>
 </pre>
 </div>
@@ -433,7 +445,7 @@ $</span><span class="p">(</span><span class="nb">document</span><span class="p">
 
     </li>
     <li>
-        <code>.add(value [,text][,index])</code>
+        <code>.add(value [,text][,index][,attrs])</code>
 
         <p>Insert an new item in the select at a given index if index is provided else added to last. use index 0 to
             insert at the begining.
@@ -454,6 +466,9 @@ $</span><span class="p">(</span><span class="nb">document</span><span class="p">
 <span class="cm">// adds a option with value and html set to &#39;india&#39; at index no 0.</span>
 <span class="nx">$</span>(<span class="s1">'select.SlectBox'</span>)[0].sumo.add(&#39;<span class="gr">india</span>&#39;,&#39;</span><span
                                 class="gr">Indian&#39;</span><span class="p">,0);</span></pre>
+<span class="cm">// adds a option with value and html set to &#39;india&#39; at index no 0 with some attributes.</span>
+<span class="nx">$</span>(<span class="s1">'select.SlectBox'</span>)[0].sumo.add(&#39;<span class="gr">india</span>&#39;,&#39;</span><span
+                                class="gr">Indian&#39;</span><span class="p">,0, {'data-test': 'test'});</span></pre>
         </div>
 
     </li>
