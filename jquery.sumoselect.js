@@ -1,5 +1,5 @@
 /*!
- * jquery.sumoselect - v3.0.3
+ * jquery.sumoselect
  * http://hemantnegi.github.io/jquery.sumoselect
  * 2016-12-12
  *
@@ -275,7 +275,7 @@
 
         _handleMax: function () {
           // Disable options if max reached
-          if(settings.max){
+          if (settings.max) {
             if (this.selectedCount >= +settings.max) {
               this.optDiv.find('li.opt').not('.hidden').each(function (ix, e) {
                 if (!$(e).hasClass('selected')) {
@@ -709,7 +709,9 @@
         // set direct=false/0 bypasses okCancelInMulti behaviour.
         toggSelAll: function (c, direct) {
           var O = this;
-          O.E.find('option:not(:disabled,:hidden)')
+          var cloneOriginalEvents = $.extend(true, {}, $._data(O.E.get(0), "events")); // clone original select elements events
+          O.E.off(); // unbind original select elements events because we do not want the following clicks to trigger change on it
+          O.E.find('option:not(:disabled), option:not(:hidden)')
             .each(function (ix, e) {
               var is_selected = e.selected,
                 el = $(e).data('li');
@@ -722,9 +724,17 @@
               }
             });
 
+          // rebind original select elements events
+          $.each(cloneOriginalEvents, function (_, e) {
+            $.each(e, function (_, e) {
+              O.E.on(e.type, e.handler);
+            });
+          });
+          
+          O.callChange(); // call change on original select element
+
           if (!direct) {
             if (!O.mob && O.selAll) O.selAll.removeClass('partial').toggleClass('selected', !!c);
-            O.callChange();
             O.setText();
             O.setPstate();
           }
