@@ -82,6 +82,12 @@ $(document).ready(function () {
 });
 ```
 
+*You can also use data attributes to set options*
+
+```html
+<select class="selectBox" multiple data-max="2">
+```
+
 If you want an instance to the SumoSelect object to call handler methods
 
 ```javascript
