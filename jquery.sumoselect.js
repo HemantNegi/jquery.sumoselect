@@ -410,7 +410,7 @@
           if (O.is_opened) {
             O.E.trigger('sumo:closing', O);
             O.is_opened = false;
-            O.select.removeClass('open').attr('aria-expanded', 'true').find('ul li.sel').removeClass('sel');
+            O.select.removeClass('open').attr('aria-expanded', 'false').find('ul li.sel').removeClass('sel');
             O.E.trigger('sumo:closed', O);
             $(document).off('click.sumo');
             $('body').removeClass('sumoStopScroll');
