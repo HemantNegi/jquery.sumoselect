@@ -339,9 +339,9 @@
           var O = this;
           if (settings.selectAll && O.is_multi) {
             var sc = 0, vc = 0;
-            O.optDiv.find('li.opt').not('.hidden').each(function (ix, e) {
+            O.optDiv.find('li.opt').not('.hidden .disabled').each(function (ix, e) {
               if ($(e).hasClass('selected')) sc++;
-              if (!$(e).hasClass('disabled')) vc++;
+              vc++;
             });
             //select all checkbox state change.
             if (sc === vc) O.selAll.removeClass('partial').addClass('selected');
