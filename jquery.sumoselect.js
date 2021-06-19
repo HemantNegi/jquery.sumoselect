@@ -48,7 +48,8 @@
       prefix: '',                   // some prefix usually the field name. eg. '<b>Hello</b>'
       locale: ['OK', 'Cancel', 'Select All'],  // all text that is used. don't change the index.
       up: false,                    // set true to open upside.
-      showTitle: true               // set to false to prevent title (tooltip) from appearing
+      showTitle: true,              // set to false to prevent title (tooltip) from appearing
+      max: null                     // Maximum number of options selected (when multiple)
     }, options);
 
     var ret = this.each(function () {
@@ -70,6 +71,7 @@
         mob: false, // if to open device default select
         Pstate: [],
         lastUnselected: null,
+        selectedCount: 0,
 
         createElems: function () {
           var O = this;
@@ -119,7 +121,7 @@
           O.optDiv.append(O.ul);
 
           // Select all functionality
-          if (settings.selectAll && O.is_multi) O.SelAll();
+          if (settings.selectAll && O.is_multi && !settings.max) O.SelAll();
 
           // search functionality
           if (settings.search) O.Search();
@@ -130,6 +132,7 @@
           if (O.is_multi) O.multiSelelect();
 
           O.select.append(O.optDiv);
+          O._handleMax();
           O.basicEvents();
           O.selAllState();
         },
@@ -170,8 +173,10 @@
 
           O.onOptClick(li);
 
-          if (opt[0].selected)
+          if (opt[0].selected) {
             li.addClass('selected');
+            O.selectedCount++;
+          }
 
           if (opt.attr('class'))
             li.addClass(opt.attr('class'));
@@ -260,6 +265,24 @@
             O.ul.find('li.opt').eq(O.Pstate[i]).addClass('selected');
           }
           O.selAllState();
+        },
+
+        _handleMax: function () {
+          // Disable options if max reached
+          if (this.selectedCount >= +settings.max) {
+            this.optDiv.find('li.opt').not('.hidden').each(function (ix, e) {
+              if (!$(e).hasClass('selected')) {
+                $(e).addClass('temporary-disabled disabled');
+              }
+            });
+          } else {
+            // Enable options back
+            this.optDiv.find('li.opt').not('.hidden').each(function (ix, e) {
+              if ($(e).hasClass('temporary-disabled')) {
+                $(e).removeClass('temporary-disabled disabled');
+              }
+            });
+          }
         },
 
         SelAll: function () {
@@ -449,7 +472,7 @@
                 break;
 
               case 65: // shortcut ctrl + a to select all and ctrl + shift + a to unselect all.
-                if (O.is_multi && e.ctrlKey) {
+                if (O.is_multi && !settings.max && e.ctrlKey) {
                   O.toggSelAll(!e.shiftKey, 1);
                   break;
                 }
@@ -495,13 +518,22 @@
               li.data('opt')[0].selected = li.hasClass('selected');
               if (li.data('opt')[0].selected === false) {
                 O.lastUnselected = li.data('opt')[0].textContent;
+                O.selectedCount--;
+              } else {
+                O.selectedCount++;
               }
+
+              if (settings.max) {
+                O._handleMax();
+              }
+
               O.selAllState();
             }
             else {
               li.parent().find('li.selected').removeClass('selected'); //if not multiselect then remove all selections from this list
               li.toggleClass('selected');
               li.data('opt')[0].selected = true;
+              O.selectedCount = 1;
             }
 
             //branch for combined change event.
@@ -624,13 +656,15 @@
             return;
 
           if (opt.selected !== c) {
-            opt.selected = c;
-            if (!O.mob) $(opt).data('li').toggleClass('selected', c);
+            if ((settings.max && !opt.selected && O.selectedCount < settings.max) || opt.selected || (!settings.max && !opt.selected)) {
+              opt.selected = c;
+              if (!O.mob) $(opt).data('li').toggleClass('selected', c);
 
-            O.callChange();
-            O.setPstate();
-            O.setText();
-            O.selAllState();
+              O.callChange();
+              O.setPstate();
+              O.setText();
+              O.selAllState();
+            }
           }
         },
 
