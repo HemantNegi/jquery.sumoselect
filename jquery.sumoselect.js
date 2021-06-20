@@ -335,6 +335,15 @@
               el.toggleClass('hidden', opt.hidden);
             }).not('.hidden');
 
+            // Hide opt-groups with no options matched
+            O.optDiv[0].querySelectorAll('li.group').forEach(optGroup => {
+              if(optGroup.querySelector('li:not(.hidden)')){
+                optGroup.classList.remove('hidden');
+              }else{
+                optGroup.classList.add('hidden');
+              }
+            });
+
             P.html(settings.noMatch.replace(/\{0\}/g, '<em></em>')).toggle(!hid.length);
             P.find('em').text(O.ftxt.val());
             O.selAllState();
