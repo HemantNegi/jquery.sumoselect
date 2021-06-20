@@ -685,7 +685,7 @@
           var O = this.vRange(i);
           O.E.find('option')[i].disabled = c;
           if (c) O.E.find('option')[i].selected = false;
-          if (!O.mob) O.optDiv.find('ul.options li').eq(i).toggleClass('disabled', c).removeClass('selected');
+          if (!O.mob) O.optDiv.find('ul.options li.opt').eq(i).toggleClass('disabled', c).removeClass('selected');
           O.setText();
         },
 
@@ -798,7 +798,7 @@
         remove: function (i) {
           var O = this.vRange(i);
           O.E.find('option').eq(i).remove();
-          if (!O.mob) O.optDiv.find('ul.options li').eq(i).remove();
+          if (!O.mob) O.optDiv.find('ul.options li.opt').eq(i).remove();
           O.setText();
         },
 
