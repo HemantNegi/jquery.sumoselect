@@ -714,16 +714,27 @@
           var cloneOriginalEvents = $.extend(true, {}, $._data(O.E.get(0), "events")); // clone original select elements events
           O.E.off(); // unbind original select elements events because we do not want the following clicks to trigger change on it
 
-          // Select all
-          if(!!c){
-            O.E[0].querySelectorAll('option:not(:checked):not(:disabled):not(:hidden)').forEach(option => {
-              if(!$(option).data('li').hasClass('hidden')) option.selected = true;
-            });
+          if(O.is_multi){
+            // Select all
+            if(!!c){
+              O.E.find('option:not(:checked):not(:disabled):not(:hidden)').toArray().forEach(option => {
+                if(!$(option).data('li').hasClass('hidden')){
+                  option.selected = true;
+                  $(option).data('li').toggleClass('selected', true);
+                }
+              });
+            }else{
+              // Unselect all
+              O.E.find('option:checked:not(:disabled):not(:hidden)').toArray().forEach(option => {
+                if(!$(option).data('li').hasClass('hidden')){
+                  option.selected = false;
+                  $(option).data('li').toggleClass('selected', false);
+                }
+              });
+            }
           }else{
-            // Unselect all
-            O.E[0].querySelectorAll('option:checked:not(:disabled):not(:hidden)').forEach(option => {
-              if(!$(option).data('li').hasClass('hidden')) option.selected = false;
-            });
+            if(!c) O.E[0].selectedIndex = -1;
+            else console.warn('You called `SelectAll` on a non-multiple select');
           }
 
           // rebind original select elements events
