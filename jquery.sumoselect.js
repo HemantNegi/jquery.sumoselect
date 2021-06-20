@@ -567,10 +567,10 @@
 
             if (settings.csvDispCount && sels.length > settings.csvDispCount) {
               if (sels.length === O.E.find('option').length && settings.captionFormatAllSelected) {
-                O.placeholder = settings.captionFormatAllSelected.replace(/\{0\}/g, sels.length) + ',';
+                O.placeholder = settings.captionFormatAllSelected.replace(/\{0\}/g, sels.length);
               }
               else {
-                O.placeholder = settings.captionFormat.replace(/\{0\}/g, sels.length) + ',';
+                O.placeholder = settings.captionFormat.replace(/\{0\}/g, sels.length);
               }
             }
             else {
