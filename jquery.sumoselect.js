@@ -774,6 +774,7 @@
           var O = this;
           O.select.before(O.E);
           O.E.show();
+          O.E[0].classList.remove('SumoUnder');
 
           if (settings.outputAsCSV && O.is_multi && O.select.find('input.HEMANT123').length) {
             O.E.attr('name', O.select.find('input.HEMANT123').attr('name')); // restore the name;
