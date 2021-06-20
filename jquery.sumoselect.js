@@ -319,7 +319,7 @@
             P = $('<p class="no-match">'),
             fn = (options.searchFn && typeof options.searchFn == 'function') ? options.searchFn : settings.searchFn;
 
-          O.ftxt = $('<input type="text" class="search-txt" value="">')
+          O.ftxt = $('<input type="text" class="search-txt" value="" autocomplete="off">')
             .on('click', function (e) {
               e.stopPropagation();
             });
