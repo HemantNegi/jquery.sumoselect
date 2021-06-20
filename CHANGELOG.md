@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.3.5](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.3.4...v3.3.5) (2021-06-20)
+
+
+### Bug Fixes
+
+* Stop form autocompletion on searches. Fixes [#223](https://github.com/HemantNegi/jquery.sumoselect/issues/223) ([7d298be](https://github.com/HemantNegi/jquery.sumoselect/commit/7d298beaf055ed8f74ba8bb7e20305323f054e99))
+
 ### [3.3.4](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.3.3...v3.3.4) (2021-06-20)
 
 
