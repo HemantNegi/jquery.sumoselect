@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.3.8](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.3.7...v3.3.8) (2021-06-20)
+
+
+### Bug Fixes
+
+* Hide opt groups with no matches on search. Fixes [#242](https://github.com/HemantNegi/jquery.sumoselect/issues/242) ([276d4ce](https://github.com/HemantNegi/jquery.sumoselect/commit/276d4ce5439686148781becc1e6606fea01e2ff6))
+
 ### [3.3.7](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.3.6...v3.3.7) (2021-06-20)
 
 
