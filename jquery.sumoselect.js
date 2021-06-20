@@ -565,19 +565,17 @@
           if (O.is_multi) {
             var sels = O.E.find(':checked').not(':disabled'); //selected options.
 
-            for (var i = 0; i < sels.length; i++) {
-              if (i + 1 >= settings.csvDispCount && settings.csvDispCount) {
-                if (sels.length === O.E.find('option').length && settings.captionFormatAllSelected) {
-                  O.placeholder = settings.captionFormatAllSelected.replace(/\{0\}/g, sels.length) + ',';
-                } else {
-                  O.placeholder = settings.captionFormat.replace(/\{0\}/g, sels.length) + ',';
-                }
-
-                break;
+            if (settings.csvDispCount && sels.length > settings.csvDispCount) {
+              if (sels.length === O.E.find('option').length && settings.captionFormatAllSelected) {
+                O.placeholder = settings.captionFormatAllSelected.replace(/\{0\}/g, sels.length) + ',';
               }
-              else O.placeholder += $(sels[i]).text() + ", ";
+              else {
+                O.placeholder = settings.captionFormat.replace(/\{0\}/g, sels.length) + ',';
+              }
             }
-            O.placeholder = O.placeholder.replace(/,([^,]*)$/, '$1'); //remove unexpected "," from last.
+            else {
+              O.placeholder = sels.toArray().map(selected => selected.innerText).join(', ');
+            }
           }
           else {
             O.placeholder = O.E.find(':checked').not(':disabled').text();
@@ -732,7 +730,7 @@
               O.E.on(e.type, e.handler);
             });
           });
-          
+
           O.callChange(); // call change on original select element
 
           if (!direct) {
