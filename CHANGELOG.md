@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.3.9](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.3.8...v3.3.9) (2021-06-20)
+
+
+### Bug Fixes
+
+* Remove unwanted class after unload ([2b98214](https://github.com/HemantNegi/jquery.sumoselect/commit/2b982143f571477128ca921d8db303cf8accefee))
+
 ### [3.3.8](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.3.7...v3.3.8) (2021-06-20)
 
 
