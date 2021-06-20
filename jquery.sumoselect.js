@@ -437,7 +437,7 @@
         },
         nav: function (up) {
           var O = this, c,
-            s = O.ul.find('li.opt:not(.disabled, .hidden)'),
+            s = O.ul.find('li.opt:not(.disabled):not(.hidden)'),
             sel = O.ul.find('li.opt.sel:not(.hidden)'),
             idx = s.index(sel);
           if (O.is_opened && sel.length) {
