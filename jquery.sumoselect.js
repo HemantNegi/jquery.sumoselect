@@ -711,18 +711,18 @@
           var O = this;
           var cloneOriginalEvents = $.extend(true, {}, $._data(O.E.get(0), "events")); // clone original select elements events
           O.E.off(); // unbind original select elements events because we do not want the following clicks to trigger change on it
-          O.E.find('option:not(:disabled), option:not(:hidden)')
-            .each(function (ix, e) {
-              var is_selected = e.selected,
-                el = $(e).data('li');
-              if (el.hasClass('hidden')) return;
-              if (!!c) {
-                if (!is_selected) el.trigger('click');
-              }
-              else {
-                if (is_selected) el.trigger('click');
-              }
+
+          // Select all
+          if(!!c){
+            O.E[0].querySelectorAll('option:not(:checked):not(:disabled):not(:hidden)').forEach(option => {
+              if(!$(option).data('li').hasClass('hidden')) option.selected = true;
             });
+          }else{
+            // Unselect all
+            O.E[0].querySelectorAll('option:checked:not(:disabled):not(:hidden)').forEach(option => {
+              if(!$(option).data('li').hasClass('hidden')) option.selected = false;
+            });
+          }
 
           // rebind original select elements events
           $.each(cloneOriginalEvents, function (_, e) {
