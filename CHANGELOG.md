@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.3.3](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.3.2...v3.3.3) (2021-06-20)
+
+
+### Bug Fixes
+
+* Multiple :not selector not supported in IE / Safari. Fixes [#216](https://github.com/HemantNegi/jquery.sumoselect/issues/216) ([b553b91](https://github.com/HemantNegi/jquery.sumoselect/commit/b553b912116d59dd325fea8a3373b8da593680f0))
+
 ### [3.3.2](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.3.1...v3.3.2) (2021-06-20)
 
 
