@@ -336,6 +336,11 @@
         <td><code>(int)</code></td>
         <td>Maximum number of selected options (if multiple)</td>
     </tr>
+    <tr>
+        <td><code>renderLi</code></td>
+        <td><code>(function)</code></td>
+        <td>Custom &lt;li&gt; item renderer.</td>
+    </tr>
 </table>
 
 <p>
@@ -379,6 +384,7 @@
     <span class="nx">up</span> <span class="o">:</span> <span class="kc">'false'</span><span class="p">,</span>
     <span class="nx">showTitle</span> <span class="o">:</span> <span class="kc">'true'</span><span class="p">,</span>
     <span class="nx">max</span> <span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="nx">renderLi</span> <span class="o">:</span> <span class="kc">(li, originalOption) => li</span><span class="p">,</span>
 <span class="p">}</span>
 </pre>
 </div>

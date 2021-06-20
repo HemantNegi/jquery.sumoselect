@@ -171,6 +171,8 @@ Below are the available settings:
 
 - `max` `(int)` Maximum number of selected options (if multiple)
 
+- `renderLi` `(function)`  Custom `<li>` item renderer
+
 **The default settings are :**
 
 ```javascript
@@ -198,7 +200,8 @@ Below are the available settings:
     locale: ['OK', 'Cancel', 'Select All'],
     up: false,
     showTitle: true,
-    max: null
+    max: null,
+    renderLi: (li, originalOption) => li
 }
 ```
 

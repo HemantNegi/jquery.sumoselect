@@ -49,7 +49,9 @@
       locale: ['OK', 'Cancel', 'Select All'],  // all text that is used. don't change the index.
       up: false,                    // set true to open upside.
       showTitle: true,              // set to false to prevent title (tooltip) from appearing
-      max: null                     // Maximum number of options selected (when multiple)
+      max: null,                    // Maximum number of options selected (when multiple)
+      // eslint-disable-next-line no-unused-vars
+      renderLi: (li, _originalOption) => li          // Custom <li> item renderer
     };
 
     var ret = this.each(function () {
@@ -186,7 +188,7 @@
           if (opt.attr('title'))
             li.attr('title', opt.attr('title'));
 
-          return li;
+          return settings.renderLi(li, opt);
         },
 
         //## Returns the selected items as string in a Multiselect.
