@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.3.4](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.3.3...v3.3.4) (2021-06-20)
+
+
+### Bug Fixes
+
+* IE resetting selectedIndex from -1 to 0. Fixes [#221](https://github.com/HemantNegi/jquery.sumoselect/issues/221) ([8629388](https://github.com/HemantNegi/jquery.sumoselect/commit/8629388db1e0f86d827e7aba7d6ccfc42ef093c5))
+
 ### [3.3.3](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.3.2...v3.3.3) (2021-06-20)
 
 
