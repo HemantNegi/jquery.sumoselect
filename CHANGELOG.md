@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.3.0](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.2.6...v3.3.0) (2021-06-20)
+
+
+### Features
+
+* New custom `<li>` renderer. Fixes [#272](https://github.com/HemantNegi/jquery.sumoselect/issues/272) ([d0ffdfb](https://github.com/HemantNegi/jquery.sumoselect/commit/d0ffdfb79a1b9dc59bb12a0c07676c255a8bf53d))
+
 ### [3.2.6](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.2.5...v3.2.6) (2021-06-19)
 
 ### [3.2.5](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.2.4...v3.2.5) (2021-06-19)
