@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.3.1](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.3.0...v3.3.1) (2021-06-20)
+
+
+### Bug Fixes
+
+* csvDispCount displaying one less than planned. Fixes [#267](https://github.com/HemantNegi/jquery.sumoselect/issues/267) ([dd00654](https://github.com/HemantNegi/jquery.sumoselect/commit/dd0065450620e4ee147306de1e9a14ac40e1b999))
+* Trailing comma in placeholder ([fdfe2cd](https://github.com/HemantNegi/jquery.sumoselect/commit/fdfe2cde1cf7123688043b2e293d1a08c50e52de))
+
 ## [3.3.0](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.2.6...v3.3.0) (2021-06-20)
 
 
