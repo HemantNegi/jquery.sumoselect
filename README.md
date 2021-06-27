@@ -1,15 +1,14 @@
 jquery.sumoselect
 =============
 
-
 jquery.sumoselect.js - A beautiful cross device Single/Multi Select jQuery Select plugin.
 -------------------------------------------------------------------------------
 A jQuery plugin that progressively enhances an HTML Select Box into a Single/Multiple option dropdown list. The dropdown list can be fully customizable using simple css.
 It can adapt itself according to any device, keeping in mind that the User Experience is not broken. 
 
-View Live [Demo Here](http://hemantnegi.github.io/jquery.sumoselect/sumoselect_demo.html)
+# View Live [Demo Here](https://hemantnegi.github.io/jquery.sumoselect/sumoselect_demo.html)
 
-Documentaion [Documentation Here](http://hemantnegi.github.io/jquery.sumoselect/)
+Documentaion [Documentation Here](https://hemantnegi.github.io/jquery.sumoselect/)
 
 Latest stable :  [Download from here](https://github.com/HemantNegi/jquery.sumoselect/releases)
 
@@ -19,10 +18,10 @@ The folks at CDNJS host a copy of the library. The CDN is updated after the rele
 
 ```html
 <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.sumoselect/3.0.2/sumoselect.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.sumoselect/3.1.6/sumoselect.min.css">
 
 <!-- Latest compiled and minified JavaScript -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.sumoselect/3.0.2/jquery.sumoselect.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.sumoselect/3.1.6/jquery.sumoselect.min.js"></script>
 ```
 
 
@@ -47,57 +46,6 @@ The folks at CDNJS host a copy of the library. The CDN is updated after the rele
 
    - Easily extendable to allow developers to create new widgets
 
-**Update v1.1.0**
-
-   - Wraped all properties in a sumo object connected to native select element.
-
-   - Added standard add, remove, select, unselect, disable, eanble, unload etc. methods for better manipulation
-
-   - Instance of SumoSelect can be accessed from native reference of select element
-
-   - ~~Added ```disabled = true``` to disable/ enable the control.~~ Now its ```enable()``` and ```disable()``` 
-
-   - Bug fixings..
-   
-**Update v1.2.0**
-
-   - Added a new option for custom dispaly formats
-
-   - Now ```outputAsCSV``` is default set to ```false```
-
-   - fixed problems with unload and other handler methods on mobile deveices
-
-   - Bug fixings..
-
-**Update v2.0.0**
-
-   - Added tabindex and keyboard navigation support
-
-   - Added select all feature
-
-   - Redesigned the UI (No external icons are used now and color scheme can be controlled by css)
-
-   - Added some really useful new methods like ```reload(), selectAll(), unSelectAll(), enable(), disable()```
-
-   - Better rensponse to lost focus and other events and non recognised devices.
-
-   - Lots of bug Fixings..
-
-
-**Update v3.0.0**
-
-   - Support for searching added.
-
-   - Optgroup support added
-
-   - Restructured markup
-
-   - Direction of select is controllable by settings.
-
-   - All the text can be customized (better localization support).
-
-   - Lots of bug Fixings..
-
 ## Requirements
 jQuery 1.8.3+ (It is always recommended to use the latest version of jQuery)
 
@@ -118,44 +66,53 @@ If you find that you need a feature that SumoSelect does not currently support, 
 *To just go with the default options simply do*
 
 ```javascript
- $(document).ready(function () {
-            $('.SlectBox').SumoSelect();
-     });
+$(document).ready(function () {
+  $('.selectBox').SumoSelect();
+});
 ```
 
-*To provide optional settings, simply pass settings object to SumoSelect()*
+*To provide optional settings, simply pass a settings object to SumoSelect()*
 
 ```javascript
- $(document).ready(function () {
-            $('.SlectBox').SumoSelect({placeholder: 'This is a placeholder', csvDispCount: 3 });
-        });
+$(document).ready(function () {
+  $('.selectBox').SumoSelect({
+    placeholder: 'This is a placeholder',
+    csvDispCount: 3
+  });
+});
 ```
 
-If you want a instance to the SumoSelect object to call handler methods
+*You can also use data attributes to set options*
+
+```html
+<select class="selectBox" multiple data-max="2">
+```
+
+If you want an instance to the SumoSelect object to call handler methods
 
 ```javascript
- var MySelect;
- $(document).ready(function () {
-         MySelect = $('.SlectBox').SumoSelect();
-     });
+const select;
+$(document).ready(function () {
+  select = $('.selectBox').SumoSelect();
+});
 ```
 *NOTE: SumoSelect returns an array of select elements if there are more than one in the matching selector.*
 
-You can also find the instance to SumoSelect object by directly selecting your select element like
+You can also find the instance to the SumoSelect object by directly selecting your select element like
 ```javascript
-	$('select.SlectBox')[0].sumo. .....
+$('select.selectBox')[0].sumo. .....
 ```
 
-You can perform all the operations on underlying original select and then reload the UI by 
+You can perform all the operations on the underlying original select and then reload the UI by 
 ```javascript
-	$('select.SlectBox')[0].sumo.reload();
+$('select.selectBox')[0].sumo.reload();
 ```
 
 ##### You can bind your handlers to some sumoselect specific events eg.
 ```javascript
-$('select.SlectBox').on('sumo:opened', function(sumo) {
-   // Do stuff here
-   console.log("Drop down opened", sumo)
+$('select.selectBox').on('sumo:opened', function(sumo) {
+  // Do stuff here
+  console.log("Drop down opened", sumo)
 });
 ```
 Available events
@@ -168,9 +125,9 @@ Available events
 
 **Settings**
 
-The following settings are available now:
+Below are the available settings:
 
-- `placeholder` `(string)`  The palceholder text to be displayed in the rendered select widget (on priority basis). *Maximum priority is given to native placeholder attribute in select tag i.e.  - `<select placeholder="this is a placeholder" />`  - Then the option with disabled and selected attribute i.e. `<option disabled selected value="foo" >`  - Last to to the given placeholder attribute in the settings. *
+- `placeholder` `(string)`  The palceholder text to be displayed in the rendered select widget (on priority basis). *Maximum priority is given to native placeholder attribute in select tag i.e.*  - *`<select placeholder="this is a placeholder" />`*  - *Then the option with disabled and selected attribute i.e.* *`<option disabled selected value="foo" >`*  - *Last to to the given placeholder attribute in the settings.*
 
 - `csvDispCount` `(int)`  The number of items to be displayed in the widget seperated by a `,` after that the text will be warped as *3+ Selected*. Set `0` for all the options.
 
@@ -200,6 +157,8 @@ The following settings are available now:
 
 - `searchText` `(string)`  placeholder for search input.
 
+- `searchFn` `(function)`  Custom search function.
+
 - `noMatch` `(string)`  placeholder to display if no itmes matches the search term (default 'No matches for "{0}"').
 
 - `prefix` `(string)`  prefix to prepend the selected text (default is empty) eg. '<b>Hello</b>'.
@@ -209,6 +168,10 @@ The following settings are available now:
 - `up` `(boolean)`   the direction in which to open the dropdown (default: false)
 
 - `showTitle` `(boolean)` set to false to prevent title (tooltip) from appearing (deafult `true`)
+
+- `max` `(int)` Maximum number of selected options (if multiple)
+
+- `renderLi` `(function)`  Custom `<li>` item renderer
 
 **The default settings are :**
 
@@ -229,15 +192,20 @@ The following settings are available now:
     selectAll: false,
     search: false,
     searchText: 'Search...',
+    searchFn: function (haystack, needle) {
+      return haystack.toLowerCase().indexOf(needle.toLowerCase()) < 0;
+    },
     noMatch: 'No matches for "{0}"',
     prefix: '',
     locale: ['OK', 'Cancel', 'Select All'],
     up: false,
-    showTitle: true
+    showTitle: true,
+    max: null,
+    renderLi: (li, originalOption) => li
 }
 ```
 
-[Furthur Documentation](http://hemantnegi.github.io/jquery.sumoselect/)
+[Furthur Documentation](https://hemantnegi.github.io/jquery.sumoselect/)
 
 ## License
 
