@@ -12,6 +12,7 @@
     "object-shorthand": "error",
     "prefer-template": "error",
     "radix": "error",
-    "eqeqeq": "error"
+    "eqeqeq": "error",
+    "default-case": "error"
   }
 }

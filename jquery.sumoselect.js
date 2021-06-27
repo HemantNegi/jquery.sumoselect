@@ -238,6 +238,8 @@
                 O._cnbtn();
                 O.hideOpts();
                 return;
+              default:
+                break;
             }
             e.stopPropagation();
             e.preventDefault();
