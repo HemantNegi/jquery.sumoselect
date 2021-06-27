@@ -319,7 +319,7 @@
           const O = this,
             cc = O.CaptionCont.addClass('search'),
             P = $('<p class="no-match">'),
-            fn = (options.searchFn && typeof options.searchFn == 'function') ? options.searchFn : settings.searchFn;
+            fn = (options.searchFn && typeof options.searchFn === 'function') ? options.searchFn : settings.searchFn;
 
           O.ftxt = $('<input type="text" class="search-txt" value="" autocomplete="off">')
             .on('click', function (e) {
@@ -797,7 +797,7 @@
 
           const opt = $("<option></option>").val(val).html(txt);
 
-          if (attr && typeof attr == "object") {
+          if (attr && typeof attr === "object") {
             $.each(attr, function (i, v) {
               opt.attr(i, v);
             });

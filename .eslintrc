@@ -11,6 +11,7 @@
     "no-var": "error",
     "object-shorthand": "error",
     "prefer-template": "error",
-    "radix": "error"
+    "radix": "error",
+    "eqeqeq": "error"
   }
 }
