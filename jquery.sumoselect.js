@@ -538,13 +538,13 @@
         onOptClick (li) {
           const O = this;
           li.click(function () {
-            const li = $(this);
-            if (li.hasClass('disabled')) return;
+            const $li = $(this);
+            if ($li.hasClass('disabled')) return;
             if (O.is_multi) {
-              li.toggleClass('selected');
-              li.data('opt')[0].selected = li.hasClass('selected');
-              if (li.data('opt')[0].selected === false) {
-                O.lastUnselected = li.data('opt')[0].textContent;
+              $li.toggleClass('selected');
+              $li.data('opt')[0].selected = $li.hasClass('selected');
+              if ($li.data('opt')[0].selected === false) {
+                O.lastUnselected = $li.data('opt')[0].textContent;
                 O.selectedCount--;
               } else {
                 O.selectedCount++;
@@ -557,9 +557,9 @@
               O.selAllState();
             }
             else {
-              li.parent().find('li.selected').removeClass('selected'); //if not multiselect then remove all selections from this list
-              li.toggleClass('selected');
-              li.data('opt')[0].selected = true;
+              $li.parent().find('li.selected').removeClass('selected'); //if not multiselect then remove all selections from this list
+              $li.toggleClass('selected');
+              $li.data('opt')[0].selected = true;
               O.selectedCount = 1;
             }
 
@@ -752,8 +752,8 @@
 
           // rebind original select elements events
           $.each(cloneOriginalEvents, (_, e) => {
-            $.each(e, (_, e) => {
-              O.E.on(e.type, e.handler);
+            $.each(e, (__, ev) => {
+              O.E.on(ev.type, ev.handler);
             });
           });
 
@@ -808,8 +808,8 @@
           const opt = $("<option></option>").val(value).html(text);
 
           if (attr && typeof attr === "object") {
-            $.each(attr, (i, v) => {
-              opt.attr(i, v);
+            $.each(attr, (j, v) => {
+              opt.attr(j, v);
             });
           }
 
@@ -838,10 +838,10 @@
         // removes all but the selected one
         removeAll () {
           const O = this;
-          const options = O.E.find('option');
+          const optionList = O.E.find('option');
 
-          for (let x = (options.length - 1); x >= 0; x--) {
-            if (options[x].selected !== true) {
+          for (let x = (optionList.length - 1); x >= 0; x--) {
+            if (optionList[x].selected !== true) {
               O.remove(x);
             }
           }
@@ -851,9 +851,9 @@
 
         find (val) {
           const O = this;
-          const options = O.E.find('option');
-          for (let x in options) {
-            if (options[x].value === val) {
+          const optionList = O.E.find('option');
+          for (let x in optionList) {
+            if (optionList[x].value === val) {
               return +x;
             }
           }

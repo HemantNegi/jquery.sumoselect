@@ -16,6 +16,8 @@
     "default-case": "error",
     "prefer-arrow-callback": "error",
     "no-param-reassign": "error",
-    "prefer-destructuring": "error"
+    "prefer-destructuring": "error",
+    "dot-location": ["error", "property"],
+    "no-shadow": "error"
   }
 }
