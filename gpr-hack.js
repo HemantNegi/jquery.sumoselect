@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const pkg = require('./package.json');
 
-pkg.name = '@HemantNegi/jquery.sumoselect';
+pkg.name = '@hemantnegi/jquery.sumoselect';
 
 // Update package.json with the udpated name
 fs.writeFileSync(
