@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const pkg = require('../package.json');
+const pkg = require('package.json');
 
 pkg.name = '@HemantNegi/jquery.sumoselect';
 
