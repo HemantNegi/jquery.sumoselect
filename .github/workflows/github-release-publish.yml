@@ -38,7 +38,7 @@ jobs:
         with:
           node-version: 14
           registry-url: https://npm.pkg.github.com/
-          scope: "@zenoo"
+          scope: "@HemantNegi"
       - run: node gpr-hack.js
       - run: npm ci
       - run: npm publish

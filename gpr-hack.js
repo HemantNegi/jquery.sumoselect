@@ -6,6 +6,6 @@ const file = readFileSync("./package.json", {
 
 const json = JSON.parse(file);
 
-json.name = "@HemantNegi/sumoselect";
+json.name = "@HemantNegi/jquery.sumoselect";
 
 writeFileSync("./package.json", JSON.stringify(json, undefined, 2));
