@@ -662,7 +662,7 @@
         vRange (i) {
           const O = this;
           const opts = O.E.find('option');
-          if (opts.length <= i || i < 0) throw "index out of bounds";
+          if (opts.length <= i || i < 0) throw new Error("index out of bounds");
           return O;
         },
 
@@ -790,7 +790,7 @@
 
         //## add a new option to select at a given index.
         add (val, txt, i, attr) {
-          if (typeof val === "undefined") throw "No value to add";
+          if (typeof val === "undefined") throw new Error("No value to add");
 
           const O = this;
           const opts = O.E.find('option');
@@ -813,7 +813,7 @@
             });
           }
 
-          if (opts.length < index) throw "index out of bounds";
+          if (opts.length < index) throw new Error("index out of bounds");
 
           if (typeof index === "undefined" || opts.length === index) { // add it to the last if given index is last no or no index provides.
             O.E.append(opt);

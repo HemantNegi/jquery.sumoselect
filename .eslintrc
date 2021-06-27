@@ -18,6 +18,8 @@
     "no-param-reassign": "error",
     "prefer-destructuring": "error",
     "dot-location": ["error", "property"],
-    "no-shadow": "error"
+    "no-shadow": "error",
+    "no-implicit-coercion": "off",
+    "no-throw-literal": "error"
   }
 }
