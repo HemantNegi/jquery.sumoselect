@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.3.15](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.3.14...v3.3.15) (2021-06-27)
+
+
+### Bug Fixes
+
+* Package name & scope ([87f8c9d](https://github.com/HemantNegi/jquery.sumoselect/commit/87f8c9d87bfd0a0cf1f7344bf0519965c577e615))
+
 ### [3.3.14](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.3.13...v3.3.14) (2021-06-27)
 
 
