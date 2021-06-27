@@ -80,7 +80,7 @@
 
         createElems () {
           const O = this;
-          const selectedIndex = O.E[0].selectedIndex;
+          const [{selectedIndex}] = O.E;
           O.E.wrap('<div class="SumoSelect" tabindex="0" role="button" aria-expanded="false">');
           O.E[0].selectedIndex = selectedIndex; // Fix for IE resetting index to 0 when -1
           O.select = O.E.parent();
@@ -211,13 +211,13 @@
             O._okbtn();
             O.hideOpts();
           });
-          O.okbtn[0].innerText = settings.locale[0];
+          [O.okbtn[0].innerText] = settings.locale;
 
           O.cancelBtn = $('<p tabindex="0" class="btnCancel"></p>').click(() => {
             O._cnbtn();
             O.hideOpts();
           });
-          O.cancelBtn[0].innerText = settings.locale[1];
+          [, O.cancelBtn[0].innerText] = settings.locale;
 
           const btns = O.okbtn.add(O.cancelBtn);
           O.optDiv.append($('<div class="MultiControls">').append(btns));
@@ -305,7 +305,7 @@
           const O = this;
           if (!O.is_multi) return;
           O.selAll = $('<p class="select-all"><span><i></i></span><label></label></p>');
-          O.selAll.find('label')[0].innerText = settings.locale[2];
+          [, , O.selAll.find('label')[0].innerText] = settings.locale;
           O.optDiv.addClass('selall');
           O.selAll.on('click', () => {
             O.selAll.toggleClass('selected');
@@ -334,7 +334,7 @@
           O.ftxt.on('keyup.sumo', () => {
             const hid = O.optDiv.find('ul.options li.opt').each((ix, e) => {
               const el = $(e),
-                opt = el.data('opt')[0];
+                [opt] = el.data('opt');
               opt.hidden = fn(el.text(), O.ftxt.val());
               el.toggleClass('hidden', opt.hidden);
             }).not('.hidden');
@@ -467,7 +467,7 @@
             sel = c.addClass('sel');
 
             // setting sel item to visible view.
-            const ul = O.ul,
+            const { ul } = O,
               st = ul.scrollTop(),
               t = sel.position().top + st;
             if (t >= st + ul.height() - sel.outerHeight())
