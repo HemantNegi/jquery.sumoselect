@@ -112,13 +112,13 @@
           }
 
           // if there is a name attr in select add a class to container div
-          if (O.E.attr('name')) O.select.addClass('sumo_' + O.E.attr('name').replace(/\[\]/, ''));
+          if (O.E.attr('name')) O.select.addClass(`sumo_${O.E.attr('name').replace(/\[\]/, '')}`);
 
           //hide original select
           O.E.addClass('SumoUnder').attr('tabindex', '-1');
 
           //## Creating the list...
-          O.optDiv = $('<div class="optWrapper ' + (settings.up ? 'up' : '') + '">');
+          O.optDiv = $(`<div class="optWrapper ${settings.up ? 'up' : ''}">`);
 
           //branch for floating list in low res devices.
           O.floatingList();
@@ -149,7 +149,7 @@
           $(opts).each(function (i, opt) {       // parsing options to li
             opt = $(opt);
             lis.push(opt.is('optgroup') ?
-              $('<li class="group ' + (opt[0].disabled ? 'disabled' : '') + '"><label></label><ul></ul></li>')
+              $(`<li class="group ${opt[0].disabled ? 'disabled' : ''}"><label></label><ul></ul></li>`)
                 .find('label')
                 .text(opt.attr('label'))
                 .end()
@@ -169,7 +169,7 @@
           const O = this;
 
           if (!opt.attr('value')) opt.attr('value', opt.val());
-          const li = $('<li class="opt"><label>' + opt.html() + '</label></li>');
+          const li = $(`<li class="opt"><label>${opt.html()}</label></li>`);
 
           li.data('opt', opt);    // store a direct reference to option.
           opt.data('li', li);    // store a direct reference to list item.
@@ -450,7 +450,7 @@
         },
         nav (up) {
           const O = this;
-          let c, sel = O.ul.find('li.opt.sel:not(.hidden)');
+          let c = null, sel = O.ul.find('li.opt.sel:not(.hidden)');
           const
             s = O.ul.find('li.opt:not(.disabled):not(.hidden)'),
             idx = s.index(sel);
@@ -605,7 +605,7 @@
               O.placeholder = O.E.find('option:disabled:checked').text();
           }
 
-          O.placeholder = O.placeholder ? (settings.prefix + ' ' + O.placeholder) : settings.placeholder;
+          O.placeholder = O.placeholder ? (`${settings.prefix} ${O.placeholder}`) : settings.placeholder;
 
           //set display text
           O.caption.text(O.placeholder);
@@ -667,13 +667,13 @@
         //toggles selection on c as boolean.
         toggSel (c, i) {
           const O = this;
-          let opt;
+          let opt = null;
           if (typeof (i) === "number") {
             O.vRange(i);
             opt = O.E.find('option')[i];
           }
           else {
-            opt = O.E.find('option[value="' + i + '"]')[0] || 0;
+            opt = O.E.find(`option[value="${i}"]`)[0] || 0;
           }
           if (!opt || opt.disabled)
             return;

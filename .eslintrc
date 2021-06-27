@@ -9,6 +9,7 @@
     "no-extra-boolean-cast": "off",
     "semi": "error",
     "no-var": "error",
-    "object-shorthand": "error"
+    "object-shorthand": "error",
+    "prefer-template": "error"
   }
 }
