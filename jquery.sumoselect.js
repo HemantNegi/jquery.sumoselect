@@ -147,17 +147,17 @@
         prepItems (opts, d) {
           const lis = [], O = this;
           $(opts).each((i, opt) => {       // parsing options to li
-            opt = $(opt);
-            lis.push(opt.is('optgroup') ?
-              $(`<li class="group ${opt[0].disabled ? 'disabled' : ''}"><label></label><ul></ul></li>`)
+            const $opt = $(opt);
+            lis.push($opt.is('optgroup') ?
+              $(`<li class="group ${opt.disabled ? 'disabled' : ''}"><label></label><ul></ul></li>`)
                 .find('label')
-                .text(opt.attr('label'))
+                .text($opt.attr('label'))
                 .end()
                 .find('ul')
-                .append(O.prepItems(opt.children(), opt[0].disabled))
+                .append(O.prepItems($opt.children(), opt.disabled))
                 .end()
               :
-              O.createLi(opt, d)
+              O.createLi($opt, d)
             );
           });
           return lis;
@@ -794,10 +794,18 @@
 
           const O = this;
           const opts = O.E.find('option');
-          if (typeof txt === "number") { i = txt; txt = val; }
-          if (typeof txt === "undefined") { txt = val; }
+          let 
+            value = val,
+            text = txt,
+            index = i;
+          if (typeof txt === "number") { // .add('xxx', 2) shorthand
+            index = txt;
+            text = val;
+          } else if (typeof txt === "undefined") { // .add('xxx') shorthand
+            text = val;
+          }
 
-          const opt = $("<option></option>").val(val).html(txt);
+          const opt = $("<option></option>").val(value).html(text);
 
           if (attr && typeof attr === "object") {
             $.each(attr, (i, v) => {
@@ -805,15 +813,15 @@
             });
           }
 
-          if (opts.length < i) throw "index out of bounds";
+          if (opts.length < index) throw "index out of bounds";
 
-          if (typeof i === "undefined" || opts.length === i) { // add it to the last if given index is last no or no index provides.
+          if (typeof index === "undefined" || opts.length === index) { // add it to the last if given index is last no or no index provides.
             O.E.append(opt);
             if (!O.mob) O.ul.append(O.createLi(opt));
           }
           else {
-            opts.eq(i).before(opt);
-            if (!O.mob) O.ul.find('li.opt').eq(i).before(O.createLi(opt));
+            opts.eq(index).before(opt);
+            if (!O.mob) O.ul.find('li.opt').eq(index).before(O.createLi(opt));
           }
 
           return selObj;

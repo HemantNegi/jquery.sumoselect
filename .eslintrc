@@ -15,5 +15,6 @@
     "eqeqeq": "error",
     "default-case": "error",
     "prefer-arrow-callback": "error",
+    "no-param-reassign": "error"
   }
 }
