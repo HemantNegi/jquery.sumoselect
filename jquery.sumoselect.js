@@ -772,6 +772,7 @@
 
         unload: function () {
           var O = this;
+          O.E.trigger('sumo:unloading', O);
           O.select.before(O.E);
           O.E.show();
           O.E[0].classList.remove('SumoUnder');
@@ -781,6 +782,7 @@
           }
           O.select.remove();
           delete selObj.sumo;
+          O.E.trigger('sumo:unloaded', O);
           return selObj;
         },
 
@@ -882,6 +884,7 @@
           var O = this;
           O.createElems();
           O.setText();
+          O.E.trigger('sumo:initialized', O);
           return O;
         }
 
