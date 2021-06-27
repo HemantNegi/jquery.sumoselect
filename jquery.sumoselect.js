@@ -42,7 +42,7 @@
 
       search: false,                // to display input for filtering content. selectAlltext will be input text placeholder
       searchText: 'Search...',      // placeholder for search input
-      searchFn: function (haystack, needle) { // search function
+      searchFn (haystack, needle) { // search function
         return haystack.toLowerCase().indexOf(needle.toLowerCase()) < 0;
       },
       noMatch: 'No matches for "{0}"',
@@ -78,7 +78,7 @@
         lastUnselected: null,
         selectedCount: 0,
 
-        createElems: function () {
+        createElems () {
           const O = this;
           const selectedIndex = O.E[0].selectedIndex;
           O.E.wrap('<div class="SumoSelect" tabindex="0" role="button" aria-expanded="false">');
@@ -144,7 +144,7 @@
           O.selAllState();
         },
 
-        prepItems: function (opts, d) {
+        prepItems (opts, d) {
           const lis = [], O = this;
           $(opts).each(function (i, opt) {       // parsing options to li
             opt = $(opt);
@@ -165,7 +165,7 @@
 
         //## Creates a LI element from a given option and binds events to it
         //## returns the jquery instance of li (not inserted in dom)
-        createLi: function (opt, d) {
+        createLi (opt, d) {
           const O = this;
 
           if (!opt.attr('value')) opt.attr('value', opt.val());
@@ -195,7 +195,7 @@
         },
 
         //## Returns the selected items as string in a Multiselect.
-        getSelStr: function () {
+        getSelStr () {
           // get the pre selected items.
           const sopt = [];
           this.E.find('option:checked').each(function () { sopt.push($(this).val()); });
@@ -203,7 +203,7 @@
         },
 
         //## THOSE OK/CANCEL BUTTONS ON MULTIPLE SELECT.
-        multiSelelect: function () {
+        multiSelelect () {
           const O = this;
           O.optDiv.addClass('multiple');
           O.okbtn = $('<p tabindex="0" class="btnOk"></p>').click(function () {
@@ -244,7 +244,7 @@
           });
         },
 
-        _okbtn: function () {
+        _okbtn () {
           const O = this;
           let cg = 0;
           //if combined change event is set.
@@ -265,7 +265,7 @@
             }
           }
         },
-        _cnbtn: function () {
+        _cnbtn () {
           const O = this;
           //remove all selections
           O.E.find('option:checked').each(function () { this.selected = false; });
@@ -279,7 +279,7 @@
           O.selAllState();
         },
 
-        _handleMax: function () {
+        _handleMax () {
           // Disable options if max reached
           if (settings.max) {
             if (this.selectedCount >= +settings.max) {
@@ -299,7 +299,7 @@
           }
         },
 
-        SelAll: function () {
+        SelAll () {
           const O = this;
           if (!O.is_multi) return;
           O.selAll = $('<p class="select-all"><span><i></i></span><label></label></p>');
@@ -315,7 +315,7 @@
         },
 
         // search module (can be removed if not required.)
-        Search: function () {
+        Search () {
           const O = this,
             cc = O.CaptionCont.addClass('search'),
             P = $('<p class="no-match">'),
@@ -352,7 +352,7 @@
           });
         },
 
-        selAllState: function () {
+        selAllState () {
           const O = this;
           if (settings.selectAll && O.is_multi) {
             let sc = 0, vc = 0;
@@ -367,7 +367,7 @@
           }
         },
 
-        showOpts: function () {
+        showOpts () {
           const O = this;
           if (O.E.attr('disabled')) return; // if select is disabled then retrun
           O.E.trigger('sumo:opening', O);
@@ -404,7 +404,7 @@
         },
 
         //maintain state when ok/cancel buttons are available storing the indexes.
-        setPstate: function () {
+        setPstate () {
           const O = this;
           if (O.is_multi && (O.is_floating || settings.okCancelInMulti)) {
             O.Pstate = [];
@@ -413,14 +413,14 @@
           }
         },
 
-        callChange: function () {
+        callChange () {
           this.E.get().forEach(e => {
             e.dispatchEvent(new Event('change'));
             e.dispatchEvent(new Event('click'));
           });
         },
 
-        hideOpts: function () {
+        hideOpts () {
           const O = this;
           if (O.is_opened) {
             O.E.trigger('sumo:closing', O);
@@ -437,7 +437,7 @@
             }
           }
         },
-        setOnOpen: function () {
+        setOnOpen () {
           const O = this;
           let li = O.optDiv.find('li.opt:not(.hidden)').eq(settings.search ? 0 : O.E[0].selectedIndex);
           if (li.hasClass('disabled')) {
@@ -448,7 +448,7 @@
           li.addClass('sel');
           O.showOpts();
         },
-        nav: function (up) {
+        nav (up) {
           const O = this;
           let c, sel = O.ul.find('li.opt.sel:not(.hidden)');
           const
@@ -478,7 +478,7 @@
             O.setOnOpen();
         },
 
-        basicEvents: function () {
+        basicEvents () {
           const O = this;
           O.CaptionCont.click(function (evt) {
             O.E.trigger('click');
@@ -533,7 +533,7 @@
           });
         },
 
-        onOptClick: function (li) {
+        onOptClick (li) {
           const O = this;
           li.click(function () {
             const li = $(this);
@@ -572,7 +572,7 @@
         },
 
         // fixed some variables that were not explicitly typed (michc)
-        setText: function () {
+        setText () {
           const O = this;
           O.placeholder = "";
           if (O.is_multi) {
@@ -620,7 +620,7 @@
           return O.placeholder;
         },
 
-        isMobile: function () {
+        isMobile () {
 
           // Adapted from http://www.detectmobilebrowsers.com
           const ua = navigator.userAgent || navigator.vendor || window.opera;
@@ -630,7 +630,7 @@
           return false;
         },
 
-        setNativeMobile: function () {
+        setNativeMobile () {
           const O = this;
           O.E.addClass('SelectClass');//.css('height', O.select.outerHeight());
           O.mob = true;
@@ -639,7 +639,7 @@
           });
         },
 
-        floatingList: function () {
+        floatingList () {
           const O = this;
           //called on init and also on resize.
           //O.is_floating = true if window width is < specified float width
@@ -657,7 +657,7 @@
 
         //HELPERS FOR OUTSIDERS
         // validates range of given item operations
-        vRange: function (i) {
+        vRange (i) {
           const O = this;
           const opts = O.E.find('option');
           if (opts.length <= i || i < 0) throw "index out of bounds";
@@ -665,7 +665,7 @@
         },
 
         //toggles selection on c as boolean.
-        toggSel: function (c, i) {
+        toggSel (c, i) {
           const O = this;
           let opt;
           if (typeof (i) === "number") {
@@ -692,7 +692,7 @@
         },
 
         //toggles disabled on c as boolean.
-        toggDis: function (c, i) {
+        toggDis (c, i) {
           const O = this.vRange(i);
           O.E.find('option')[i].disabled = c;
           if (c) O.E.find('option')[i].selected = false;
@@ -701,7 +701,7 @@
         },
 
         // toggle disable/enable on complete select control
-        toggSumo: function (val) {
+        toggSumo (val) {
           const O = this;
           O.enabled = val;
           O.select.toggleClass('disabled', val);
@@ -720,7 +720,7 @@
 
         // toggles all option on c as boolean.
         // set direct=false/0 bypasses okCancelInMulti behaviour.
-        toggSelAll: function (c, direct) {
+        toggSelAll (c, direct) {
           const O = this;
           const cloneOriginalEvents = $.extend(true, {}, $._data(O.E.get(0), "events")); // clone original select elements events
           O.E.off(); // unbind original select elements events because we do not want the following clicks to trigger change on it
@@ -765,14 +765,14 @@
         },
 
         /* outside accessibility options
-         which can be accessed from the element instance.
+          which can be accessed from the element instance.
          */
-        reload: function () {
+        reload () {
           const elm = this.unload();
           return $(elm).SumoSelect(settings);
         },
 
-        unload: function () {
+        unload () {
           const O = this;
           O.select.before(O.E);
           O.E.show();
@@ -787,7 +787,7 @@
         },
 
         //## add a new option to select at a given index.
-        add: function (val, txt, i, attr) {
+        add (val, txt, i, attr) {
           if (typeof val === "undefined") throw "No value to add";
 
           const O = this;
@@ -818,7 +818,7 @@
         },
 
         //## removes an item at a given index.
-        remove: function (i) {
+        remove (i) {
           const O = this.vRange(i);
           O.E.find('option').eq(i).remove();
           if (!O.mob) O.optDiv.find('ul.options li.opt').eq(i).remove();
@@ -826,7 +826,7 @@
         },
 
         // removes all but the selected one
-        removeAll: function () {
+        removeAll () {
           const O = this;
           const options = O.E.find('option');
 
@@ -839,7 +839,7 @@
         },
 
 
-        find: function (val) {
+        find (val) {
           const O = this;
           const options = O.E.find('option');
           for (let x in options) {
@@ -853,34 +853,34 @@
         },
 
         //## Select an item at a given index.
-        selectItem: function (i) { this.toggSel(true, i); },
+        selectItem (i) { this.toggSel(true, i); },
 
         //## UnSelect an iten at a given index.
-        unSelectItem: function (i) { this.toggSel(false, i); },
+        unSelectItem (i) { this.toggSel(false, i); },
 
         //## Select all items  of the select.
-        selectAll: function () { this.toggSelAll(true); },
+        selectAll () { this.toggSelAll(true); },
 
         //## UnSelect all items of the select.
-        unSelectAll: function () { this.toggSelAll(false); },
+        unSelectAll () { this.toggSelAll(false); },
 
         //## Disable an iten at a given index.
-        disableItem: function (i) { this.toggDis(true, i); },
+        disableItem (i) { this.toggDis(true, i); },
 
         //## Removes disabled an iten at a given index.
-        enableItem: function (i) { this.toggDis(false, i); },
+        enableItem (i) { this.toggDis(false, i); },
 
         //## New simple methods as getter and setter are not working fine in ie8-
         //## variable to check state of control if enabled or disabled.
         enabled: true,
         //## Enables the control
-        enable: function () { return this.toggSumo(false); },
+        enable () { return this.toggSumo(false); },
 
         //## Disables the control
-        disable: function () { return this.toggSumo(true); },
+        disable () { return this.toggSumo(true); },
 
 
-        init: function () {
+        init () {
           const O = this;
           O.createElems();
           O.setText();

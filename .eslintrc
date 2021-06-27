@@ -8,6 +8,7 @@
   "rules": {
     "no-extra-boolean-cast": "off",
     "semi": "error",
-    "no-var": "error"
+    "no-var": "error",
+    "object-shorthand": "error"
   }
 }
