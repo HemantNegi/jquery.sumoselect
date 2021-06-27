@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.3.20](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.3.19...v3.3.20) (2021-06-27)
+
+
+### Bug Fixes
+
+* package.json access point in GPR hack ([bbea8fb](https://github.com/HemantNegi/jquery.sumoselect/commit/bbea8fb4811a197a82539099a46420cdbc595bd1))
+
 ### [3.3.19](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.3.18...v3.3.19) (2021-06-27)
 
 
