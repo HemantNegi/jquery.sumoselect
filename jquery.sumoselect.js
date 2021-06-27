@@ -772,7 +772,6 @@
 
         unload: function () {
           var O = this;
-          O.E.trigger('sumo:unloading', O);
           O.select.before(O.E);
           O.E.show();
           O.E[0].classList.remove('SumoUnder');

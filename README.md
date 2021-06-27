@@ -122,7 +122,6 @@ Available events
 - `sumo:closing`
 - `sumo:closed`
 - `sumo:initialized`
-- `sumo:unloading`
 - `sumo:unloaded`
 
 
