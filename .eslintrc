@@ -1,0 +1,13 @@
+{
+  "env": {
+    "es6": true,
+    "browser": true
+  },
+  "ignorePatterns": ["**/*.min.js"],
+  "extends": "eslint:recommended",
+  "rules": {
+    "no-undef": "off",
+    "no-extra-boolean-cast": "off",
+    "semi": "error"
+  }
+}
