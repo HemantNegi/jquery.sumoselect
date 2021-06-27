@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.3.11](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.3.10...v3.3.11) (2021-06-27)
+
+
+### Bug Fixes
+
+* Destructuring errors ([0008972](https://github.com/HemantNegi/jquery.sumoselect/commit/00089724651d4c536833845f920d819ad30182f2))
+* Enforce default in switches ([5fdf684](https://github.com/HemantNegi/jquery.sumoselect/commit/5fdf6841dd30bf8eb644e66cdad2bc2de5c4be3e))
+* no extra boolean cast ([afbbe29](https://github.com/HemantNegi/jquery.sumoselect/commit/afbbe29712d3ceeed1f951bb20d428f06f5d9e2e))
+* No param reassign ([26d5d60](https://github.com/HemantNegi/jquery.sumoselect/commit/26d5d608ba58157e845f1d4728a09b196958b380))
+* No shadow declarations ([5e25c58](https://github.com/HemantNegi/jquery.sumoselect/commit/5e25c58ec90b353563db8164797e0c7b9a08b323))
+* Throw errors instead of literals ([006ebf8](https://github.com/HemantNegi/jquery.sumoselect/commit/006ebf87e09ff454074beb812491386f83b1bdce))
+* Use `let` or `const` over `var` ([80fbe29](https://github.com/HemantNegi/jquery.sumoselect/commit/80fbe2941ac9ecbf6a5e5e0ff7bc26d12628dccd))
+* Use arrow functions where possible ([c9eee06](https://github.com/HemantNegi/jquery.sumoselect/commit/c9eee066a92dbea4c14a2740ade44192b3c76077))
+* Use destructuring ([c9758b1](https://github.com/HemantNegi/jquery.sumoselect/commit/c9758b189fde438b7c29d4a0fbbed7586f001695))
+* Use object shorthands ([b0fd988](https://github.com/HemantNegi/jquery.sumoselect/commit/b0fd98858fb9bbd740a99b2b172751cf2d0abeca))
+* Use parseInt shorthand ([00811a1](https://github.com/HemantNegi/jquery.sumoselect/commit/00811a1410538e4877dcb61720899225db2dbb31))
+* Use strict equality operators ([69ffb8a](https://github.com/HemantNegi/jquery.sumoselect/commit/69ffb8af00827190d37cb838468d1d5f094a3284))
+* Use template literals ([a26fd19](https://github.com/HemantNegi/jquery.sumoselect/commit/a26fd197f8413f0608e62c1147ee64c51aa5ceab))
+
 ### [3.3.10](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.3.9...v3.3.10) (2021-06-20)
 
 ### [3.3.9](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.3.8...v3.3.9) (2021-06-20)
