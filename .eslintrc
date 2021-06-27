@@ -6,7 +6,7 @@
   "ignorePatterns": ["**/*.min.js"],
   "extends": "eslint:recommended",
   "rules": {
-    "no-extra-boolean-cast": "off",
+    "no-extra-boolean-cast": "error",
     "semi": "error",
     "no-var": "error",
     "object-shorthand": "error",
@@ -14,6 +14,6 @@
     "radix": "error",
     "eqeqeq": "error",
     "default-case": "error",
-    "prefer-arrow-callback": "error"
+    "prefer-arrow-callback": "error",
   }
 }

@@ -729,7 +729,7 @@
 
           if (O.is_multi) {
             // Select all
-            if (!!c) {
+            if (c) {
               O.E.find('option:not(:checked):not(:disabled):not(:hidden)').toArray().forEach(option => {
                 if (!$(option).data('li').hasClass('hidden')) {
                   option.selected = true;
