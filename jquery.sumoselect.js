@@ -1,3 +1,4 @@
+/*global jQuery, define, module, require*/
 /*!
  * jquery.sumoselect
  * http://hemantnegi.github.io/jquery.sumoselect
@@ -24,7 +25,7 @@
   $.fn.SumoSelect = function (options) {
 
     // This is the easiest way to have default options.
-    var defaultOptions = {
+    const defaultOptions = {
       placeholder: 'Select Here',   // Dont change it here.
       csvDispCount: 3,              // display no. of items in multiselect. 0 to display all.
       captionFormat: '{0} Selected', // format of caption text. you can set your locale.
@@ -54,11 +55,11 @@
       renderLi: (li, _originalOption) => li          // Custom <li> item renderer
     };
 
-    var ret = this.each(function () {
-      var selObj = this; // the original select object.
+    const ret = this.each(function () {
+      const selObj = this; // the original select object.
       if (this.sumo || !$(this).is('select')) return; //already initialized
 
-      var settings = $.extend({}, defaultOptions, options, $(this).data());
+      const settings = $.extend({}, defaultOptions, options, $(this).data());
 
       this.sumo = {
         E: $(selObj),   //the jquery object of original select element.
@@ -78,7 +79,7 @@
         selectedCount: 0,
 
         createElems: function () {
-          var O = this;
+          const O = this;
           const selectedIndex = O.E[0].selectedIndex;
           O.E.wrap('<div class="SumoSelect" tabindex="0" role="button" aria-expanded="false">');
           O.E[0].selectedIndex = selectedIndex; // Fix for IE resetting index to 0 when -1
@@ -144,7 +145,7 @@
         },
 
         prepItems: function (opts, d) {
-          var lis = [], O = this;
+          const lis = [], O = this;
           $(opts).each(function (i, opt) {       // parsing options to li
             opt = $(opt);
             lis.push(opt.is('optgroup') ?
@@ -165,17 +166,17 @@
         //## Creates a LI element from a given option and binds events to it
         //## returns the jquery instance of li (not inserted in dom)
         createLi: function (opt, d) {
-          var O = this;
+          const O = this;
 
           if (!opt.attr('value')) opt.attr('value', opt.val());
-          var li = $('<li class="opt"><label>' + opt.html() + '</label></li>');
+          const li = $('<li class="opt"><label>' + opt.html() + '</label></li>');
 
           li.data('opt', opt);    // store a direct reference to option.
           opt.data('li', li);    // store a direct reference to list item.
           if (O.is_multi) li.prepend('<span><i></i></span>');
 
           if (opt[0].disabled || d)
-            li = li.addClass('disabled');
+            li.addClass('disabled');
 
           O.onOptClick(li);
 
@@ -196,14 +197,14 @@
         //## Returns the selected items as string in a Multiselect.
         getSelStr: function () {
           // get the pre selected items.
-          var sopt = [];
+          const sopt = [];
           this.E.find('option:checked').each(function () { sopt.push($(this).val()); });
           return sopt.join(settings.csvSepChar);
         },
 
         //## THOSE OK/CANCEL BUTTONS ON MULTIPLE SELECT.
         multiSelelect: function () {
-          var O = this;
+          const O = this;
           O.optDiv.addClass('multiple');
           O.okbtn = $('<p tabindex="0" class="btnOk"></p>').click(function () {
             //if combined change event is set.
@@ -218,12 +219,12 @@
           });
           O.cancelBtn[0].innerText = settings.locale[1];
 
-          var btns = O.okbtn.add(O.cancelBtn);
+          const btns = O.okbtn.add(O.cancelBtn);
           O.optDiv.append($('<div class="MultiControls">').append(btns));
 
           // handling keyboard navigation on ok cancel buttons.
           btns.on('keydown.sumo', function (e) {
-            var el = $(this);
+            const el = $(this);
             switch (e.which) {
               case 32: // space
               case 13: // enter
@@ -244,7 +245,8 @@
         },
 
         _okbtn: function () {
-          var O = this, cg = 0;
+          const O = this;
+          let cg = 0;
           //if combined change event is set.
           if (settings.triggerChangeCombined) {
             //check for a change in the selection.
@@ -264,13 +266,13 @@
           }
         },
         _cnbtn: function () {
-          var O = this;
+          const O = this;
           //remove all selections
           O.E.find('option:checked').each(function () { this.selected = false; });
           O.optDiv.find('li.selected').removeClass('selected');
 
           //restore selections from saved state.
-          for (var i = 0; i < O.Pstate.length; i++) {
+          for (let i = 0; i < O.Pstate.length; i++) {
             O.E.find('option')[O.Pstate[i]].selected = true;
             O.ul.find('li.opt').eq(O.Pstate[i]).addClass('selected');
           }
@@ -298,7 +300,7 @@
         },
 
         SelAll: function () {
-          var O = this;
+          const O = this;
           if (!O.is_multi) return;
           O.selAll = $('<p class="select-all"><span><i></i></span><label></label></p>');
           O.selAll.find('label')[0].innerText = settings.locale[2];
@@ -314,7 +316,7 @@
 
         // search module (can be removed if not required.)
         Search: function () {
-          var O = this,
+          const O = this,
             cc = O.CaptionCont.addClass('search'),
             P = $('<p class="no-match">'),
             fn = (options.searchFn && typeof options.searchFn == 'function') ? options.searchFn : settings.searchFn;
@@ -328,8 +330,8 @@
           O.optDiv.children('ul').after(P);
 
           O.ftxt.on('keyup.sumo', function () {
-            var hid = O.optDiv.find('ul.options li.opt').each(function (ix, e) {
-              var el = $(e),
+            const hid = O.optDiv.find('ul.options li.opt').each(function (ix, e) {
+              const el = $(e),
                 opt = el.data('opt')[0];
               opt.hidden = fn(el.text(), O.ftxt.val());
               el.toggleClass('hidden', opt.hidden);
@@ -337,9 +339,9 @@
 
             // Hide opt-groups with no options matched
             O.optDiv[0].querySelectorAll('li.group').forEach(optGroup => {
-              if(optGroup.querySelector('li:not(.hidden)')){
+              if (optGroup.querySelector('li:not(.hidden)')) {
                 optGroup.classList.remove('hidden');
-              }else{
+              } else {
                 optGroup.classList.add('hidden');
               }
             });
@@ -351,9 +353,9 @@
         },
 
         selAllState: function () {
-          var O = this;
+          const O = this;
           if (settings.selectAll && O.is_multi) {
-            var sc = 0, vc = 0;
+            let sc = 0, vc = 0;
             O.optDiv.find('li.opt').not('.hidden .disabled').each(function (ix, e) {
               if ($(e).hasClass('selected')) sc++;
               vc++;
@@ -366,7 +368,7 @@
         },
 
         showOpts: function () {
-          var O = this;
+          const O = this;
           if (O.E.attr('disabled')) return; // if select is disabled then retrun
           O.E.trigger('sumo:opening', O);
           O.is_opened = true;
@@ -392,7 +394,7 @@
           });
 
           if (O.is_floating) {
-            var H = O.optDiv.children('ul').outerHeight() + 2;  // +2 is clear fix
+            let H = O.optDiv.children('ul').outerHeight() + 2;  // +2 is clear fix
             if (O.is_multi) H = H + parseInt(O.optDiv.css('padding-bottom'));
             O.optDiv.css('height', H);
             $('body').addClass('sumoStopScroll');
@@ -403,7 +405,7 @@
 
         //maintain state when ok/cancel buttons are available storing the indexes.
         setPstate: function () {
-          var O = this;
+          const O = this;
           if (O.is_multi && (O.is_floating || settings.okCancelInMulti)) {
             O.Pstate = [];
             // assuming that find returns elements in tree order
@@ -419,7 +421,7 @@
         },
 
         hideOpts: function () {
-          var O = this;
+          const O = this;
           if (O.is_opened) {
             O.E.trigger('sumo:closing', O);
             O.is_opened = false;
@@ -436,8 +438,8 @@
           }
         },
         setOnOpen: function () {
-          var O = this,
-            li = O.optDiv.find('li.opt:not(.hidden)').eq(settings.search ? 0 : O.E[0].selectedIndex);
+          const O = this;
+          let li = O.optDiv.find('li.opt:not(.hidden)').eq(settings.search ? 0 : O.E[0].selectedIndex);
           if (li.hasClass('disabled')) {
             li = li.next(':not(disabled)');
             if (!li.length) return;
@@ -447,12 +449,12 @@
           O.showOpts();
         },
         nav: function (up) {
-          var O = this, c,
+          const O = this;
+          let c, sel = O.ul.find('li.opt.sel:not(.hidden)');
+          const
             s = O.ul.find('li.opt:not(.disabled):not(.hidden)'),
-            sel = O.ul.find('li.opt.sel:not(.hidden)'),
             idx = s.index(sel);
           if (O.is_opened && sel.length) {
-
             if (up && idx > 0)
               c = s.eq(idx - 1);
             else if (!up && idx < s.length - 1 && idx > -1)
@@ -463,7 +465,7 @@
             sel = c.addClass('sel');
 
             // setting sel item to visible view.
-            var ul = O.ul,
+            const ul = O.ul,
               st = ul.scrollTop(),
               t = sel.position().top + st;
             if (t >= st + ul.height() - sel.outerHeight())
@@ -477,7 +479,7 @@
         },
 
         basicEvents: function () {
-          var O = this;
+          const O = this;
           O.CaptionCont.click(function (evt) {
             O.E.trigger('click');
             if (O.is_opened) O.hideOpts(); else O.showOpts();
@@ -532,9 +534,9 @@
         },
 
         onOptClick: function (li) {
-          var O = this;
+          const O = this;
           li.click(function () {
-            var li = $(this);
+            const li = $(this);
             if (li.hasClass('disabled')) return;
             if (O.is_multi) {
               li.toggleClass('selected');
@@ -571,10 +573,10 @@
 
         // fixed some variables that were not explicitly typed (michc)
         setText: function () {
-          var O = this;
+          const O = this;
           O.placeholder = "";
           if (O.is_multi) {
-            var sels = O.E.find(':checked').not(':disabled'); //selected options.
+            const sels = O.E.find(':checked').not(':disabled'); //selected options.
 
             if (settings.csvDispCount && sels.length > settings.csvDispCount) {
               if (sels.length === O.E.find('option').length && settings.captionFormatAllSelected) {
@@ -592,7 +594,7 @@
             O.placeholder = O.E.find(':checked').not(':disabled').text();
           }
 
-          var is_placeholder = false;
+          let is_placeholder = false;
 
           if (!O.placeholder) {
 
@@ -610,7 +612,7 @@
           if (settings.showTitle) O.CaptionCont.attr('title', O.placeholder);
 
           //set the hidden field if post as csv is true.
-          var csvField = O.select.find('input.HEMANT123');
+          const csvField = O.select.find('input.HEMANT123');
           if (csvField.length) csvField.val(O.getSelStr());
 
           //add class placeholder if its a placeholder text.
@@ -621,15 +623,15 @@
         isMobile: function () {
 
           // Adapted from http://www.detectmobilebrowsers.com
-          var ua = navigator.userAgent || navigator.vendor || window.opera;
+          const ua = navigator.userAgent || navigator.vendor || window.opera;
 
           // Checks for iOs, Android, Blackberry, Opera Mini, and Windows mobile devices
-          for (var i = 0; i < settings.nativeOnDevice.length; i++) if (ua.toString().toLowerCase().indexOf(settings.nativeOnDevice[i].toLowerCase()) > 0) return settings.nativeOnDevice[i];
+          for (let i = 0; i < settings.nativeOnDevice.length; i++) if (ua.toString().toLowerCase().indexOf(settings.nativeOnDevice[i].toLowerCase()) > 0) return settings.nativeOnDevice[i];
           return false;
         },
 
         setNativeMobile: function () {
-          var O = this;
+          const O = this;
           O.E.addClass('SelectClass');//.css('height', O.select.outerHeight());
           O.mob = true;
           O.E.change(function () {
@@ -638,7 +640,7 @@
         },
 
         floatingList: function () {
-          var O = this;
+          const O = this;
           //called on init and also on resize.
           //O.is_floating = true if window width is < specified float width
           O.is_floating = $(window).width() <= settings.floatWidth;
@@ -656,16 +658,16 @@
         //HELPERS FOR OUTSIDERS
         // validates range of given item operations
         vRange: function (i) {
-          var O = this;
-          var opts = O.E.find('option');
+          const O = this;
+          const opts = O.E.find('option');
           if (opts.length <= i || i < 0) throw "index out of bounds";
           return O;
         },
 
         //toggles selection on c as boolean.
         toggSel: function (c, i) {
-          var O = this;
-          var opt;
+          const O = this;
+          let opt;
           if (typeof (i) === "number") {
             O.vRange(i);
             opt = O.E.find('option')[i];
@@ -691,7 +693,7 @@
 
         //toggles disabled on c as boolean.
         toggDis: function (c, i) {
-          var O = this.vRange(i);
+          const O = this.vRange(i);
           O.E.find('option')[i].disabled = c;
           if (c) O.E.find('option')[i].selected = false;
           if (!O.mob) O.optDiv.find('ul.options li.opt').eq(i).toggleClass('disabled', c).removeClass('selected');
@@ -700,7 +702,7 @@
 
         // toggle disable/enable on complete select control
         toggSumo: function (val) {
-          var O = this;
+          const O = this;
           O.enabled = val;
           O.select.toggleClass('disabled', val);
 
@@ -719,30 +721,30 @@
         // toggles all option on c as boolean.
         // set direct=false/0 bypasses okCancelInMulti behaviour.
         toggSelAll: function (c, direct) {
-          var O = this;
-          var cloneOriginalEvents = $.extend(true, {}, $._data(O.E.get(0), "events")); // clone original select elements events
+          const O = this;
+          const cloneOriginalEvents = $.extend(true, {}, $._data(O.E.get(0), "events")); // clone original select elements events
           O.E.off(); // unbind original select elements events because we do not want the following clicks to trigger change on it
 
-          if(O.is_multi){
+          if (O.is_multi) {
             // Select all
-            if(!!c){
+            if (!!c) {
               O.E.find('option:not(:checked):not(:disabled):not(:hidden)').toArray().forEach(option => {
-                if(!$(option).data('li').hasClass('hidden')){
+                if (!$(option).data('li').hasClass('hidden')) {
                   option.selected = true;
                   $(option).data('li').toggleClass('selected', true);
                 }
               });
-            }else{
+            } else {
               // Unselect all
               O.E.find('option:checked:not(:disabled):not(:hidden)').toArray().forEach(option => {
-                if(!$(option).data('li').hasClass('hidden')){
+                if (!$(option).data('li').hasClass('hidden')) {
                   option.selected = false;
                   $(option).data('li').toggleClass('selected', false);
                 }
               });
             }
-          }else{
-            if(!c) O.E[0].selectedIndex = -1;
+          } else {
+            if (!c) O.E[0].selectedIndex = -1;
             else console.warn('You called `SelectAll` on a non-multiple select');
           }
 
@@ -766,12 +768,12 @@
          which can be accessed from the element instance.
          */
         reload: function () {
-          var elm = this.unload();
+          const elm = this.unload();
           return $(elm).SumoSelect(settings);
         },
 
         unload: function () {
-          var O = this;
+          const O = this;
           O.select.before(O.E);
           O.E.show();
           O.E[0].classList.remove('SumoUnder');
@@ -788,12 +790,12 @@
         add: function (val, txt, i, attr) {
           if (typeof val === "undefined") throw "No value to add";
 
-          var O = this;
-          var opts = O.E.find('option');
+          const O = this;
+          const opts = O.E.find('option');
           if (typeof txt === "number") { i = txt; txt = val; }
           if (typeof txt === "undefined") { txt = val; }
 
-          var opt = $("<option></option>").val(val).html(txt);
+          const opt = $("<option></option>").val(val).html(txt);
 
           if (attr && typeof attr == "object") {
             $.each(attr, function (i, v) {
@@ -817,7 +819,7 @@
 
         //## removes an item at a given index.
         remove: function (i) {
-          var O = this.vRange(i);
+          const O = this.vRange(i);
           O.E.find('option').eq(i).remove();
           if (!O.mob) O.optDiv.find('ul.options li.opt').eq(i).remove();
           O.setText();
@@ -825,10 +827,10 @@
 
         // removes all but the selected one
         removeAll: function () {
-          var O = this;
-          var options = O.E.find('option');
+          const O = this;
+          const options = O.E.find('option');
 
-          for (var x = (options.length - 1); x >= 0; x--) {
+          for (let x = (options.length - 1); x >= 0; x--) {
             if (options[x].selected !== true) {
               O.remove(x);
             }
@@ -838,9 +840,9 @@
 
 
         find: function (val) {
-          var O = this;
-          var options = O.E.find('option');
-          for (var x in options) {
+          const O = this;
+          const options = O.E.find('option');
+          for (let x in options) {
             if (options[x].value === val) {
               return parseInt(x);
             }
@@ -879,7 +881,7 @@
 
 
         init: function () {
-          var O = this;
+          const O = this;
           O.createElems();
           O.setText();
           return O;

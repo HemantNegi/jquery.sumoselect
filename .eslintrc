@@ -6,8 +6,8 @@
   "ignorePatterns": ["**/*.min.js"],
   "extends": "eslint:recommended",
   "rules": {
-    "no-undef": "off",
     "no-extra-boolean-cast": "off",
-    "semi": "error"
+    "semi": "error",
+    "no-var": "error"
   }
 }
