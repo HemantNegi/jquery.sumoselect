@@ -395,7 +395,7 @@
 
           if (O.is_floating) {
             let H = O.optDiv.children('ul').outerHeight() + 2;  // +2 is clear fix
-            if (O.is_multi) H = H + parseInt(O.optDiv.css('padding-bottom'));
+            if (O.is_multi) H = H + +O.optDiv.css('padding-bottom');
             O.optDiv.css('height', H);
             $('body').addClass('sumoStopScroll');
           }
@@ -844,7 +844,7 @@
           const options = O.E.find('option');
           for (let x in options) {
             if (options[x].value === val) {
-              return parseInt(x);
+              return +x;
             }
           }
 
