@@ -19,7 +19,7 @@
     factory(jQuery);
   }
 
-})(function ($) {
+})(($) => {
 
   'namespace sumo';
   $.fn.SumoSelect = function (options) {
@@ -146,7 +146,7 @@
 
         prepItems (opts, d) {
           const lis = [], O = this;
-          $(opts).each(function (i, opt) {       // parsing options to li
+          $(opts).each((i, opt) => {       // parsing options to li
             opt = $(opt);
             lis.push(opt.is('optgroup') ?
               $(`<li class="group ${opt[0].disabled ? 'disabled' : ''}"><label></label><ul></ul></li>`)
@@ -206,14 +206,14 @@
         multiSelelect () {
           const O = this;
           O.optDiv.addClass('multiple');
-          O.okbtn = $('<p tabindex="0" class="btnOk"></p>').click(function () {
+          O.okbtn = $('<p tabindex="0" class="btnOk"></p>').click(() => {
             //if combined change event is set.
             O._okbtn();
             O.hideOpts();
           });
           O.okbtn[0].innerText = settings.locale[0];
 
-          O.cancelBtn = $('<p tabindex="0" class="btnCancel"></p>').click(function () {
+          O.cancelBtn = $('<p tabindex="0" class="btnCancel"></p>').click(() => {
             O._cnbtn();
             O.hideOpts();
           });
@@ -256,7 +256,7 @@
               cg = 1;
             }
             else {
-              O.E.find('option').each(function (i, e) {
+              O.E.find('option').each((i, e) => {
                 if (e.selected && O.Pstate.indexOf(i) < 0) cg = 1;
               });
             }
@@ -285,14 +285,14 @@
           // Disable options if max reached
           if (settings.max) {
             if (this.selectedCount >= +settings.max) {
-              this.optDiv.find('li.opt').not('.hidden').each(function (ix, e) {
+              this.optDiv.find('li.opt').not('.hidden').each((ix, e) => {
                 if (!$(e).hasClass('selected')) {
                   $(e).addClass('temporary-disabled disabled');
                 }
               });
             } else {
               // Enable options back
-              this.optDiv.find('li.opt').not('.hidden').each(function (ix, e) {
+              this.optDiv.find('li.opt').not('.hidden').each((ix, e) => {
                 if ($(e).hasClass('temporary-disabled')) {
                   $(e).removeClass('temporary-disabled disabled');
                 }
@@ -307,7 +307,7 @@
           O.selAll = $('<p class="select-all"><span><i></i></span><label></label></p>');
           O.selAll.find('label')[0].innerText = settings.locale[2];
           O.optDiv.addClass('selall');
-          O.selAll.on('click', function () {
+          O.selAll.on('click', () => {
             O.selAll.toggleClass('selected');
             O.toggSelAll(O.selAll.hasClass('selected'), 1);
             //O.selAllState();
@@ -324,15 +324,15 @@
             fn = (options.searchFn && typeof options.searchFn === 'function') ? options.searchFn : settings.searchFn;
 
           O.ftxt = $('<input type="text" class="search-txt" value="" autocomplete="off">')
-            .on('click', function (e) {
+            .on('click', (e) => {
               e.stopPropagation();
             });
           O.ftxt.placeholder = settings.searchText;
           cc.append(O.ftxt);
           O.optDiv.children('ul').after(P);
 
-          O.ftxt.on('keyup.sumo', function () {
-            const hid = O.optDiv.find('ul.options li.opt').each(function (ix, e) {
+          O.ftxt.on('keyup.sumo', () => {
+            const hid = O.optDiv.find('ul.options li.opt').each((ix, e) => {
               const el = $(e),
                 opt = el.data('opt')[0];
               opt.hidden = fn(el.text(), O.ftxt.val());
@@ -358,7 +358,7 @@
           const O = this;
           if (settings.selectAll && O.is_multi) {
             let sc = 0, vc = 0;
-            O.optDiv.find('li.opt').not('.hidden .disabled').each(function (ix, e) {
+            O.optDiv.find('li.opt').not('.hidden .disabled').each((ix, e) => {
               if ($(e).hasClass('selected')) sc++;
               vc++;
             });
@@ -381,7 +381,7 @@
           else O.select.focus();
 
           // hide options on click outside.
-          $(document).on('click.sumo', function (e) {
+          $(document).on('click.sumo', (e) => {
             if (!O.select.is(e.target)                  // if the target of the click isn't the container...
               && O.select.has(e.target).length === 0) { // ... nor a descendant of the container
               if (!O.is_opened) return;
@@ -411,7 +411,7 @@
           if (O.is_multi && (O.is_floating || settings.okCancelInMulti)) {
             O.Pstate = [];
             // assuming that find returns elements in tree order
-            O.E.find('option').each(function (i, e) { if (e.selected) O.Pstate.push(i); });
+            O.E.find('option').each((i, e) => { if (e.selected) O.Pstate.push(i); });
           }
         },
 
@@ -482,13 +482,13 @@
 
         basicEvents () {
           const O = this;
-          O.CaptionCont.click(function (evt) {
+          O.CaptionCont.click((evt) => {
             O.E.trigger('click');
             if (O.is_opened) O.hideOpts(); else O.showOpts();
             evt.stopPropagation();
           });
 
-          O.select.on('keydown.sumo', function (e) {
+          O.select.on('keydown.sumo', (e) => {
             switch (e.which) {
               case 38: // up
                 O.nav(true);
@@ -530,7 +530,7 @@
             e.preventDefault(); // prevent the default action (scroll / move caret)
           });
 
-          $(window).on('resize.sumo', function () {
+          $(window).on('resize.sumo', () => {
             O.floatingList();
           });
         },
@@ -636,7 +636,7 @@
           const O = this;
           O.E.addClass('SelectClass');//.css('height', O.select.outerHeight());
           O.mob = true;
-          O.E.change(function () {
+          O.E.change(() => {
             O.setText();
           });
         },
@@ -751,8 +751,8 @@
           }
 
           // rebind original select elements events
-          $.each(cloneOriginalEvents, function (_, e) {
-            $.each(e, function (_, e) {
+          $.each(cloneOriginalEvents, (_, e) => {
+            $.each(e, (_, e) => {
               O.E.on(e.type, e.handler);
             });
           });
@@ -800,7 +800,7 @@
           const opt = $("<option></option>").val(val).html(txt);
 
           if (attr && typeof attr === "object") {
-            $.each(attr, function (i, v) {
+            $.each(attr, (i, v) => {
               opt.attr(i, v);
             });
           }

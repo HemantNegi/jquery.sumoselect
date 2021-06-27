@@ -13,6 +13,7 @@
     "prefer-template": "error",
     "radix": "error",
     "eqeqeq": "error",
-    "default-case": "error"
+    "default-case": "error",
+    "prefer-arrow-callback": "error"
   }
 }
