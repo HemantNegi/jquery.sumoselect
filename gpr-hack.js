@@ -1,11 +1,11 @@
-import { writeFileSync, readFileSync } from "fs";
+const fs = require('fs');
+const path = require('path');
+const pkg = require('../package.json');
 
-const file = readFileSync("./package.json", {
-  encoding: "utf-8",
-});
+pkg.name = '@HemantNegi/jquery.sumoselect';
 
-const json = JSON.parse(file);
-
-json.name = "@HemantNegi/jquery.sumoselect";
-
-writeFileSync("./package.json", JSON.stringify(json, undefined, 2));
+// Update package.json with the udpated name
+fs.writeFileSync(
+  path.join(__dirname, '../package.json'),
+  JSON.stringify(pkg, null, 2),
+);
