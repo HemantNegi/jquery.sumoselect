@@ -3,7 +3,7 @@
     "es6": true,
     "browser": true
   },
-  "ignorePatterns": ["**/*.min.js"],
+  "ignorePatterns": ["**/*.min.js", "gpr-hack.js"],
   "extends": "eslint:recommended",
   "rules": {
     "no-extra-boolean-cast": "error",
