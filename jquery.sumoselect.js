@@ -80,7 +80,7 @@
 
         createElems () {
           const O = this;
-          const [{selectedIndex}] = O.E;
+          const {0: {selectedIndex}} = O.E;
           O.E.wrap('<div class="SumoSelect" tabindex="0" role="button" aria-expanded="false">');
           O.E[0].selectedIndex = selectedIndex; // Fix for IE resetting index to 0 when -1
           O.select = O.E.parent();
@@ -334,7 +334,7 @@
           O.ftxt.on('keyup.sumo', () => {
             const hid = O.optDiv.find('ul.options li.opt').each((ix, e) => {
               const el = $(e),
-                [opt] = el.data('opt');
+                {0: opt} = el.data('opt');
               opt.hidden = fn(el.text(), O.ftxt.val());
               el.toggleClass('hidden', opt.hidden);
             }).not('.hidden');
