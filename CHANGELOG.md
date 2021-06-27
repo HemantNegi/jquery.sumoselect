@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.3.18](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.3.17...v3.3.18) (2021-06-27)
+
+
+### Bug Fixes
+
+* GPR hack mjs to js ([e577ecd](https://github.com/HemantNegi/jquery.sumoselect/commit/e577ecdcd3221b541086941d5ef7016d64d1487d))
+
 ### [3.3.17](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.3.16...v3.3.17) (2021-06-27)
 
 
