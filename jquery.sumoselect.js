@@ -785,6 +785,7 @@
           }
           O.select.remove();
           delete selObj.sumo;
+          O.E.trigger('sumo:unloaded', O);
           return selObj;
         },
 
@@ -894,6 +895,7 @@
           const O = this;
           O.createElems();
           O.setText();
+          O.E.trigger('sumo:initialized', O);
           return O;
         }
 
