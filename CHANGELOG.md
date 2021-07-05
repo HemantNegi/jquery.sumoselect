@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.3.24](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.3.23...v3.3.24) (2021-07-05)
+
+
+### Bug Fixes
+
+* Reselect preselected options for IE too. Fixes [#306](https://github.com/HemantNegi/jquery.sumoselect/issues/306) ([88c444c](https://github.com/HemantNegi/jquery.sumoselect/commit/88c444c00da6229cfb58f24f74ead0ffceb8d4de))
+
 ### [3.3.23](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.3.22...v3.3.23) (2021-07-05)
 
 
