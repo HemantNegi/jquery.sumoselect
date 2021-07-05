@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.3.23](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.3.22...v3.3.23) (2021-07-05)
+
+
+### Bug Fixes
+
+* Bug where you can't initialize sumo with multiple options selected. Fixes [#306](https://github.com/HemantNegi/jquery.sumoselect/issues/306) ([1691d71](https://github.com/HemantNegi/jquery.sumoselect/commit/1691d713b5b692f6a89e10124cd782d68513a9ee))
+
 ### [3.3.22](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.3.21...v3.3.22) (2021-06-30)
 
 ### [3.3.21](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.3.20...v3.3.21) (2021-06-27)
