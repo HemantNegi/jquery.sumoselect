@@ -82,7 +82,9 @@
           const O = this;
           const {0: {selectedOptions}} = O.E;
           O.E.wrap('<div class="SumoSelect" tabindex="0" role="button" aria-expanded="false">');
-          O.E[0].selectedOptions = selectedOptions; // Fix for IE resetting index to 0 when -1
+          [...selectedOptions].forEach((selectedOption) => { // Fix for IE resetting index to 0 when -1
+            selectedOption.selected = true;
+          });
           O.select = O.E.parent();
           O.caption = $('<span>');
           O.CaptionCont = $(`<p class="CaptionCont SelectBox ${O.E.attr('class')}" ><label><i></i></label></p>`)
