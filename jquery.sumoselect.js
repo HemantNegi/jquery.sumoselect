@@ -80,9 +80,9 @@
 
         createElems () {
           const O = this;
-          const {0: {selectedOptions}} = O.E;
+          const selectedOptions = O.E.find('option:checked');
           O.E.wrap('<div class="SumoSelect" tabindex="0" role="button" aria-expanded="false">');
-          [...selectedOptions].forEach((selectedOption) => { // Fix for IE resetting index to 0 when -1
+          selectedOptions.each((_, selectedOption) => { // Fix for IE resetting index to 0 when -1
             selectedOption.selected = true;
           });
           O.select = O.E.parent();
