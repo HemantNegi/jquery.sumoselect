@@ -354,7 +354,7 @@
             const hid = O.optDiv.find('ul.options li.opt').each((ix, e) => {
               const el = $(e),
                 {0: opt} = el.data('opt');
-              opt.hidden = fn(el.text(), O.ftxt.val());
+              opt.hidden = fn(el.text(), O.ftxt.val(), el);
               el.toggleClass('hidden', opt.hidden);
             }).not('.hidden');
 
