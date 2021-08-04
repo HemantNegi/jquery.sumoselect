@@ -143,7 +143,7 @@ Below are the available settings:
 
 - `nativeOnDevice`  `(Array[string])` The keywords to identify a mobile device from useragent string. The system default select list is rendered on the matched device.
 
-- `outputAsCSV` `(boolean)` `true` to POST data as csv ( false for deafault select )
+- `outputAsCSV` `(boolean)` `true` to POST data as csv ( false for default select )
 
 - `csvSepChar` `(string)`  Seperation char if `outputAsCSV`  is set to `true`
 
@@ -159,7 +159,7 @@ Below are the available settings:
 
 - `searchText` `(string)`  placeholder for search input.
 
-- `searchFn` `(function)`  Custom search function.
+- `searchFn` `(function)`  Custom search function. Following parameters will be passed along: haystack, needle, el
 
 - `noMatch` `(string)`  placeholder to display if no itmes matches the search term (default 'No matches for "{0}"').
 
@@ -194,7 +194,7 @@ Below are the available settings:
     selectAll: false,
     search: false,
     searchText: 'Search...',
-    searchFn: function (haystack, needle) {
+    searchFn: function (haystack, needle, el) {
       return haystack.toLowerCase().indexOf(needle.toLowerCase()) < 0;
     },
     noMatch: 'No matches for "{0}"',
