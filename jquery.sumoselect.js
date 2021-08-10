@@ -776,7 +776,10 @@
             });
           });
 
-          O.callChange(); // call change on original select element
+          if((O.is_multi && !settings.okCancelInMulti) || !O.is_multi){
+            O.callChange(); // call change on original select element
+            O.setText();
+          }
 
           if (!direct) {
             if (!O.mob && O.selAll) O.selAll.removeClass('partial').toggleClass('selected', !!c);
