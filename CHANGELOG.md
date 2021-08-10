@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.3.28](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.3.27...v3.3.28) (2021-08-10)
+
+
+### Bug Fixes
+
+* Placeholder not changing on click on select all. Fixes [#311](https://github.com/HemantNegi/jquery.sumoselect/issues/311) ([569faf7](https://github.com/HemantNegi/jquery.sumoselect/commit/569faf7dfd48d3247142b9f1b175086d21230497))
+
 ### [3.3.27](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.3.26...v3.3.27) (2021-08-04)
 
 ### [3.3.26](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.3.25...v3.3.26) (2021-07-12)
