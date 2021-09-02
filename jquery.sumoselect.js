@@ -25,7 +25,7 @@
   $.fn.SumoSelect = function (options) {
     // Extra check for IE compatibility
     const dispatchEvent = (target, eventName) => {
-      let event;
+      let event = null;
       if(typeof(Event) === 'function') {
           event = new Event(eventName);
       }else{
@@ -346,7 +346,7 @@
             .on('click', (e) => {
               e.stopPropagation();
             });
-          O.ftxt.placeholder = settings.searchText;
+          O.ftxt[0].placeholder = settings.searchText;
           cc.append(O.ftxt);
           O.optDiv.children('ul').after(P);
 
@@ -817,8 +817,8 @@
 
           const O = this;
           const opts = O.E.find('option');
+          const value = val;
           let 
-            value = val,
             text = txt,
             index = i;
           if (typeof txt === "number") { // .add('xxx', 2) shorthand
@@ -875,7 +875,7 @@
         find (val) {
           const O = this;
           const optionList = O.E.find('option');
-          for (let x in optionList) {
+          for (const x in optionList) {
             if (optionList[x].value === val) {
               return +x;
             }
