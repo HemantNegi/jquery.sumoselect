@@ -653,7 +653,9 @@
 
         setNativeMobile () {
           const O = this;
-          O.E.addClass('SelectClass');//.css('height', O.select.outerHeight());
+          //          O.E.addClass('SelectClass'); //.css('height', O.select.outerHeight());
+          // set the line height to keep the underlying select from receiving touches outside of its boundary
+          O.E.addClass('SelectClass').css('height', $(O.E).css("line-height"));
           O.mob = true;
           O.E.change(() => {
             O.setText();

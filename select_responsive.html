@@ -1,0 +1,573 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="jquery.sumoselect.js"></script>
+    <link href="sumoselect.css" rel="stylesheet" />
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            window.asd = $('.SlectBox').SumoSelect({ csvDispCount: 3, selectAll:true, captionFormatAllSelected: "Yeah, OK, so everything." });
+            window.test = $('.testsel').SumoSelect({okCancelInMulti:true, captionFormatAllSelected: "Yeah, OK, so everything." });
+
+            window.testSelAll = $('.testSelAll').SumoSelect({okCancelInMulti:true, selectAll:true });
+
+            window.testSelAll2 = $('.testSelAll2').SumoSelect({selectAll:true});
+
+            window.testSelAlld = $('.SlectBox-grp').SumoSelect({okCancelInMulti:true, selectAll:true, isClickAwayOk:true });
+
+            window.Search = $('.search-box').SumoSelect({ csvDispCount: 3, search: true, searchText:'Enter here.' });
+            window.sb = $('.SlectBox-grp-src').SumoSelect({ csvDispCount: 3, search: true, searchText:'Enter here.', selectAll:true });
+            window.searchSelAll = $('.search-box-sel-all').SumoSelect({ csvDispCount: 3, selectAll:true, search: true, searchText:'Enter here.', okCancelInMulti:true });
+            window.searchSelAll = $('.search-box-open-up').SumoSelect({ csvDispCount: 3, selectAll:true, search: false, searchText:'Enter here.', up:true });
+            window.Search = $('.search-box-custom-fn').SumoSelect({ csvDispCount: 3, search: true, searchText:'Enter here.', searchFn: function(haystack, needle) {
+              var re = RegExp('^' + needle.replace(/([^\w\d])/gi, '\\$1'), 'i');
+              return !haystack.match(re);
+            } });
+
+            window.groups_eg_g = $('.groups_eg_g').SumoSelect({selectAll:true, search:true });
+
+
+            $('.SlectBox').on('sumo:opened', function(o) {
+              console.log("dropdown opened", o)
+            });
+
+        });
+    </script>
+    <style type="text/css">
+        body{font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;color:#444;font-size:13px;}
+        p,div,ul,li{padding:0px; margin:0px;}
+    </style>
+</head>
+<body>
+    <h1>Simple</h1>
+    &nbsp;&nbsp;&nbsp;
+    <select name="somename" class="SlectBox" onclick="console.log($(this).val())" onchange="console.log('change is firing')">
+        <option disabled="disabled" selected="selected">disabled selected</option>
+        <!--placeholder-->
+        <option title="Volvo is a car"  value="volvo">Volvo</option>
+        <option value="saab">Saab</option>
+        <option value="mercedes">Mercedes</option>
+        <option value="audi">Audi</option>
+        <option value="4">5</option>
+        <option value="9">10</option>
+    </select>
+    &nbsp;&nbsp;&nbsp;
+
+    <select class="SlectBox" disabled   >
+        <option value="volvo">Volvo</option>
+        <option selected value="saab">Saab</option>
+        <option value="mercedes">Mercedes</option>
+        <option value="audi">Audi</option>
+        <option disabled value="opt1">option1</option>
+        <option value="opt2">option2</option>
+        <option value="opt3">option3</option>
+    </select>
+    &nbsp;&nbsp;&nbsp;
+
+    <select class="SlectBox" placeholder="this is placeholder">
+        <option selected="selected">selected</option>
+        <option>Volvo</option>
+        <option>Saab</option>
+        <option value="mercedes">Mercedes</option>
+        <option value="audi">Audi</option>
+    </select>
+    &nbsp;&nbsp;&nbsp;
+      This is a inline select element
+        <select class="SlectBox" placeholder="this is placeholder" required="required">
+        <option selected="selected">selected</option>
+        <option>Volvo</option>
+        <option>Saab</option>
+        <option value="mercedes">Mercedes</option>
+        <option value="audi">Audi</option>
+                <option>Volvo</option>
+        <option>Saab</option>
+        <option value="mercedes">Mercedes</option>
+        <option value="audi">Audi</option>
+                <option>Volvo</option>
+        <option>Saab</option>
+        <option value="mercedes">Mercedes</option>
+        <option value="audi">Audi</option>
+                <option>Volvo</option>
+        <option>Saab</option>
+        <option value="mercedes">Mercedes</option>
+        <option value="audi">Audi</option>
+    </select>
+
+
+    <h1>Multiple</h1>
+
+    <form method="get">
+        &nbsp;&nbsp;&nbsp;
+
+        &nbsp;&nbsp;&nbsp;  This is a inline select element
+
+        <select multiple="multiple" onchange="console.log('changed', this)" placeholder="Hello  im from placeholder" class="SlectBox" required>
+       <option value="volvo">Volvo</option>
+       <option value="saab">Saab</option>
+       <option value="mercedes">Mercedes</option>
+       <option value="audi">Audi</option>
+       <option value="bmw">BMW</option>
+            </select>
+
+    <div class="SumoSelect">
+        <p class="CaptionCont SlectBoxa"><span>disabled selected</span><label><i></i></label></p>
+        <div class="optWrapper multiple">
+            <ul class="options">
+                <li><span><i></i></span>
+                    <label>Volvo</label></li>
+                <li><span><i></i></span>
+                    <label>saab</label></li>
+                <li><span><i></i></span>
+                    <label>audi</label></li>
+                <li><span><i></i></span>
+                    <label>bmw</label></li>
+                <li><span><i></i></span>
+                    <label>porsche</label></li>
+                <li><span><i></i></span>
+                    <label>ferrari</label></li>
+                <li class="selected"><span><i></i></span>
+                    <label>hyundai</label></li>
+                <li><span><i></i></span>
+                    <label>porsche</label></li>
+                <li><span><i></i></span>
+                    <label>ferrari</label></li>
+                <li><span><i></i></span>
+                    <label>hyundai is a good company but not too go0d !!!</label></li>
+                <li><span><i></i></span>
+                    <label>porsche</label></li>
+                <li><span><i></i></span>
+                    <label>ferrari</label></li>
+                <li><span><i></i></span>
+                    <label>hyundai</label></li>
+            </ul>
+        </div>
+    </div>
+        <input type="submit" value="submit" />
+
+
+    <br />
+    <br />
+    <br />   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;
+
+       <select   multiple="multiple" placeholder="Hello im from placeholder"  class="testsel">
+       <option selected value="volvo">Volvo</option>
+       <option value="saab">Saab</option>
+       <option disabled="disabled" value="mercedes">Mercedes</option>
+       <option value="audi">Audi</option>
+       <option value="bmw">BMW</option>
+       <option value="porsche">Porche</option>
+       <option value="ferrari">Ferrari</option>
+       <option class="someclass" value="audi">Audi</option>
+       <option class="someclass" value="bmw">BMW</option>
+       <option class="someclass" value="porsche">Porche</option>
+       <option value="ferrari">Ferrari</option>
+       <option value="audi">Audi</option>
+       <option value="bmw">BMW</option>
+       <option value="porsche">Porche</option>
+       <option value="ferrari">Ferrari</option>
+       <option value="hyundai">Hyundai</option>
+       <option value="mitsubishi">Mitsubishi</option>
+   </select>
+
+        </form>
+
+<br>
+    <h1>Select all option</h1>
+    &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;
+<select multiple="multiple" placeholder="Hello  im from placeholder" onchange="console.log($(this).children(':selected').length)" class="testSelAll">
+       <option selected value="volvo">Volvo</option>
+       <option value="saab">Saab</option>
+       <option disabled="disabled" value="mercedes">Mercedes</option>
+       <option value="audi">Audi</option>
+       <option selected value="bmw">BMW</option>
+       <option value="porsche">Porche</option>
+       <option value="ferrari">Ferrari</option>
+       <option value="mitsubishi">Mitsubishi</option>
+
+
+</select>
+
+        &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;
+<select multiple="multiple" placeholder="Hello  im from placeholder" onchange="console.log($(this).children(':selected').length)" class="testSelAll2">
+       <option selected value="volvo">Volvo</option>
+       <option value="saab">Saab</option>
+       <option disabled="disabled" value="mercedes">Mercedes</option>
+       <option value="audi">Audi</option>
+       <option selected value="bmw">BMW</option>
+       <option value="porsche">Porche</option>
+       <option value="ferrari">Ferrari</option>
+       <option value="mitsubishi">Mitsubishi</option>
+
+
+</select>
+
+    <h1>Groups</h1>
+
+    <select multiple="multiple" placeholder="Hello  im from placeholder" class="SlectBox-grp">
+      <option selected value="saab">Saab</option>
+      <option value="opel">Opel</option>
+      <option disabled="disabled" value="mercedez">Mercedez</option>
+      <optgroup label="US Brands">
+        <option value="chrysler">Chrysler</option>
+        <option value="gm">General Motors</option>
+        <option value="ford">Ford</option>
+        <option disabled="disabled" value="plymouth">Plymouth</option>
+      </optgroup>
+      <optgroup label="French Brands">
+        <option value="citroen">Citroën</option>
+        <option value="peugeot">Peugeot</option>
+        <option selected value="renault">Renault</option>
+        <option value="nissan">Nissan</option>
+      </optgroup>
+      <optgroup label="Italian brands">
+        <option value="fiat">Fiat</option>
+        <option value="alpha-Romeo">Alpha Romeo</option>
+        <option value="lamborghini">Lamborghini</option>
+      </optgroup>
+      <optgroup disabled="disabled" label="German brands">
+        <option value="audi">Audi</option>
+        <option value="bMW">BMW</option>
+        <option value="volkswagen">Volkswagen</option>
+      </optgroup>
+      <option value="aston-martin">Aston Martin</option>
+      <option value="hyundai">Hyundai</option>
+      <option value="mitsubishi">Mitsubishi</option>
+    </select>
+
+
+	 <select placeholder="Hello  im from placeholder" class="SlectBox">
+      <option selected value="saab">Saab</option>
+      <option value="opel">Opel</option>
+      <option disabled="disabled" value="mercedez">Mercedez</option>
+      <optgroup label="US Brands">
+        <option value="chrysler">Chrysler</option>
+        <option value="gm">General Motors</option>
+        <option value="ford">Ford</option>
+        <option disabled="disabled" value="plymouth">Plymouth</option>
+      </optgroup>
+      <optgroup label="French Brands">
+        <option value="citroen">Citroën</option>
+        <option value="peugeot">Peugeot</option>
+        <option selected value="renault">Renault</option>
+        <option value="nissan">Nissan</option>
+      </optgroup>
+      <optgroup label="Italian brands">
+        <option value="fiat">Fiat</option>
+        <option value="alpha-Romeo">Alpha Romeo</option>
+        <option value="lamborghini">Lamborghini</option>
+      </optgroup>
+      <optgroup disabled="disabled" label="German brands">
+        <option value="audi">Audi</option>
+        <option value="bMW">BMW</option>
+        <option value="volkswagen">Volkswagen</option>
+      </optgroup>
+      <option value="aston-martin">Aston Martin</option>
+      <option value="hyundai">Hyundai</option>
+      <option value="mitsubishi">Mitsubishi</option>
+    </select>
+
+
+	 <select  placeholder="Hello  im from placeholder" class="groups_eg">
+      <option class="hemant" selected value="saab">Saab</option>
+      <option class="hemant" value="opel">Opel</option>
+      <option disabled="disabled" value="mercedez">Mercedez</option>
+      <optgroup label="US Brands">
+        <option value="chrysler">Chrysler</option>
+        <option value="gm">General Motors</option>
+        <option value="ford">Ford</option>
+        <option disabled="disabled" value="plymouth">Plymouth</option>
+      </optgroup>
+      <optgroup label="French Brands">
+        <option value="citroen">Citroën</option>
+        <option value="peugeot">Peugeot</option>
+        <option selected value="renault">Renault</option>
+        <option value="nissan">Nissan</option>
+      </optgroup>
+      <optgroup disabled="disabled" label="German brands">
+        <option value="audi">Audi</option>
+        <option value="bMW">BMW</option>
+        <option value="volkswagen">Volkswagen</option>
+      </optgroup>
+      <optgroup label="Italian brands">
+        <option value="fiat">Fiat</option>
+        <option value="alpha-Romeo">Alpha Romeo</option>
+        <option value="lamborghini">Lamborghini</option>
+      </optgroup>
+      <option value="aston-martin">Aston Martin</option>
+      <option value="hyundai">Hyundai</option>
+      <option value="mitsubishi">Mitsubishi</option>
+    </select>
+
+
+
+   <select multiple="multiple"  placeholder="Hello  im from placeholder" class="groups_eg_g">
+      <option class="hemant" selected value="saab">Saab</option>
+      <option class="hemant" value="opel">Opel</option>
+      <option disabled="disabled" value="mercedez">Mercedez</option>
+      <optgroup label="US Brands">
+        <option value="chrysler">Chrysler</option>
+        <option value="gm">General Motors</option>
+        <option value="ford">Ford</option>
+        <option disabled="disabled" value="plymouth">Plymouth</option>
+      </optgroup>
+      <optgroup label="French Brands">
+        <option value="citroen">Citroën</option>
+        <option value="peugeot">Peugeot</option>
+        <option selected value="renault">Renault</option>
+        <option value="nissan">Nissan</option>
+      </optgroup>
+      <optgroup disabled="disabled" label="German brands">
+        <option value="audi">Audi</option>
+        <option value="bMW">BMW</option>
+        <option value="volkswagen">Volkswagen</option>
+      </optgroup>
+      <optgroup label="Italian brands">
+        <option value="fiat">Fiat</option>
+        <option value="alpha-Romeo">Alpha Romeo</option>
+        <option value="lamborghini">Lamborghini</option>
+      </optgroup>
+      <option value="aston-martin">Aston Martin</option>
+      <option value="hyundai">Hyundai</option>
+      <option value="mitsubishi">Mitsubishi</option>
+    </select>
+
+    <h1>Search</h1>
+
+	 <select  placeholder="Hello  im from placeholder" class="search-box">
+      <option class="hemant" selected value="saab">Saab</option>
+      <option class="hemant" value="opel">Opel</option>
+      <option disabled="disabled" value="mercedez">Mercedez</option>
+      <optgroup label="US Brands">
+        <option value="chrysler">Chrysler</option>
+        <option value="gm">General Motors</option>
+        <option value="ford">Ford</option>
+        <option disabled="disabled" value="plymouth">Plymouth</option>
+      </optgroup>
+      <optgroup label="French Brands">
+        <option value="citroen">Citroën</option>
+        <option value="peugeot">Peugeot</option>
+        <option selected value="renault">Renault</option>
+        <option value="nissan">Nissan</option>
+      </optgroup>
+      <optgroup label="Italian brands">
+        <option value="fiat">Fiat</option>
+        <option value="alpha-Romeo">Alpha Romeo</option>
+        <option value="lamborghini">Lamborghini</option>
+      </optgroup>
+      <optgroup disabled="disabled" label="German brands">
+        <option value="audi">Audi</option>
+        <option value="bMW">BMW</option>
+        <option value="volkswagen">Volkswagen</option>
+      </optgroup>
+      <option value="aston-martin">Aston Martin</option>
+      <option value="hyundai">Hyundai</option>
+      <option value="mitsubishi">Mitsubishi</option>
+    </select>
+
+    <select  placeholder="Hello  im from placeholder" class="search-box">
+      <option class="hemant" selected value="saab">Saab</option>
+      <option class="hemant" value="opel">Opel</option>
+      <option disabled="disabled" value="mercedez">Mercedez</option>
+      <option value="aston-martin">Aston Martin</option>
+      <option value="hyundai">Hyundai</option>
+      <option value="mitsubishi">Mitsubishi</option>
+    </select>
+
+    <select multiple="multiple" placeholder="Hello  im from placeholder" onchange="console.log($(this).children(':selected').length)" class="search-box">
+       <option selected value="volvo">Volvo</option>
+       <option value="saab">Saab</option>
+       <option disabled="disabled" value="mercedes">Mercedes</option>
+       <option value="audi">Audi</option>
+       <option selected value="bmw">BMW</option>
+       <option value="porsche">Porche</option>
+       <option value="ferrari">Ferrari</option>
+       <option value="mitsubishi">Mitsubishi</option>
+    </select>
+
+    <select multiple="multiple" placeholder="Hello  im from placeholder" class="SlectBox-grp-src">
+      <option selected value="saab">Saab</option>
+      <option value="opel">Opel</option>
+      <option disabled="disabled" value="mercedez">Mercedez</option>
+      <optgroup label="US Brands">
+        <option value="chrysler">Chrysler</option>
+        <option value="gm">General Motors</option>
+        <option value="ford">Ford</option>
+        <option disabled="disabled" value="plymouth">Plymouth</option>
+      </optgroup>
+      <optgroup label="French Brands">
+        <option value="citroen">Citroën</option>
+        <option value="peugeot">Peugeot</option>
+        <option selected value="renault">Renault</option>
+        <option value="nissan">Nissan</option>
+      </optgroup>
+      <optgroup label="Italian brands">
+        <option value="fiat">Fiat</option>
+        <option value="alpha-Romeo">Alpha Romeo</option>
+        <option value="lamborghini">Lamborghini</option>
+      </optgroup>
+      <optgroup disabled="disabled" label="German brands">
+        <option value="audi">Audi</option>
+        <option value="bMW">BMW</option>
+        <option value="volkswagen">Volkswagen</option>
+      </optgroup>
+      <option value="aston-martin">Aston Martin</option>
+      <option value="hyundai">Hyundai</option>
+      <option value="mitsubishi">Mitsubishi</option>
+    </select>
+
+    <h2>Search via custom search function</h2>
+
+   <select  placeholder="Hello  im from placeholder" class="search-box-custom-fn">
+      <option class="hemant" selected value="saab">Saab</option>
+      <option class="hemant" value="opel">Opel</option>
+      <option disabled="disabled" value="mercedez">Mercedez</option>
+      <optgroup label="US Brands">
+        <option value="chrysler">Chrysler</option>
+        <option value="gm">General Motors</option>
+        <option value="ford">Ford</option>
+        <option disabled="disabled" value="plymouth">Plymouth</option>
+      </optgroup>
+      <optgroup label="French Brands">
+        <option value="citroen">Citroën</option>
+        <option value="peugeot">Peugeot</option>
+        <option selected value="renault">Renault</option>
+        <option value="nissan">Nissan</option>
+      </optgroup>
+      <optgroup label="Italian brands">
+        <option value="fiat">Fiat</option>
+        <option value="alpha-Romeo">Alpha Romeo</option>
+        <option value="lamborghini">Lamborghini</option>
+      </optgroup>
+      <optgroup disabled="disabled" label="German brands">
+        <option value="audi">Audi</option>
+        <option value="bMW">BMW</option>
+        <option value="volkswagen">Volkswagen</option>
+      </optgroup>
+      <option value="aston-martin">Aston Martin</option>
+      <option value="hyundai">Hyundai</option>
+      <option value="mitsubishi">Mitsubishi</option>
+    </select>
+
+
+    <h1>Over flow hidden test</h1>
+    <style type="text/css">
+        .sumo_name_will_become_class{
+            position: absolute;
+        }
+    </style>
+<div style="background:#ccc; width:100px; height: 200px; overflow: hidden;">
+    <select name="name_will_become_class" multiple="multiple" placeholder="Hello  im from placeholder" onchange="console.log($(this).children(':selected').length)" class="search-box-sel-all">
+       <option selected value="volvo">Volvo</option>
+       <option value="saab">Saab</option>
+       <option value="mercedes">Mercedes</option>
+       <option value="audi">Audi</option>
+       <option selected value="bmw">BMW</option>
+       <option value="porsche">Porche</option>
+       <option value="ferrari">Ferrari</option>
+       <option value="mitsubishi">Mitsubishi</option>
+    </select>
+</div>
+
+    <h1>Open upside</h1>
+    <select multiple="multiple" placeholder="Hello  im from placeholder"
+            onchange="console.log($(this).val())"
+            class="search-box-open-up">
+       <option selected value='"volvo"'>Volvo</option>
+       <option value="saab">Saab</option>
+       <option value="mercedes">Mercedes</option>
+       <option value="audi">Audi</option>
+       <option selected value="bmw">BMW</option>
+       <option value="porsche">Porche</option>
+       <option value="ferrari">Ferrari</option>
+       <option value="mitsubishi">Mitsubishi</option>
+    </select>
+
+    <br />
+    <br />
+    <br />  <br />
+    <br />
+    <br />  <br />
+    <br />
+    <br />  <br />
+    <br />
+    <br />  <br />
+    <br />
+    <br />  <br />
+    <br />
+    <br />  <br />
+    <br />
+    <br />  <br />
+    <br />
+
+<select multiple="multiple" name="somename10" class="testselect10">
+       <option value="volvo">Volvo</option>
+       <option >Saab</option>
+       <option disabled="disabled" value="mercedes">Mercedes</option>
+       <option value="audi">Audi</option>
+       <option value="bmw">BMW</option>
+       <option disabled="disabled" value="porsche">Porche</option>
+       <option selected="selected" value="ferrari">Ferrari</option>
+       <option selected="selected" value="hyundai">Hyundai</option>
+       <option value="mitsubishi">Mitsubishi</option>
+    </select>
+
+
+
+ <table class="auto-style5">
+                <tr>
+                    <td class="auto-style6">
+                        <ul><li>
+                        <input id="Button1" type="button" value="Attach SumoSelect" onclick="$('.testselect10').SumoSelect();" />
+                            </li>
+                            <li>
+                                <input id="Button2" type="button" value="Detach SumoSelect" onclick="$('.testselect10')[0].sumo.unload();" />
+                            </li>
+                            <li>
+                                <input id="Button3" type="button" value="Add item at index 1" onclick="$('.testselect10')[0].sumo.add('New Item',1);" />
+                            </li>
+                             <li>
+                                <input id="Button4" type="button" value="Remove item at index 1" onclick="$('.testselect10')[0].sumo.remove(1);" />
+                            </li>
+                             <li>
+                                <input id="Button5" type="button" value="Select item at index 1" onclick="$('.testselect10')[0].sumo.selectItem(1);" />
+                            </li>
+                            <li>
+                                <input id="Button6" type="button" value="UnSelect item at index 1" onclick="$('.testselect10')[0].sumo.unSelectItem(1);" />
+                            </li>
+                             <li>
+                                <input id="Button7" type="button" value="Disable item at index 1" onclick="$('.testselect10')[0].sumo.disableItem(1);" />
+                            </li>
+                             <li>
+                                <input id="Button8" type="button" value="Enable item at index 1" onclick="$('.testselect10')[0].sumo.enableItem(1);" />
+                            </li>
+                             <li>
+                                <input id="Button9" type="button" value="Toggle Enable disable" onclick="$('.testselect10')[0].sumo.disabled = !$('.testselect10')[0].sumo.disabled" />
+                            </li>
+                        </ul>
+                            <br />
+    <br />  <br />
+    <br />
+    <br />  <br />
+    <br />
+    <br />  <br />
+    <br />
+    <br />  <br />
+    <br />
+    <br />  <br />
+    <br />
+    <br />  <br />
+    <br />
+    <br />  <br />
+    <br />
+                    </td>
+                    <td>
+
+</td>
+                </tr>
+            </table>
+
+</body>
+</html>
