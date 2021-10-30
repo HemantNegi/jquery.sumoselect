@@ -27,7 +27,9 @@
     const dispatchEvent = (target, eventName) => {
       let event = null;
       if(typeof(Event) === 'function') {
-          event = new Event(eventName);
+          event = new Event(eventName, {
+            bubbles: true
+          });
       }else{
           event = document.createEvent('Event');
           event.initEvent(eventName, true, true);
