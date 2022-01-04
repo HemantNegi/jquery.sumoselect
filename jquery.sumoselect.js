@@ -128,6 +128,7 @@
 
           //break for mobile rendring.. if forceCustomRendering is false
           if (O.isMobile() && !settings.forceCustomRendering) {
+            console.log('mobile');
             O.setNativeMobile();
             return;
           }
@@ -807,7 +808,7 @@
           const O = this;
           O.select.before(O.E);
           O.E.show();
-          O.E[0].classList.remove('SumoUnder');
+          O.E[0].classList.remove('SumoUnder', 'SelectClass');
 
           if (settings.outputAsCSV && O.is_multi && O.select.find('input.HEMANT123').length) {
             O.E.attr('name', O.select.find('input.HEMANT123').attr('name')); // restore the name;
