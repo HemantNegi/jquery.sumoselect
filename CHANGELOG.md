@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.4.0](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.3.30...v3.4.0) (2022-01-04)
+
+
+### Features
+
+* New selectAllPartialCheck option ([db9dc39](https://github.com/HemantNegi/jquery.sumoselect/commit/db9dc39bdc449eee10b5b4d614d0a78887ed401f))
+
 ### [3.3.30](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.3.29...v3.3.30) (2021-10-30)
 
 
