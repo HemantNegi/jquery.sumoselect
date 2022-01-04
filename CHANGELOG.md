@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.4.1](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.4.0...v3.4.1) (2022-01-04)
+
+
+### Bug Fixes
+
+* Select disappearing on reload on mobile. Fixes [#318](https://github.com/HemantNegi/jquery.sumoselect/issues/318) ([dd8ce18](https://github.com/HemantNegi/jquery.sumoselect/commit/dd8ce1830fe1f71af4e754fc2f4c3b8dea6a27bd))
+
 ## [3.4.0](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.3.30...v3.4.0) (2022-01-04)
 
 
