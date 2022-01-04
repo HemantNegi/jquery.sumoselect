@@ -66,9 +66,11 @@
       },
       noMatch: 'No matches for "{0}"',
       prefix: '',                   // some prefix usually the field name. eg. '<b>Hello</b>'
-      locale: ['OK', 'Cancel', 'Select All'],  // all text that is used. don't change the index.
+      locale: ['OK', 'Cancel', 'Select All', "Clear all"],  // all text that is used. don't change the index.
       up: false,                    // set true to open upside.
       showTitle: true,              // set to false to prevent title (tooltip) from appearing
+      clearAll: false,              // im multi select - clear all checked options
+      isCloseAfterClearAll: false,  // im multi select - close select after clear
       max: null,                    // Maximum number of options selected (when multiple)
       // eslint-disable-next-line no-unused-vars
       renderLi: (li, _originalOption) => li          // Custom <li> item renderer
@@ -149,6 +151,7 @@
           O.optDiv.append(O.ul);
 
           // Select all functionality
+          if (settings.clearAll && O.is_multi) O.ClearAll();
           if (settings.selectAll && O.is_multi && !settings.max) O.SelAll();
 
           // search functionality
@@ -320,6 +323,23 @@
               });
             }
           }
+        },
+
+        ClearAll () {
+          const O = this;
+          if (!O.is_multi) return;
+          O.selAll = $('<p class="reset-all"><span><i></i></span><label></label></p>');
+          [, , , O.selAll.find('label')[0].innerText] = settings.locale;
+          O.optDiv.addClass('resetAll');
+          O.selAll.on('click', () => {
+            O.selAll.removeClass('selected');
+            O.toggSelAll(false, 1);
+            if (settings.isCloseAfterClearAll) {
+              O.hideOpts();
+            }
+          });
+
+          O.optDiv.prepend(O.selAll);
         },
 
         SelAll() {
@@ -602,9 +622,12 @@
         // fixed some variables that were not explicitly typed (michc)
         setText() {
           const O = this;
+          let lengthSelected = 0;
           O.placeholder = "";
           if (O.is_multi) {
             const sels = O.E.find(':checked').not(':disabled'); //selected options.
+
+            lengthSelected = sels.length;
 
             if (settings.csvDispCount && sels.length > settings.csvDispCount) {
               if (sels.length === O.E.find('option').length && settings.captionFormatAllSelected) {
@@ -619,7 +642,9 @@
             }
           }
           else {
-            O.placeholder = O.E.find(':checked').not(':disabled').text();
+            const option = O.E.find(':checked').not(':disabled');
+            O.placeholder = option.text();
+            lengthSelected = option.length;
           }
 
           let is_placeholder = false;
@@ -633,6 +658,9 @@
               O.placeholder = O.E.find('option:disabled:checked').text();
           }
 
+          O.select.attr('selected-count', lengthSelected);
+          O.select.attr('is-selected', lengthSelected ? 'true' : 'false');
+          
           O.placeholder = O.placeholder ? (`${settings.prefix} ${O.placeholder}`) : settings.placeholder;
 
           //set display text
