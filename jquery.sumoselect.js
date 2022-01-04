@@ -128,7 +128,6 @@
 
           //break for mobile rendring.. if forceCustomRendering is false
           if (O.isMobile() && !settings.forceCustomRendering) {
-            console.log('mobile');
             O.setNativeMobile();
             return;
           }
