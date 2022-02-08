@@ -105,13 +105,3 @@
      /*styling for optgroups*/
     .SumoSelect > .optWrapper > .options li.optGroup { padding-left: 5px; text-decoration: underline; }
 
-
-.reset-all {padding: 5px 10px 5px 35px;border-bottom: 1px solid #CDCDCD;}
-
-.SumoSelect[is-selected="false"] .reset-all {opacity: 0.5;pointer-events: none;}
-
-.SumoSelect[is-selected="true"] .reset-all {opacity: 1;cursor: pointer;color: #7799D0;}
-
-.SumoSelect[is-selected="true"] .reset-all * {cursor: pointer;}
-
-.SumoSelect[is-selected="true"] .reset-all:hover {color: black;}
