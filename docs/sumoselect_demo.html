@@ -34,6 +34,8 @@
               $('.testselect6').SumoSelect();
 
               $('.testselect7').SumoSelect({ okCancelInMulti: true });
+              $('.multi-clean').SumoSelect({  clearAll: true });
+              $('.multi-clean-close').SumoSelect({ isCloseAfterClearAll: true, clearAll: true });
 
               $('.select1').SumoSelect({ okCancelInMulti: true, selectAll: true});
               $('.select2').SumoSelect({selectAll: true});
@@ -68,7 +70,7 @@
       <style type="text/css">
           .auto-style1 { color: #E81144; }
           .auto-style2 { color: #E81144; }
-          pre { margin: 10px 0px 10px 0px; }
+          pre { margin: 10px 0px 10px 0px; padding: 20px 18px; }
           strong { font-weight: bold;color: #5F5F5F; }
           .auto-style3 { color: #DD1144; }
           .auto-style4 { color: #6666FF; }
@@ -299,6 +301,45 @@
             <pre><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.testselect7'</span><span class="p">).</span><span class="nx">SumoSelect</span><span class="p">({ okCancelInMulti: <span class="auto-style4">true</span> });</span></pre>
                 </div>
       <select multiple="multiple" name="somename4" class="testselect7">
+        <option value="volvo">Volvo</option>
+       <option value="saab">Saab</option>
+       <option disabled="disabled" value="mercedes">Mercedes</option>
+       <option value="audi">Audi</option>
+       <option value="bmw">BMW</option>
+       <option disabled="disabled" value="porsche">Porche</option>
+       <option selected="selected" value="ferrari">Ferrari</option>
+       <option selected="selected" value="hyundai">Hyundai</option>
+       <option value="mitsubishi">Mitsubishi</option>
+    </select><p>
+                &nbsp;</p>
+
+
+<h2>
+    Clear selected options in multiselect</h2>
+            <div class="highlight highlight-javascript">
+            <pre><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.multi-clean'</span><span class="p">).</span><span class="nx">SumoSelect</span><span class="p">({ clearAll: <span class="auto-style4">true</span> });</span></pre>
+                </div>
+      <select multiple="multiple" name="somename4" class="multi-clean">
+        <option value="volvo">Volvo</option>
+       <option value="saab">Saab</option>
+       <option disabled="disabled" value="mercedes">Mercedes</option>
+       <option value="audi">Audi</option>
+       <option value="bmw">BMW</option>
+       <option disabled="disabled" value="porsche">Porche</option>
+       <option selected="selected" value="ferrari">Ferrari</option>
+       <option selected="selected" value="hyundai">Hyundai</option>
+       <option value="mitsubishi">Mitsubishi</option>
+    </select><p>
+                &nbsp;</p>
+
+
+
+<h2>
+  Clear selected options in multiselect and close dropdown</h2>
+            <div class="highlight highlight-javascript">
+            <pre><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.multi-clean-close'</span><span class="p">).</span><span class="nx">SumoSelect</span><span class="p">({isCloseAfterClearAll: <span class="auto-style4">true</span>, clearAll: <span class="auto-style4">true</span>});</span></pre>
+                </div>
+      <select multiple="multiple" name="somename4" class="multi-clean-close">
         <option value="volvo">Volvo</option>
        <option value="saab">Saab</option>
        <option disabled="disabled" value="mercedes">Mercedes</option>
