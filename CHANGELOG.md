@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.4.3](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.4.2...v3.4.3) (2022-02-09)
+
+
+### Bug Fixes
+
+* Rename isCloseAfterClearAll to closeAfterClearAll ([046fe2d](https://github.com/HemantNegi/jquery.sumoselect/commit/046fe2d68acd0df8d295ed77fc2ea26842d15623))
+
 ### [3.4.2](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.4.1...v3.4.2) (2022-01-04)
 
 
