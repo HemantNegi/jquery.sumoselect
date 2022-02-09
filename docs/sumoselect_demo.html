@@ -36,7 +36,7 @@
               $('.testselect7').SumoSelect({ okCancelInMulti: true });
 
               $('.multi-clean').SumoSelect({  clearAll: true });
-              $('.multi-clean-close').SumoSelect({ isCloseAfterClearAll: true, clearAll: true });
+              $('.multi-clean-close').SumoSelect({ closeAfterClearAll: true, clearAll: true });
             
               $('.select1').SumoSelect({ okCancelInMulti: true, selectAll: true});
               $('.select2').SumoSelect({selectAll: true});
@@ -338,7 +338,7 @@
     <h2>
       Clear selected options in multiselect and close dropdown</h2>
     <div class="highlight highlight-javascript">
-      <pre><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.multi-clean-close'</span><span class="p">).</span><span class="nx">SumoSelect</span><span class="p">({isCloseAfterClearAll: <span class="auto-style4">true</span>, clearAll: <span class="auto-style4">true</span>});</span></pre>
+      <pre><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.multi-clean-close'</span><span class="p">).</span><span class="nx">SumoSelect</span><span class="p">({closeAfterClearAll: <span class="auto-style4">true</span>, clearAll: <span class="auto-style4">true</span>});</span></pre>
     </div>
     <select multiple="multiple" name="somename4" class="multi-clean-close">
       <option value="volvo">Volvo</option>

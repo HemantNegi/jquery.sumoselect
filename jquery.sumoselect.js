@@ -66,11 +66,11 @@
       },
       noMatch: 'No matches for "{0}"',
       prefix: '',                   // some prefix usually the field name. eg. '<b>Hello</b>'
-      locale: ['OK', 'Cancel', 'Select All', "Clear all"],  // all text that is used. don't change the index.
+      locale: ['OK', 'Cancel', 'Select All', 'Clear all'],  // all text that is used. don't change the index.
       up: false,                    // set true to open upside.
       showTitle: true,              // set to false to prevent title (tooltip) from appearing
       clearAll: false,              // im multi select - clear all checked options
-      isCloseAfterClearAll: false,  // im multi select - close select after clear
+      closeAfterClearAll: false,    // im multi select - close select after clear
       max: null,                    // Maximum number of options selected (when multiple)
       // eslint-disable-next-line no-unused-vars
       renderLi: (li, _originalOption) => li          // Custom <li> item renderer
@@ -334,7 +334,7 @@
           O.selAll.on('click', () => {
             O.selAll.removeClass('selected');
             O.toggSelAll(false, 1);
-            if (settings.isCloseAfterClearAll) {
+            if (settings.closeAfterClearAll) {
               O.hideOpts();
             }
           });
