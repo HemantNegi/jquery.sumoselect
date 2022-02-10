@@ -175,6 +175,10 @@ Below are the available settings:
 
 - `renderLi` `(function)`  Custom `<li>` item renderer
 
+- `clearAll` `(boolean)` Display "Clear all" in multiselect (deafult `false`)
+
+- `closeAfterClearAll` `(boolean)` Close dropdown after clicking on "Clear all" (deafult `false`)
+
 **The default settings are :**
 
 ```javascript
@@ -203,7 +207,9 @@ Below are the available settings:
     up: false,
     showTitle: true,
     max: null,
-    renderLi: (li, originalOption) => li
+    renderLi: (li, originalOption) => li,
+    clearAll: false,
+    closeAfterClearAll: false
 }
 ```
 
