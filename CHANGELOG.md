@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.4.6](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.4.5...v3.4.6) (2022-04-15)
+
+
+### Bug Fixes
+
+* Select all not working on mobile. [#323](https://github.com/HemantNegi/jquery.sumoselect/issues/323) ([aacfa2e](https://github.com/HemantNegi/jquery.sumoselect/commit/aacfa2e805b22d5530cc0610b1ce319910fa38cb))
+
 ### [3.4.5](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.4.4...v3.4.5) (2022-02-10)
 
 
