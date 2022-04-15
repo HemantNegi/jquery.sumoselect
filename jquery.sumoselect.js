@@ -784,7 +784,7 @@
           if (O.is_multi) {
             // Select all
             if (c) {
-              O.E.find('option:not(:checked):not(:disabled):not(:hidden)').toArray().forEach(option => {
+              O.E.find('option').toArray().filter((option) => !option.selected && !option.disabled && option.style.display !== 'none').forEach(option => {
                 if (!$(option).data('li').hasClass('hidden')) {
                   option.selected = true;
                   $(option).data('li').toggleClass('selected', true);
@@ -792,7 +792,7 @@
               });
             } else {
               // Unselect all
-              O.E.find('option:checked:not(:disabled):not(:hidden)').toArray().forEach(option => {
+              O.E.find('option').toArray().filter((option) => option.selected && !option.disabled && option.style.display !== 'none').forEach(option => {
                 if (!$(option).data('li').hasClass('hidden')) {
                   option.selected = false;
                   $(option).data('li').toggleClass('selected', false);
