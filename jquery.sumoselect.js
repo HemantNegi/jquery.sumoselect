@@ -302,6 +302,7 @@
             O.E.find('option')[O.Pstate[i]].selected = true;
             O.ul.find('li.opt').eq(O.Pstate[i]).addClass('selected');
           }
+          O.setText();
           O.selAllState();
         },
 
