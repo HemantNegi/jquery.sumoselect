@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.4.7](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.4.6...v3.4.7) (2022-07-29)
+
+
+### Bug Fixes
+
+* Placeholder text not in sync with `triggerChangeCombined` set to `false`. Fixes [#331](https://github.com/HemantNegi/jquery.sumoselect/issues/331) ([b24ff0f](https://github.com/HemantNegi/jquery.sumoselect/commit/b24ff0fced30b98c75513a13808ce7444360b076))
+
 ### [3.4.6](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.4.5...v3.4.6) (2022-04-15)
 
 
