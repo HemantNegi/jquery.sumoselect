@@ -230,14 +230,14 @@
         multiSelelect() {
           const O = this;
           O.optDiv.addClass('multiple');
-          O.okbtn = $('<p tabindex="0" class="btnOk"></p>').click(() => {
+          O.okbtn = $('<p tabindex="0" class="btnOk"></p>').on('click', () => {
             //if combined change event is set.
             O._okbtn();
             O.hideOpts();
           });
           [O.okbtn[0].innerText] = settings.locale;
 
-          O.cancelBtn = $('<p tabindex="0" class="btnCancel"></p>').click(() => {
+          O.cancelBtn = $('<p tabindex="0" class="btnCancel"></p>').on('click', () => {
             O._cnbtn();
             O.hideOpts();
           });
@@ -529,7 +529,7 @@
 
         basicEvents() {
           const O = this;
-          O.CaptionCont.click((evt) => {
+          O.CaptionCont.on('click', (evt) => {
             O.E.trigger('click');
             if (O.is_opened) O.hideOpts(); else O.showOpts();
             evt.stopPropagation();
@@ -586,7 +586,7 @@
 
         onOptClick(li) {
           const O = this;
-          li.click(function () {
+          li.on('click', function () {
             const $li = $(this);
             if ($li.hasClass('disabled')) return;
             if (O.is_multi) {
