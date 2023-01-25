@@ -422,6 +422,15 @@
           O.E.trigger('sumo:opening', O);
           O.is_opened = true;
           O.select.addClass('open').attr('aria-expanded', 'true');
+
+          // Scroll first selected option into view
+          const firstSelected = O.optDiv.find('li.opt.selected').first();
+          if (firstSelected.length) {
+            O.optDiv.find('.options').scrollTop(firstSelected.position().top);
+          } else {
+            O.optDiv.find('.options').scrollTop(0);
+          }
+
           O.E.trigger('sumo:opened', O);
 
           if (O.ftxt) O.ftxt.focus();
