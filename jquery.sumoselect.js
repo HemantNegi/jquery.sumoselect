@@ -365,7 +365,7 @@
             P = $('<p class="no-match">'),
             fn = (options.searchFn && typeof options.searchFn === 'function') ? options.searchFn : settings.searchFn;
 
-          O.ftxt = $('<input type="text" class="search-txt" value="" autocomplete="off">')
+          O.ftxt = $('<input type="search" class="search-txt" value="" autocomplete="off">')
             .on('click', (e) => {
               e.stopPropagation();
             });
@@ -373,7 +373,7 @@
           cc.append(O.ftxt);
           O.optDiv.children('ul').after(P);
 
-          O.ftxt.on('keyup.sumo', () => {
+          O.ftxt.on('input.sumo', () => {
             const hid = O.optDiv.find('ul.options li.opt').each((ix, e) => {
               const el = $(e),
                 { 0: opt } = el.data('opt');
@@ -482,7 +482,7 @@
             // clear the search
             if (settings.search) {
               O.ftxt.val('');
-              O.ftxt.trigger('keyup.sumo');
+              O.ftxt.trigger('input.sumo');
             }
           }
         },
