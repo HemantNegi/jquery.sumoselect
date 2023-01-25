@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.4.9](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.4.8...v3.4.9) (2023-01-25)
+
+
+### Bug Fixes
+
+* Added Typescript types. Fixes [#253](https://github.com/HemantNegi/jquery.sumoselect/issues/253) ([52e909c](https://github.com/HemantNegi/jquery.sumoselect/commit/52e909c2cfabe0faafb79ff67dfc2d5da6680f6e))
+* Docs typo ([ed8da08](https://github.com/HemantNegi/jquery.sumoselect/commit/ed8da082b5c50a49e3c96f53356b5550b19eacda))
+* Refocus sumo when using escape or enter with search enabled. Fixes [#340](https://github.com/HemantNegi/jquery.sumoselect/issues/340) ([4006576](https://github.com/HemantNegi/jquery.sumoselect/commit/400657673e94ba603999ac8597cc294276ab015d))
+* Scroll first selected option into view. Fixes [#337](https://github.com/HemantNegi/jquery.sumoselect/issues/337) ([ceb378a](https://github.com/HemantNegi/jquery.sumoselect/commit/ceb378a4ccf650f959a89f2c385731827af15316))
+* Search input advanced features. Fixes [#339](https://github.com/HemantNegi/jquery.sumoselect/issues/339). Fixes [#341](https://github.com/HemantNegi/jquery.sumoselect/issues/341) ([46c1536](https://github.com/HemantNegi/jquery.sumoselect/commit/46c15361f24590b422dc38b16f03878ea9b79d41))
+* Stop using .click. Fixes [#338](https://github.com/HemantNegi/jquery.sumoselect/issues/338) ([b318ce3](https://github.com/HemantNegi/jquery.sumoselect/commit/b318ce3f976407b35705e82d725a75657fdde084))
+
 ### [3.4.8](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.4.7...v3.4.8) (2022-07-29)
 
 ### [3.4.7](https://github.com/HemantNegi/jquery.sumoselect/compare/v3.4.6...v3.4.7) (2022-07-29)
