@@ -559,6 +559,7 @@
               case 13: // enter
                 if (O.is_opened)
                   O.optDiv.find('ul li.sel').trigger('click');
+                  if (settings.search) O.select.focus();
                 else
                   O.setOnOpen();
                 break;
@@ -569,6 +570,7 @@
               case 27: // esc
                 if (settings.okCancelInMulti) O._cnbtn();
                 O.hideOpts();
+                if (settings.search) O.select.focus();
                 return;
 
               default:
