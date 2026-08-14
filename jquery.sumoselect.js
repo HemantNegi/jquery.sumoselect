@@ -22,6 +22,8 @@
 })(($) => {
 
   'namespace sumo';
+  let sumoInstanceCount = 0;
+
   $.fn.SumoSelect = function (options) {
     // Extra check for IE compatibility
     const dispatchEvent = (target, eventName) => {
@@ -61,6 +63,8 @@
       selectAllPartialCheck: true,  // Display a disabled checkbox in multiselect mode when all the items are not selected.
       search: false,                // to display input for filtering content. selectAlltext will be input text placeholder
       searchText: 'Search...',      // placeholder for search input
+      searchLabel: null,            // accessible name for the search input. Falls back to searchText.
+      typeaheadDelay: 700,          // delay in milliseconds before the typeahead buffer is reset
       searchFn(haystack, needle) { // search function
         return haystack.toLowerCase().indexOf(needle.toLowerCase()) < 0;
       },
@@ -98,11 +102,36 @@
         Pstate: [],
         lastUnselected: null,
         selectedCount: 0,
+        instanceId: '',
+        listboxId: '',
+        eventNamespace: '',
+        optionId: 0,
+        groupId: 0,
+        labelElements: $(),
+        labelText: '',
+        originalTabindex: null,
+        originalAriaHidden: null,
+        typeaheadBuffer: '',
+        typeaheadLastTime: 0,
 
         createElems() {
           const O = this;
           const selectedOptions = O.E.find('option:checked');
-          O.E.wrap('<div class="SumoSelect" tabindex="0" role="button" aria-expanded="false">');
+          let instanceNumber = selObj._sumoInstanceNumber;
+          if (!instanceNumber) {
+            instanceNumber = ++sumoInstanceCount;
+            selObj._sumoInstanceNumber = instanceNumber;
+          }
+
+          O.instanceId = `sumoselect-${instanceNumber}`;
+          O.listboxId = `${O.instanceId}-listbox`;
+          O.eventNamespace = `.sumo${instanceNumber}`;
+          O.originalTabindex = O.E.attr('tabindex');
+          O.originalAriaHidden = O.E.attr('aria-hidden');
+          O.labelElements = O.getLabelElements();
+          O.labelText = O.getLabelText(O.labelElements);
+
+          O.E.wrap('<div class="SumoSelect">');
           selectedOptions.each((_, selectedOption) => { // Fix for IE resetting index to 0 when -1
             selectedOption.selected = true;
           });
@@ -134,11 +163,25 @@
             return;
           }
 
+          O.select.attr({
+            'tabindex': '0',
+            'role': O.is_multi ? 'button' : 'combobox',
+            'aria-expanded': 'false'
+          });
+          if (O.E.prop('disabled')) O.select.removeAttr('tabindex');
+          O.E.addClass('SumoUnder').attr('tabindex', '-1');
+          if (!O.is_multi) {
+            O.select.attr({
+              'aria-haspopup': 'listbox',
+              'aria-controls': O.listboxId
+            });
+            O.setAccessibleName();
+            O.E.attr('aria-hidden', 'true');
+            O.bindLabelEvents();
+          }
+
           // if there is a name attr in select add a class to container div
           if (O.E.attr('name')) O.select.addClass(`sumo_${O.E.attr('name').replace(/\[\]/, '')}`);
-
-          //hide original select
-          O.E.addClass('SumoUnder').attr('tabindex', '-1');
 
           //## Creating the list...
           O.optDiv = $(`<div class="optWrapper ${settings.up ? 'up' : ''}">`);
@@ -148,6 +191,12 @@
 
           //Creating the markup for the available options
           O.ul = $('<ul class="options">');
+          if (!O.is_multi) {
+            O.ul.attr({
+              'id': O.listboxId,
+              'role': 'listbox'
+            });
+          }
           O.optDiv.append(O.ul);
 
           // Select all functionality
@@ -166,23 +215,38 @@
           O._handleMax();
           O.basicEvents();
           O.selAllState();
+          O.syncAria();
         },
 
         prepItems(opts, d) {
           const lis = [], O = this;
           $(opts).each((i, opt) => {       // parsing options to li
             const $opt = $(opt);
-            lis.push($opt.is('optgroup') ?
-              $(`<li class="group ${opt.disabled ? 'disabled' : ''}"><label></label><ul></ul></li>`)
-                .find('label')
-                .text($opt.attr('label'))
-                .end()
-                .find('ul')
-                .append(O.prepItems($opt.children(), opt.disabled))
-                .end()
-              :
-              O.createLi($opt, d)
-            );
+            if ($opt.is('optgroup')) {
+              const group = $(`<li class="group ${opt.disabled ? 'disabled' : ''}"><label></label><ul></ul></li>`);
+              if (!O.is_multi) {
+                const groupId = `${O.instanceId}-group-${O.groupId++}`;
+                const groupLabelId = `${groupId}-label`;
+                group.attr({
+                  'id': groupId,
+                  'role': 'group',
+                  'aria-labelledby': groupLabelId
+                });
+                group.find('label').attr('id', groupLabelId);
+                group.find('ul').attr('role', 'presentation');
+              }
+              lis.push(
+                group
+                  .find('label')
+                  .text($opt.attr('label'))
+                  .end()
+                  .find('ul')
+                  .append(O.prepItems($opt.children(), opt.disabled))
+                  .end()
+              );
+            } else {
+              lis.push(O.createLi($opt, d));
+            }
           });
           return lis;
         },
@@ -193,20 +257,13 @@
           const O = this;
 
           if (!opt.attr('value')) opt.attr('value', opt.val());
-          const li = $(`<li class="opt"><label>${opt.html()}</label></li>`);
-
-          li.data('opt', opt);    // store a direct reference to option.
-          opt.data('li', li);    // store a direct reference to list item.
+          let li = $(`<li class="opt"><label>${opt.html()}</label></li>`);
           if (O.is_multi) li.prepend('<span><i></i></span>');
 
-          if (opt[0].disabled || d)
-            li.addClass('disabled');
-
-          O.onOptClick(li);
+          if (opt[0].disabled || d) li.addClass('disabled');
 
           if (opt[0].selected) {
             li.addClass('selected');
-            O.selectedCount++;
           }
 
           if (opt.attr('class'))
@@ -215,7 +272,307 @@
           if (opt.attr('title'))
             li.attr('title', opt.attr('title'));
 
-          return settings.renderLi(li, opt);
+          const renderedLi = settings.renderLi(li, opt);
+          if (renderedLi && $(renderedLi).length) li = $(renderedLi).first();
+
+          // renderLi may return a replacement element. Apply the internal contract
+          // after rendering so data, events and accessibility state cannot be lost.
+          li.addClass('opt');
+          if (opt[0].disabled || d) li.addClass('disabled');
+          if (opt[0].selected) {
+            li.addClass('selected');
+            O.selectedCount++;
+          }
+          if (opt.attr('class')) li.addClass(opt.attr('class'));
+          if (opt.attr('title')) li.attr('title', opt.attr('title'));
+
+          li.data('opt', opt);    // store a direct reference to option.
+          opt.data('li', li);    // store a direct reference to list item.
+          li.data('sumo-hidden', li.hasClass('hidden') || !!opt[0].hidden || opt.css('display') === 'none');
+          if (li.data('sumo-hidden')) li.addClass('hidden');
+
+          if (!O.is_multi) {
+            li.attr({
+              'id': `${O.instanceId}-option-${O.optionId++}`,
+              'role': 'option',
+              'aria-selected': opt[0].selected ? 'true' : 'false',
+              'aria-disabled': li.hasClass('disabled') ? 'true' : 'false'
+            });
+            if (li.data('sumo-hidden')) li.attr('aria-hidden', 'true');
+          }
+
+          O.onOptClick(li);
+          return li;
+        },
+
+        getLabelElements() {
+          const O = this;
+          const select = O.E[0];
+          let labels = $();
+
+          if (select.labels) {
+            labels = $(select.labels);
+          } else {
+            if (select.id) {
+              labels = $('label[for]').filter((_, label) => $(label).attr('for') === select.id);
+            }
+            labels = labels.add(O.E.closest('label'));
+          }
+
+          return labels;
+        },
+
+        getLabelText(labels) {
+          return labels.map((_, label) => {
+            const clone = $(label).clone();
+            clone.find('select').remove();
+            return clone.text();
+          }).get().join(' ').replace(/\s+/g, ' ').trim();
+        },
+
+        setAccessibleName() {
+          const O = this;
+          const labelledBy = O.E.attr('aria-labelledby');
+          const ariaLabel = O.E.attr('aria-label');
+
+          O.select.removeAttr('aria-labelledby aria-label');
+          if (labelledBy) {
+            O.select.attr('aria-labelledby', labelledBy);
+          } else if (ariaLabel) {
+            O.select.attr('aria-label', ariaLabel);
+          } else if (O.labelText) {
+            O.select.attr('aria-label', O.labelText);
+          }
+        },
+
+        bindLabelEvents() {
+          const O = this;
+          O.labelElements.on(`click${O.eventNamespace}`, (event) => {
+            if (O.E.prop('disabled')) return;
+            event.preventDefault();
+            O.select.focus();
+          });
+          O.E.on(`focus${O.eventNamespace}`, () => O.select.focus());
+        },
+
+        syncControlAria() {
+          const O = this;
+          if (O.mob || O.is_multi) return;
+
+          const disabled = O.E.prop('disabled');
+          O.select.attr('aria-disabled', disabled ? 'true' : 'false');
+          if (disabled) O.select.removeAttr('tabindex');
+          else O.select.attr('tabindex', '0');
+
+          if (O.E.prop('required')) O.select.attr('aria-required', 'true');
+          else O.select.removeAttr('aria-required');
+
+          ['aria-invalid', 'aria-describedby'].forEach(attribute => {
+            const value = O.E.attr(attribute);
+            if (value) O.select.attr(attribute, value);
+            else O.select.removeAttr(attribute);
+          });
+        },
+
+        syncOptionAria() {
+          const O = this;
+          if (O.mob) return;
+
+          O.selectedCount = 0;
+          O.ul.find('li.opt').each((_, optionElement) => {
+            const li = $(optionElement);
+            const option = li.data('opt')[0];
+            const selected = !!option.selected;
+            const disabled = !!option.disabled || li.closest('li.group').hasClass('disabled') || li.hasClass('disabled') || li.hasClass('temporary-disabled');
+
+            li.toggleClass('selected', selected);
+            if (!O.is_multi) {
+              li.attr({
+                'aria-selected': selected ? 'true' : 'false',
+                'aria-disabled': disabled ? 'true' : 'false'
+              });
+              if (li.hasClass('hidden')) li.attr('aria-hidden', 'true');
+              else li.removeAttr('aria-hidden');
+            }
+            if (selected) O.selectedCount++;
+          });
+        },
+
+        syncAria() {
+          if (this.mob) return;
+          this.syncOptionAria();
+          if (this.is_multi) return;
+          this.setAccessibleName();
+          this.syncControlAria();
+          if (this.is_opened) this.ensureActiveOption();
+        },
+
+        getNavigableOptions() {
+          return this.ul.find('li.opt:not(.disabled):not(.hidden)');
+        },
+
+        isNavigableOption(li) {
+          return !!li && li.length && li.hasClass('opt') && !li.hasClass('disabled') && !li.hasClass('hidden');
+        },
+
+        scrollToOption(li) {
+          const O = this;
+          if (!O.isNavigableOption(li)) return;
+
+          const position = li.position();
+          if (!position) return;
+
+          const scrollTop = O.ul.scrollTop();
+          const optionTop = position.top + scrollTop;
+          const optionHeight = li.outerHeight() || 0;
+          const listHeight = O.ul.height() || 0;
+
+          if (optionTop >= scrollTop + listHeight - optionHeight) {
+            O.ul.scrollTop(optionTop - listHeight + optionHeight);
+          } else if (optionTop < scrollTop) {
+            O.ul.scrollTop(optionTop);
+          }
+        },
+
+        setActiveOption(li) {
+          const O = this;
+          if (!O.isNavigableOption(li)) return false;
+
+          O.ul.find('li.opt.sel').removeClass('sel');
+          li.addClass('sel');
+          if (!O.is_multi) {
+            O.select.attr('aria-activedescendant', li.attr('id'));
+            if (O.ftxt) O.ftxt.attr('aria-activedescendant', li.attr('id'));
+          }
+          O.scrollToOption(li);
+          return true;
+        },
+
+        clearActiveOption() {
+          const O = this;
+          if (O.ul && O.ul.length) O.ul.find('li.opt.sel').removeClass('sel');
+          O.select.removeAttr('aria-activedescendant');
+          if (O.ftxt) O.ftxt.removeAttr('aria-activedescendant');
+        },
+
+        ensureActiveOption(preferSelected) {
+          const O = this;
+          if (!O.is_opened) return false;
+
+          const current = O.ul.find('li.opt.sel').first();
+          if (!preferSelected && O.isNavigableOption(current)) return true;
+
+          let next = $();
+          if (!O.is_multi) {
+            const selected = O.E.find('option:checked').first();
+            if (selected.length) next = selected.data('li');
+          }
+          if (!O.isNavigableOption(next)) next = O.getNavigableOptions().first();
+
+          if (O.isNavigableOption(next)) return O.setActiveOption(next);
+          O.clearActiveOption();
+          return false;
+        },
+
+        moveActiveOption(step) {
+          const O = this;
+          const options = O.getNavigableOptions();
+          if (!options.length) {
+            O.clearActiveOption();
+            return;
+          }
+
+          const current = O.ul.find('li.opt.sel').first();
+          let index = options.index(current);
+          if (index < 0) index = step > 0 ? -1 : options.length;
+          index = Math.max(0, Math.min(options.length - 1, index + step));
+          O.setActiveOption(options.eq(index));
+        },
+
+        moveActiveToBoundary(last) {
+          const O = this;
+          const options = O.getNavigableOptions();
+          if (!options.length) {
+            O.clearActiveOption();
+            return;
+          }
+          O.setActiveOption(last ? options.last() : options.first());
+        },
+
+        normalizeTypeaheadText(value) {
+          let text = String(value || '').toLocaleLowerCase();
+          if (text.normalize) text = text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+          return text;
+        },
+
+        getTypeaheadCharacter(event) {
+          if (event.ctrlKey || event.metaKey || event.altKey) return '';
+          if (event.key && event.key.length === 1) return event.key;
+          if (!event.key && event.which >= 32) return String.fromCharCode(event.which);
+          return '';
+        },
+
+        handleTypeahead(character) {
+          const O = this;
+          const normalizedCharacter = O.normalizeTypeaheadText(character);
+          if (!normalizedCharacter) return false;
+
+          if (!O.is_opened) O.showOpts();
+          const options = O.getNavigableOptions();
+          if (!options.length) return false;
+
+          const now = (new Date()).getTime();
+          const expired = now - O.typeaheadLastTime > +settings.typeaheadDelay;
+          const repeated = !expired && O.typeaheadBuffer && O.typeaheadBuffer.split('').every(value => value === normalizedCharacter);
+          let term = expired ? normalizedCharacter : `${O.typeaheadBuffer}${normalizedCharacter}`;
+          if (repeated) term = normalizedCharacter;
+
+          const findMatch = prefix => {
+            const currentIndex = options.index(O.ul.find('li.opt.sel').first());
+            for (let offset = 1; offset <= options.length; offset++) {
+              const index = (Math.max(currentIndex, -1) + offset) % options.length;
+              const li = options.eq(index);
+              const optionText = li.data('opt').text();
+              if (O.normalizeTypeaheadText(optionText).indexOf(prefix) === 0) return li;
+            }
+            return $();
+          };
+
+          let match = findMatch(term);
+          if (!match.length && term !== normalizedCharacter) {
+            term = normalizedCharacter;
+            match = findMatch(term);
+          }
+
+          O.typeaheadBuffer = term;
+          O.typeaheadLastTime = now;
+          if (!match.length) return false;
+          O.setActiveOption(match);
+          return true;
+        },
+
+        commitSingleOption(li) {
+          const O = this;
+          if (!O.isNavigableOption(li)) return false;
+
+          const option = li.data('opt')[0];
+          const previousIndex = O.E[0].selectedIndex;
+          option.selected = true;
+          O.selectedCount = 1;
+          O.setText();
+          O.syncAria();
+
+          const changed = previousIndex !== O.E[0].selectedIndex;
+          if (changed) O.callChange();
+          return changed;
+        },
+
+        commitActiveOption() {
+          const O = this;
+          const active = O.ul.find('li.opt.sel').first();
+          if (!O.isNavigableOption(active)) return false;
+          active.trigger('click');
+          return true;
         },
 
         //## Returns the selected items as string in a Multiselect.
@@ -303,6 +660,7 @@
             O.ul.find('li.opt').eq(O.Pstate[i]).addClass('selected');
           }
           O.setText();
+          O.syncAria();
           O.selAllState();
         },
 
@@ -363,22 +721,31 @@
           const O = this,
             cc = O.CaptionCont.addClass('search'),
             P = $('<p class="no-match">'),
-            fn = (options.searchFn && typeof options.searchFn === 'function') ? options.searchFn : settings.searchFn;
+            fn = typeof settings.searchFn === 'function' ? settings.searchFn : defaultOptions.searchFn;
+
+          if (!O.is_multi) {
+            P.attr({
+              'role': 'status',
+              'aria-live': 'polite',
+              'aria-atomic': 'true'
+            });
+          }
 
           O.ftxt = $('<input type="search" class="search-txt" value="" autocomplete="off">')
+            .attr('aria-label', settings.searchLabel || settings.searchText)
             .on('click', (e) => {
               e.stopPropagation();
             });
+          if (!O.is_multi) O.ftxt.attr('aria-controls', O.listboxId);
           O.ftxt[0].placeholder = settings.searchText;
           cc.append(O.ftxt);
           O.optDiv.children('ul').after(P);
 
           O.ftxt.on('input.sumo', () => {
             const hid = O.optDiv.find('ul.options li.opt').each((ix, e) => {
-              const el = $(e),
-                { 0: opt } = el.data('opt');
-              opt.hidden = fn(el.text(), O.ftxt.val(), el);
-              el.toggleClass('hidden', opt.hidden);
+              const el = $(e);
+              const hidden = el.data('sumo-hidden') || fn(el.text(), O.ftxt.val(), el);
+              el.toggleClass('hidden', !!hidden);
             }).not('.hidden');
 
             // Hide opt-groups with no options matched
@@ -392,6 +759,9 @@
 
             P.html(settings.noMatch.replace(/\{0\}/g, '<em></em>')).toggle(!hid.length);
             P.find('em').text(O.ftxt.val());
+            O.syncOptionAria();
+            if (O.is_opened) O.ensureActiveOption();
+            else O.clearActiveOption();
             O.selAllState();
           });
         },
@@ -419,17 +789,11 @@
         showOpts() {
           const O = this;
           if (O.E.attr('disabled')) return; // if select is disabled then retrun
+          if (O.is_opened) return;
           O.E.trigger('sumo:opening', O);
           O.is_opened = true;
           O.select.addClass('open').attr('aria-expanded', 'true');
-
-          // Scroll first selected option into view
-          const firstSelected = O.optDiv.find('li.opt.selected').first();
-          if (firstSelected.length) {
-            O.optDiv.find('.options').scrollTop(firstSelected.position().top);
-          } else {
-            O.optDiv.find('.options').scrollTop(0);
-          }
+          O.ensureActiveOption(true);
 
           O.E.trigger('sumo:opened', O);
 
@@ -437,7 +801,7 @@
           else O.select.focus();
 
           // hide options on click outside.
-          $(document).on('click.sumo', (e) => {
+          $(document).on(`click${O.eventNamespace}`, (e) => {
             if (!O.select.is(e.target)                  // if the target of the click isn't the container...
               && O.select.has(e.target).length === 0) { // ... nor a descendant of the container
               if (!O.is_opened) return;
@@ -478,14 +842,17 @@
           });
         },
 
-        hideOpts() {
+        hideOpts(restoreFocus) {
           const O = this;
           if (O.is_opened) {
             O.E.trigger('sumo:closing', O);
             O.is_opened = false;
-            O.select.removeClass('open').attr('aria-expanded', 'false').find('ul li.sel').removeClass('sel');
+            O.select.removeClass('open').attr('aria-expanded', 'false');
+            O.clearActiveOption();
+            O.typeaheadBuffer = '';
+            O.typeaheadLastTime = 0;
             O.E.trigger('sumo:closed', O);
-            $(document).off('click.sumo');
+            $(document).off(O.eventNamespace);
             $('body').removeClass('sumoStopScroll');
 
             // clear the search
@@ -493,47 +860,16 @@
               O.ftxt.val('');
               O.ftxt.trigger('input.sumo');
             }
+            if (restoreFocus) O.select.focus();
           }
         },
         setOnOpen() {
-          const O = this;
-          let li = O.optDiv.find('li.opt:not(.hidden)').eq(settings.search ? 0 : O.E[0].selectedIndex);
-          if (li.hasClass('disabled')) {
-            li = li.next(':not(disabled)');
-            if (!li.length) return;
-          }
-          O.optDiv.find('li.sel').removeClass('sel');
-          li.addClass('sel');
-          O.showOpts();
+          this.showOpts();
         },
         nav(up) {
           const O = this;
-          let c = null, sel = O.ul.find('li.opt.sel:not(.hidden)');
-          const
-            s = O.ul.find('li.opt:not(.disabled):not(.hidden)'),
-            idx = s.index(sel);
-          if (O.is_opened && sel.length) {
-            if (up && idx > 0)
-              c = s.eq(idx - 1);
-            else if (!up && idx < s.length - 1 && idx > -1)
-              c = s.eq(idx + 1);
-            else return; // if no items before or after
-
-            sel.removeClass('sel');
-            sel = c.addClass('sel');
-
-            // setting sel item to visible view.
-            const { ul } = O,
-              st = ul.scrollTop(),
-              t = sel.position().top + st;
-            if (t >= st + ul.height() - sel.outerHeight())
-              ul.scrollTop(t - ul.height() + sel.outerHeight());
-            if (t < st)
-              ul.scrollTop(t);
-
-          }
-          else
-            O.setOnOpen();
+          if (!O.is_opened) O.showOpts();
+          else O.moveActiveOption(up ? -1 : 1);
         },
 
         basicEvents() {
@@ -545,6 +881,12 @@
           });
 
           O.select.on('keydown.sumo', (e) => {
+            const searchTarget = !!O.ftxt && O.ftxt.is(e.target);
+            if (e.which === 65 && O.is_multi && !settings.max && e.ctrlKey) {
+              O.toggSelAll(!e.shiftKey, 1);
+              e.preventDefault();
+              return;
+            }
             switch (e.which) {
               case 38: // up
                 O.nav(true);
@@ -554,41 +896,45 @@
                 O.nav(false);
                 break;
 
-              case 65: // shortcut ctrl + a to select all and ctrl + shift + a to unselect all.
-                if (O.is_multi && !settings.max && e.ctrlKey) {
-                  O.toggSelAll(!e.shiftKey, 1);
-                  break;
-                }
-                else
-                  return;
-
               case 32: // space
-                if (settings.search && O.ftxt.is(e.target)) return;
+                if (searchTarget) return;
+                if (O.is_opened) O.commitActiveOption();
+                else O.showOpts();
                 break;
               case 13: // enter
-                if (O.is_opened)
-                  O.optDiv.find('ul li.sel').trigger('click');
-                  if (settings.search) O.select.focus();
-                else
-                  O.setOnOpen();
+                if (O.is_opened) O.commitActiveOption();
+                else O.showOpts();
+                break;
+              case 36: // home
+                if (searchTarget && !e.ctrlKey) return;
+                if (!O.is_opened) O.showOpts();
+                O.moveActiveToBoundary(false);
+                break;
+              case 35: // end
+                if (searchTarget && !e.ctrlKey) return;
+                if (!O.is_opened) O.showOpts();
+                O.moveActiveToBoundary(true);
                 break;
               case 9:	 //tab
                 if (!settings.okCancelInMulti)
                   O.hideOpts();
                 return;
               case 27: // esc
+                if (!O.is_opened) return;
                 if (settings.okCancelInMulti) O._cnbtn();
-                O.hideOpts();
-                if (settings.search) O.select.focus();
-                return;
+                O.hideOpts(true);
+                break;
 
-              default:
-                return; // exit this handler for other keys
+              default: {
+                const character = O.getTypeaheadCharacter(e);
+                if (searchTarget || O.is_multi || !character || !O.handleTypeahead(character)) return;
+                break;
+              }
             }
             e.preventDefault(); // prevent the default action (scroll / move caret)
           });
 
-          $(window).on('resize.sumo', () => {
+          $(window).on(`resize${O.eventNamespace}`, () => {
             O.floatingList();
           });
         },
@@ -597,7 +943,8 @@
           const O = this;
           li.on('click', function () {
             const $li = $(this);
-            if ($li.hasClass('disabled')) return;
+            if (!O.isNavigableOption($li)) return;
+            O.setActiveOption($li);
             if (O.is_multi) {
               $li.toggleClass('selected');
               $li.data('opt')[0].selected = $li.hasClass('selected');
@@ -615,19 +962,18 @@
               O.selAllState();
             }
             else {
-              $li.parent().find('li.selected').removeClass('selected'); //if not multiselect then remove all selections from this list
-              $li.toggleClass('selected');
-              $li.data('opt')[0].selected = true;
-              O.selectedCount = 1;
+              O.commitSingleOption($li);
             }
 
+            O.syncAria();
+
             //branch for combined change event.
-            if (!(O.is_multi && settings.triggerChangeCombined && (O.is_floating || settings.okCancelInMulti))) {
+            if (O.is_multi && !(settings.triggerChangeCombined && (O.is_floating || settings.okCancelInMulti))) {
               O.setText();
               O.callChange();
             }
 
-            if (!O.is_multi) O.hideOpts(); //if its not a multiselect then hide on single select.
+            if (!O.is_multi) O.hideOpts(true); //if its not a multiselect then hide on single select.
           });
         },
 
@@ -702,7 +1048,7 @@
           const O = this;
           O.E.addClass('SelectClass');//.css('height', O.select.outerHeight());
           O.mob = true;
-          O.E.change(() => {
+          O.E.on(`change${O.eventNamespace}`, () => {
             O.setText();
           });
         },
@@ -754,6 +1100,11 @@
               O.callChange();
               O.setPstate();
               O.setText();
+              O.syncAria();
+              if (!O.is_multi && O.is_opened) {
+                if (c) O.setActiveOption($(opt).data('li'));
+                else O.ensureActiveOption(true);
+              }
               O.selAllState();
             }
           }
@@ -766,11 +1117,13 @@
           if (c) O.E.find('option')[i].selected = false;
           if (!O.mob) O.optDiv.find('ul.options li.opt').eq(i).toggleClass('disabled', c).removeClass('selected');
           O.setText();
+          O.syncAria();
         },
 
         // toggle disable/enable on complete select control
         toggSumo(val) {
           const O = this;
+          if (val && O.is_opened) O.hideOpts();
           O.enabled = val;
           O.select.toggleClass('disabled', val);
 
@@ -782,6 +1135,8 @@
             O.E.removeAttr('disabled');
             O.select.attr('tabindex', '0');
           }
+
+          O.syncControlAria();
 
           return O;
         },
@@ -833,6 +1188,7 @@
             O.setText();
             O.setPstate();
           }
+          O.syncAria();
         },
 
         /* outside accessibility options
@@ -845,9 +1201,17 @@
 
         unload() {
           const O = this;
+          $(window).off(O.eventNamespace);
+          $(document).off(O.eventNamespace);
+          O.labelElements.off(O.eventNamespace);
+          O.E.off(O.eventNamespace);
           O.select.before(O.E);
           O.E.show();
           O.E[0].classList.remove('SumoUnder', 'SelectClass');
+          if (O.originalTabindex === undefined) O.E.removeAttr('tabindex');
+          else O.E.attr('tabindex', O.originalTabindex);
+          if (O.originalAriaHidden === undefined) O.E.removeAttr('aria-hidden');
+          else O.E.attr('aria-hidden', O.originalAriaHidden);
 
           if (settings.outputAsCSV && O.is_multi && O.select.find('input.HEMANT123').length) {
             O.E.attr('name', O.select.find('input.HEMANT123').attr('name')); // restore the name;
@@ -894,6 +1258,8 @@
             if (!O.mob) O.ul.find('li.opt').eq(index).before(O.createLi(opt));
           }
 
+          O.syncAria();
+
           return selObj;
         },
 
@@ -903,6 +1269,7 @@
           O.E.find('option').eq(i).remove();
           if (!O.mob) O.optDiv.find('ul.options li.opt').eq(i).remove();
           O.setText();
+          O.syncAria();
         },
 
         // removes all but the selected one
