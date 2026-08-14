@@ -63,6 +63,17 @@ function initialize(markup, selector = 'select', options = {}) {
   return { select, sumo: select[0].sumo };
 }
 
+function press(target, which, key, modifiers = {}) {
+  const event = $.Event('keydown', {
+    bubbles: true,
+    key,
+    which,
+    ...modifiers
+  });
+  $(target).trigger(event);
+  return event;
+}
+
 test('initializes a single select without replacing the form control', () => {
   const { select, sumo } = createSelect();
 
@@ -154,6 +165,148 @@ test('redirects an associated label click to the visible focus target', () => {
   document.querySelector('label').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
 
   assert.equal(document.activeElement, sumo.select[0]);
+});
+
+test('opens, exposes an active descendant and closes without a focus trap', () => {
+  const { sumo } = createSelect();
+
+  press(sumo.select, 13, 'Enter');
+  assert.equal(sumo.is_opened, true);
+  assert.equal(sumo.select.attr('aria-expanded'), 'true');
+  assert.equal(sumo.select.attr('aria-activedescendant'), sumo.ul.find('li.opt').eq(0).attr('id'));
+
+  press(sumo.select, 27, 'Escape');
+  assert.equal(sumo.is_opened, false);
+  assert.equal(sumo.select.attr('aria-expanded'), 'false');
+  assert.equal(sumo.select.attr('aria-activedescendant'), undefined);
+  assert.equal(document.activeElement, sumo.select[0]);
+});
+
+test('navigates enabled options with arrows, Home and End', () => {
+  const { sumo } = initialize(`
+    <select>
+      <option>France</option>
+      <option disabled>Germany</option>
+      <option>Italy</option>
+      <option>Spain</option>
+    </select>
+  `);
+
+  press(sumo.select, 13, 'Enter');
+  press(sumo.select, 40, 'ArrowDown');
+  assert.equal(sumo.ul.find('li.sel').text(), 'Italy');
+
+  press(sumo.select, 35, 'End');
+  assert.equal(sumo.ul.find('li.sel').text(), 'Spain');
+
+  press(sumo.select, 36, 'Home');
+  assert.equal(sumo.ul.find('li.sel').text(), 'France');
+
+  press(sumo.select, 38, 'ArrowUp');
+  assert.equal(sumo.ul.find('li.sel').text(), 'France');
+});
+
+test('typeahead activates a multi-character prefix without changing the select', () => {
+  const { select, sumo } = initialize(`
+    <select>
+      <option value="de" selected>Germany</option>
+      <option value="fr">France</option>
+      <option value="fi">Finland</option>
+    </select>
+  `);
+  let changes = 0;
+  select.on('change', () => changes++);
+
+  press(sumo.select, 70, 'F');
+  press(sumo.select, 82, 'r');
+
+  assert.equal(sumo.is_opened, true);
+  assert.equal(sumo.ul.find('li.sel').text(), 'France');
+  assert.equal(sumo.select.attr('aria-activedescendant'), sumo.ul.find('li.sel').attr('id'));
+  assert.equal(select.val(), 'de');
+  assert.equal(changes, 0);
+
+  press(sumo.select, 13, 'Enter');
+  assert.equal(select.val(), 'fr');
+  assert.equal(changes, 1);
+  assert.equal(sumo.is_opened, false);
+  assert.equal(sumo.ul.find('li.opt').eq(1).attr('aria-selected'), 'true');
+});
+
+test('Space validates the active option exactly once', () => {
+  const { select, sumo } = initialize(`
+    <select>
+      <option value="de" selected>Germany</option>
+      <option value="fr">France</option>
+    </select>
+  `);
+  let changes = 0;
+  select.on('change', () => changes++);
+
+  press(sumo.select, 70, 'F');
+  press(sumo.select, 32, ' ');
+
+  assert.equal(select.val(), 'fr');
+  assert.equal(changes, 1);
+  assert.equal(sumo.is_opened, false);
+});
+
+test('Escape and Tab close without committing an active-only option', () => {
+  const { select, sumo } = initialize(`
+    <select>
+      <option value="de" selected>Germany</option>
+      <option value="fr">France</option>
+    </select>
+  `);
+  let changes = 0;
+  select.on('change', () => changes++);
+
+  press(sumo.select, 70, 'F');
+  press(sumo.select, 27, 'Escape');
+  assert.equal(select.val(), 'de');
+  assert.equal(changes, 0);
+
+  press(sumo.select, 70, 'F');
+  press(sumo.select, 9, 'Tab');
+  assert.equal(select.val(), 'de');
+  assert.equal(changes, 0);
+  assert.equal(sumo.is_opened, false);
+});
+
+test('repeated characters cycle matches and skip disabled options', () => {
+  const { sumo } = initialize(`
+    <select>
+      <option selected>Germany</option>
+      <option>France</option>
+      <option disabled>Fiji</option>
+      <option>Finland</option>
+    </select>
+  `);
+
+  press(sumo.select, 70, 'f');
+  assert.equal(sumo.ul.find('li.sel').text(), 'France');
+  press(sumo.select, 70, 'f');
+  assert.equal(sumo.ul.find('li.sel').text(), 'Finland');
+  assert.equal(sumo.ul.find('li.sel').hasClass('disabled'), false);
+});
+
+test('typeahead normalizes accents and resets after its configured delay', async () => {
+  const { sumo } = initialize(`
+    <select>
+      <option selected>Germany</option>
+      <option>École</option>
+      <option>Romania</option>
+      <option>France</option>
+    </select>
+  `, 'select', { typeaheadDelay: 20 });
+
+  press(sumo.select, 69, 'e');
+  assert.equal(sumo.ul.find('li.sel').text(), 'École');
+
+  press(sumo.select, 70, 'f');
+  await new Promise(resolve => setTimeout(resolve, 30));
+  press(sumo.select, 82, 'r');
+  assert.equal(sumo.ul.find('li.sel').text(), 'Romania');
 });
 
 test('keeps elementary multiple-select behavior', () => {
