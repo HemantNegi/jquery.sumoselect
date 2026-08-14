@@ -63,6 +63,7 @@
       selectAllPartialCheck: true,  // Display a disabled checkbox in multiselect mode when all the items are not selected.
       search: false,                // to display input for filtering content. selectAlltext will be input text placeholder
       searchText: 'Search...',      // placeholder for search input
+      searchLabel: null,            // accessible name for the search input. Falls back to searchText.
       typeaheadDelay: 700,          // delay in milliseconds before the typeahead buffer is reset
       searchFn(haystack, needle) { // search function
         return haystack.toLowerCase().indexOf(needle.toLowerCase()) < 0;
@@ -270,6 +271,9 @@
           if (opt.attr('title'))
             li.attr('title', opt.attr('title'));
 
+          li.data('sumo-hidden', li.hasClass('hidden') || !!opt[0].hidden || opt.css('display') === 'none');
+          if (li.data('sumo-hidden')) li.addClass('hidden').attr('aria-hidden', 'true');
+
           return settings.renderLi(li, opt);
         },
 
@@ -357,6 +361,8 @@
               'aria-selected': selected ? 'true' : 'false',
               'aria-disabled': disabled ? 'true' : 'false'
             });
+            if (li.hasClass('hidden')) li.attr('aria-hidden', 'true');
+            else li.removeAttr('aria-hidden');
             if (selected) O.selectedCount++;
           });
         },
@@ -682,10 +688,18 @@
         Search() {
           const O = this,
             cc = O.CaptionCont.addClass('search'),
-            P = $('<p class="no-match">'),
-            fn = (options.searchFn && typeof options.searchFn === 'function') ? options.searchFn : settings.searchFn;
+            P = $('<p class="no-match">').attr({
+              'role': 'status',
+              'aria-live': 'polite',
+              'aria-atomic': 'true'
+            }),
+            fn = typeof settings.searchFn === 'function' ? settings.searchFn : defaultOptions.searchFn;
 
           O.ftxt = $('<input type="search" class="search-txt" value="" autocomplete="off">')
+            .attr({
+              'aria-label': settings.searchLabel || settings.searchText,
+              'aria-controls': O.listboxId
+            })
             .on('click', (e) => {
               e.stopPropagation();
             });
@@ -695,10 +709,9 @@
 
           O.ftxt.on('input.sumo', () => {
             const hid = O.optDiv.find('ul.options li.opt').each((ix, e) => {
-              const el = $(e),
-                { 0: opt } = el.data('opt');
-              opt.hidden = fn(el.text(), O.ftxt.val(), el);
-              el.toggleClass('hidden', opt.hidden);
+              const el = $(e);
+              const hidden = el.data('sumo-hidden') || fn(el.text(), O.ftxt.val(), el);
+              el.toggleClass('hidden', !!hidden);
             }).not('.hidden');
 
             // Hide opt-groups with no options matched
@@ -712,6 +725,9 @@
 
             P.html(settings.noMatch.replace(/\{0\}/g, '<em></em>')).toggle(!hid.length);
             P.find('em').text(O.ftxt.val());
+            O.syncOptionAria();
+            if (O.is_opened) O.ensureActiveOption();
+            else O.clearActiveOption();
             O.selAllState();
           });
         },

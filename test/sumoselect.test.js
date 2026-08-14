@@ -309,6 +309,84 @@ test('typeahead normalizes accents and resets after its configured delay', async
   assert.equal(sumo.ul.find('li.sel').text(), 'Romania');
 });
 
+test('gives visible search an accessible name and keeps active focus visible', () => {
+  const { select, sumo } = initialize(`
+    <select>
+      <option value="fr" selected>France</option>
+      <option value="de">Germany</option>
+      <option value="es">Spain</option>
+    </select>
+  `, 'select', { search: true, searchLabel: 'Search countries' });
+
+  press(sumo.select, 13, 'Enter');
+  assert.equal(sumo.ftxt.attr('aria-label'), 'Search countries');
+  assert.equal(sumo.ftxt.attr('aria-controls'), sumo.ul.attr('id'));
+  assert.equal(document.activeElement, sumo.ftxt[0]);
+
+  sumo.ftxt.val('sp').trigger('input.sumo');
+  const active = sumo.ul.find('li.sel');
+  assert.equal(active.text(), 'Spain');
+  assert.equal(active.hasClass('hidden'), false);
+  assert.equal(active.hasClass('disabled'), false);
+  assert.equal(sumo.ftxt.attr('aria-activedescendant'), active.attr('id'));
+  assert.equal(select.find('option').eq(0).prop('hidden'), false);
+});
+
+test('search never commits a stale hidden option', () => {
+  const { select, sumo } = initialize(`
+    <select>
+      <option value="fr" selected>France</option>
+      <option value="de">Germany</option>
+      <option value="es">Spain</option>
+    </select>
+  `, 'select', { search: true });
+  let changes = 0;
+  select.on('change', () => changes++);
+
+  press(sumo.select, 13, 'Enter');
+  sumo.ftxt.val('sp').trigger('input.sumo');
+  press(sumo.ftxt, 13, 'Enter');
+
+  assert.equal(select.val(), 'es');
+  assert.equal(changes, 1);
+  assert.equal(sumo.ul.find('li.opt').eq(2).attr('aria-selected'), 'true');
+});
+
+test('announces no search results and clears the active descendant', () => {
+  const { sumo } = initialize(`
+    <select>
+      <option>France</option>
+      <option>Germany</option>
+    </select>
+  `, 'select', { search: true });
+
+  press(sumo.select, 13, 'Enter');
+  sumo.ftxt.val('zzz').trigger('input.sumo');
+  const status = sumo.optDiv.find('.no-match');
+
+  assert.equal(status.attr('role'), 'status');
+  assert.equal(status.attr('aria-live'), 'polite');
+  assert.match(status.text(), /zzz/);
+  assert.notEqual(status.css('display'), 'none');
+  assert.equal(sumo.ul.find('li.sel').length, 0);
+  assert.equal(sumo.select.attr('aria-activedescendant'), undefined);
+  assert.equal(sumo.ftxt.attr('aria-activedescendant'), undefined);
+});
+
+test('navigation and typeahead ignore options hidden by the source markup', () => {
+  const { sumo } = initialize(`
+    <select>
+      <option selected>Germany</option>
+      <option hidden>France</option>
+      <option>Finland</option>
+    </select>
+  `);
+
+  press(sumo.select, 70, 'f');
+  assert.equal(sumo.ul.find('li.sel').text(), 'Finland');
+  assert.equal(sumo.ul.find('li.opt').eq(1).attr('aria-hidden'), 'true');
+});
+
 test('keeps elementary multiple-select behavior', () => {
   const { select, sumo } = createSelect({ multiple: true });
   const germany = sumo.ul.find('li.opt').eq(1);
@@ -339,6 +417,53 @@ test('synchronizes disabled state and restores native attributes on unload', () 
   sumo.unload();
   assert.equal(select.attr('tabindex'), '3');
   assert.equal(select.attr('aria-hidden'), undefined);
+});
+
+test('synchronizes public selection APIs and reload', () => {
+  const { select, sumo } = createSelect();
+  let changes = 0;
+  select.on('change', () => changes++);
+
+  sumo.selectItem(1);
+  assert.equal(select.val(), 'de');
+  assert.equal(sumo.ul.find('li.opt').eq(1).hasClass('selected'), true);
+  assert.equal(sumo.ul.find('li.opt').eq(1).attr('aria-selected'), 'true');
+  assert.equal(changes, 1);
+
+  sumo.unSelectItem(1);
+  assert.equal(sumo.ul.find('li.opt').eq(1).attr('aria-selected'), 'false');
+  assert.equal(changes, 2);
+
+  sumo.reload();
+  const reloaded = select[0].sumo;
+  assert.equal(reloaded.select.attr('role'), 'combobox');
+  assert.equal(reloaded.select.attr('aria-controls'), reloaded.ul.attr('id'));
+  assert.equal(select.attr('aria-hidden'), 'true');
+});
+
+test('synchronizes dynamically added, disabled and removed options', () => {
+  const { select, sumo } = createSelect();
+
+  sumo.add('it', 'Italy');
+  const italy = sumo.ul.find('li.opt').last();
+  assert.equal(italy.attr('role'), 'option');
+  assert.match(italy.attr('id'), /^sumoselect-\d+-option-\d+$/);
+
+  sumo.selectItem('it');
+  assert.equal(select.val(), 'it');
+  assert.equal(italy.attr('aria-selected'), 'true');
+
+  sumo.disableItem(3);
+  assert.equal(select.find('option').eq(3).prop('disabled'), true);
+  assert.equal(italy.attr('aria-disabled'), 'true');
+  assert.equal(italy.hasClass('selected'), false);
+
+  sumo.enableItem(3);
+  assert.equal(italy.attr('aria-disabled'), 'false');
+
+  sumo.remove(3);
+  assert.equal(select.find('option[value="it"]').length, 0);
+  assert.equal(sumo.ul.find('li.opt').length, 3);
 });
 
 test('uses the native select on configured mobile devices unless custom rendering is forced', () => {
