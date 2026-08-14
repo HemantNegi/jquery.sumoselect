@@ -10,18 +10,21 @@ Run:
 npm test
 ```
 
+GitHub Actions runs the suite on Node.js 22 and 24. The `jsdom` development dependency requires Node.js 18 or newer; the release workflow therefore no longer uses Node.js 14.
+
 The suite covers:
 
 - combobox, listbox, option, group, and form-state attributes;
 - accessible-name priority and associated-label focus;
 - unique IDs across instances;
 - open, close, arrow, Home, End, Enter, Space, Escape, and Tab behavior;
-- simple, multi-character, repeated-character, expired-buffer, accented, disabled, and hidden-option typeahead;
+- simple (including the letter `A`), multi-character, repeated-character, expired-buffer, accented, disabled, and hidden-option typeahead;
 - visible search focus, filtering, active-option repair, no-match status, and stale-option prevention;
 - exactly one `change` event after an explicit single-select commit;
 - mouse selection and public API synchronization;
 - `enable()`, `disable()`, `reload()`, option add/remove, and item enable/disable;
-- an elementary multiple-select regression guard;
+- replacement elements returned by `renderLi`, including restored data, events, and ARIA state;
+- an elementary multiple-select regression guard, including its historical `Ctrl+A` shortcut and the absence of a partial listbox model;
 - native mobile fallback when custom rendering is not forced.
 
 ## Keyboard-only recipe
@@ -55,12 +58,14 @@ These checks require real browsers and assistive technologies. Record the exact 
 
 Do not use an automated axe/WAVE result as a substitute for this interaction and announcement matrix.
 
+The visible-search variant needs particular attention: DOM focus moves into `.search-txt`, while `role="combobox"` and `aria-expanded` remain on the wrapper and `aria-activedescendant` is mirrored to the input. Automated tests verify the state synchronization, but only real accessibility APIs can establish whether NVDA, VoiceOver, and JAWS announce this arrangement consistently.
+
 ## Markup and compatibility notes
 
 The historical class names and hierarchy remain in place: `.SumoSelect`, `.CaptionCont`, `.optWrapper`, `.options`, `.opt`, `.sel`, `.selected`, `.SumoUnder`, and `.search-txt`. No CSS selector migration is required.
 
-The custom single-select wrapper changes from `role="button"` to `role="combobox"`. The existing `<ul class="options">` receives `role="listbox"` and a generated ID; option `<li>` elements receive generated IDs, `role="option"`, `aria-selected`, and `aria-disabled`. The original select receives `aria-hidden="true"` and `tabindex="-1"` only in custom mode; `unload()` restores its original attributes. The visible-search no-match element becomes a polite status region.
+The custom single-select wrapper changes from `role="button"` to `role="combobox"`. In single-select custom mode only, the existing `<ul class="options">` receives `role="listbox"` and a generated ID; option `<li>` elements receive generated IDs, `role="option"`, `aria-selected`, and `aria-disabled`. The original single select receives `aria-hidden="true"` and `tabindex="-1"`; `unload()` restores its original attributes. The visible-search no-match element becomes a polite status region.
 
 Tab deliberately preserves historical SumoSelect behavior: it closes and leaves without committing an option that was only navigated to. This differs from the WAI-ARIA APG select-only example, which commits on Tab, and prevents unexpected AJAX/facet updates before Enter, Space, or click.
 
-Multiple-select keyboard and screen-reader behavior is outside this PoC. Its original interaction is retained and guarded against elementary regression, but it must not yet be described as fully accessible.
+Multiple-select keyboard and screen-reader behavior is outside this PoC. Its original wrapper role and interaction are retained, its source `<select multiple>` is not hidden from assistive technologies, and no listbox/option roles are added. It is guarded against elementary regression but must not yet be described as fully accessible.

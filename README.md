@@ -177,7 +177,7 @@ Below are the available settings:
 
 - `max` `(int)` Maximum number of selected options (if multiple)
 
-- `renderLi` `(function)`  Custom `<li>` item renderer
+- `renderLi` `(function)`  Custom `<li>` item renderer. A replacement element is supported; SumoSelect reapplies its `.opt` class, option data, click handler, and single-select ARIA contract after rendering.
 
 - `clearAll` `(boolean)` Display "Clear all" in multiselect (deafult `false`)
 
@@ -232,9 +232,9 @@ The custom single select supports:
 - printable-character typeahead, including multi-character prefixes and repeated-character cycling;
 - `Tab` to close and leave the component without committing an option that is only active.
 
-When `search` is enabled, the search input receives an accessible name from `searchLabel` or `searchText`. Filtering always moves the active descendant to a visible, enabled option and announces the no-match message through a polite status region.
+When `search` is enabled, the search input receives an accessible name from `searchLabel` or `searchText`. Filtering always moves the active descendant to a visible, enabled option and announces the no-match message through a polite status region. DOM focus moves to `.search-txt` while the combobox role remains on the wrapper; this ownership arrangement requires validation with the supported screen-reader matrix before production sign-off.
 
-The multiple-select interaction model is intentionally unchanged in this iteration. It receives listbox/option states, but the more extensive multiple-select keyboard model still requires separate accessibility work.
+The multiple-select interaction model is intentionally unchanged in this iteration. No new listbox/option semantics are applied to multiple selects, and their original `<select multiple>` remains exposed to assistive technologies. A complete multiple-select keyboard and screen-reader model requires separate accessibility work.
 
 See [the manual accessibility test plan](docs/accessibility-testing.md) before treating the component as validated for a production assistive-technology matrix.
 
