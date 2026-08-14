@@ -159,6 +159,10 @@ Below are the available settings:
 
 - `searchText` `(string)`  placeholder for search input.
 
+- `searchLabel` `(string)` accessible name for the search input. Defaults to `searchText`.
+
+- `typeaheadDelay` `(number)` delay in milliseconds before the printable-character typeahead buffer is reset (default `700`).
+
 - `searchFn` `(function)`  Custom search function. Following parameters will be passed along: haystack, needle, el
 
 - `noMatch` `(string)`  placeholder to display if no itmes matches the search term (default 'No matches for "{0}"').
@@ -198,6 +202,8 @@ Below are the available settings:
     selectAll: false,
     search: false,
     searchText: 'Search...',
+    searchLabel: null,
+    typeaheadDelay: 700,
     searchFn: function (haystack, needle, el) {
       return haystack.toLowerCase().indexOf(needle.toLowerCase()) < 0;
     },
@@ -212,6 +218,25 @@ Below are the available settings:
     closeAfterClearAll: false
 }
 ```
+
+## Accessibility and keyboard behavior
+
+Custom-rendered single selects use a select-only combobox with a listbox popup. The original `<select>` remains the form control and source of truth, but is removed from the accessibility tree while the custom control is active. Native mobile rendering is unchanged when `forceCustomRendering` is `false`.
+
+The custom single select supports:
+
+- `Arrow Up` and `Arrow Down` to open and navigate enabled, visible options;
+- `Home` and `End` to move to the first or last enabled, visible option;
+- `Enter` or `Space` to open the popup and to commit the active option;
+- `Escape` to close without changing the committed value;
+- printable-character typeahead, including multi-character prefixes and repeated-character cycling;
+- `Tab` to close and leave the component without committing an option that is only active.
+
+When `search` is enabled, the search input receives an accessible name from `searchLabel` or `searchText`. Filtering always moves the active descendant to a visible, enabled option and announces the no-match message through a polite status region.
+
+The multiple-select interaction model is intentionally unchanged in this iteration. It receives listbox/option states, but the more extensive multiple-select keyboard model still requires separate accessibility work.
+
+See [the manual accessibility test plan](docs/accessibility-testing.md) before treating the component as validated for a production assistive-technology matrix.
 
 [Furthur Documentation](https://hemantnegi.github.io/jquery.sumoselect/)
 

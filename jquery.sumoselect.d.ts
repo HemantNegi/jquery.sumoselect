@@ -15,6 +15,8 @@ export type SumoProps = {
   selectAllPartialCheck?: boolean;
   search?: boolean;
   searchText?: string;
+  searchLabel?: string;
+  typeaheadDelay?: number;
   searchFn?: (haystack: string, needle: string) => boolean;
   noMatch?: string;
   prefix?: string;
