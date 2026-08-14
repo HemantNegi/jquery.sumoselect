@@ -251,6 +251,23 @@ test('Space validates the active option exactly once', () => {
   assert.equal(sumo.is_opened, false);
 });
 
+test('mouse selection synchronizes all states and emits one change', () => {
+  const { select, sumo } = createSelect();
+  let changes = 0;
+  select.on('change', () => changes++);
+
+  sumo.showOpts();
+  sumo.ul.find('li.opt').eq(1).trigger('click');
+
+  assert.equal(select.val(), 'de');
+  assert.equal(sumo.caption.text().trim(), 'Germany');
+  assert.equal(sumo.ul.find('li.opt').eq(0).hasClass('selected'), false);
+  assert.equal(sumo.ul.find('li.opt').eq(0).attr('aria-selected'), 'false');
+  assert.equal(sumo.ul.find('li.opt').eq(1).hasClass('selected'), true);
+  assert.equal(sumo.ul.find('li.opt').eq(1).attr('aria-selected'), 'true');
+  assert.equal(changes, 1);
+});
+
 test('Escape and Tab close without committing an active-only option', () => {
   const { select, sumo } = initialize(`
     <select>
@@ -332,6 +349,24 @@ test('gives visible search an accessible name and keeps active focus visible', (
   assert.equal(select.find('option').eq(0).prop('hidden'), false);
 });
 
+test('keeps search focus when the source select is wrapped by a label', () => {
+  const { sumo } = initialize(`
+    <label>
+      <span>Country</span>
+      <select>
+        <option>France</option>
+        <option>Germany</option>
+      </select>
+    </label>
+  `, 'select', { search: true });
+
+  press(sumo.select, 13, 'Enter');
+  sumo.ftxt.trigger('click');
+
+  assert.equal(document.activeElement, sumo.ftxt[0]);
+  assert.equal(sumo.select.attr('aria-label'), 'Country');
+});
+
 test('search never commits a stale hidden option', () => {
   const { select, sumo } = initialize(`
     <select>
@@ -406,9 +441,11 @@ test('synchronizes disabled state and restores native attributes on unload', () 
     <select tabindex="3"><option>France</option></select>
   `);
 
+  sumo.showOpts();
   sumo.disable();
   assert.equal(sumo.select.attr('aria-disabled'), 'true');
   assert.equal(sumo.select.attr('tabindex'), undefined);
+  assert.equal(sumo.select.attr('aria-expanded'), 'false');
 
   sumo.enable();
   assert.equal(sumo.select.attr('aria-disabled'), 'false');
@@ -421,6 +458,7 @@ test('synchronizes disabled state and restores native attributes on unload', () 
 
 test('synchronizes public selection APIs and reload', () => {
   const { select, sumo } = createSelect();
+  const listboxId = sumo.ul.attr('id');
   let changes = 0;
   select.on('change', () => changes++);
 
@@ -438,6 +476,7 @@ test('synchronizes public selection APIs and reload', () => {
   const reloaded = select[0].sumo;
   assert.equal(reloaded.select.attr('role'), 'combobox');
   assert.equal(reloaded.select.attr('aria-controls'), reloaded.ul.attr('id'));
+  assert.equal(reloaded.ul.attr('id'), listboxId);
   assert.equal(select.attr('aria-hidden'), 'true');
 });
 
@@ -480,4 +519,17 @@ test('uses the native select on configured mobile devices unless custom renderin
   assert.equal(sumo.select.attr('role'), undefined);
   assert.equal(sumo.select.attr('tabindex'), undefined);
   assert.equal(select.attr('aria-hidden'), undefined);
+});
+
+test('keeps the accessible custom control when mobile rendering is forced', () => {
+  const { select, sumo } = createSelect({
+    options: {
+      forceCustomRendering: true,
+      nativeOnDevice: ['jsdom']
+    }
+  });
+
+  assert.equal(sumo.mob, false);
+  assert.equal(sumo.select.attr('role'), 'combobox');
+  assert.equal(select.attr('aria-hidden'), 'true');
 });

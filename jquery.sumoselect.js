@@ -117,7 +117,11 @@
         createElems() {
           const O = this;
           const selectedOptions = O.E.find('option:checked');
-          const instanceNumber = ++sumoInstanceCount;
+          let instanceNumber = selObj._sumoInstanceNumber;
+          if (!instanceNumber) {
+            instanceNumber = ++sumoInstanceCount;
+            selObj._sumoInstanceNumber = instanceNumber;
+          }
 
           O.instanceId = `sumoselect-${instanceNumber}`;
           O.listboxId = `${O.instanceId}-listbox`;
@@ -489,7 +493,7 @@
           const options = O.getNavigableOptions();
           if (!options.length) return false;
 
-          const now = Date.now();
+          const now = (new Date()).getTime();
           const expired = now - O.typeaheadLastTime > +settings.typeaheadDelay;
           const repeated = !expired && O.typeaheadBuffer && O.typeaheadBuffer.split('').every(value => value === normalizedCharacter);
           let term = expired ? normalizedCharacter : `${O.typeaheadBuffer}${normalizedCharacter}`;
@@ -815,6 +819,8 @@
             O.is_opened = false;
             O.select.removeClass('open').attr('aria-expanded', 'false');
             O.clearActiveOption();
+            O.typeaheadBuffer = '';
+            O.typeaheadLastTime = 0;
             O.E.trigger('sumo:closed', O);
             $(document).off(O.eventNamespace);
             $('body').removeClass('sumoStopScroll');
