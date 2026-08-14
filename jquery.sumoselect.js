@@ -22,6 +22,8 @@
 })(($) => {
 
   'namespace sumo';
+  let sumoInstanceCount = 0;
+
   $.fn.SumoSelect = function (options) {
     // Extra check for IE compatibility
     const dispatchEvent = (target, eventName) => {
@@ -98,11 +100,30 @@
         Pstate: [],
         lastUnselected: null,
         selectedCount: 0,
+        instanceId: '',
+        listboxId: '',
+        eventNamespace: '',
+        optionId: 0,
+        groupId: 0,
+        labelElements: $(),
+        labelText: '',
+        originalTabindex: null,
+        originalAriaHidden: null,
 
         createElems() {
           const O = this;
           const selectedOptions = O.E.find('option:checked');
-          O.E.wrap('<div class="SumoSelect" tabindex="0" role="button" aria-expanded="false">');
+          const instanceNumber = ++sumoInstanceCount;
+
+          O.instanceId = `sumoselect-${instanceNumber}`;
+          O.listboxId = `${O.instanceId}-listbox`;
+          O.eventNamespace = `.sumo${instanceNumber}`;
+          O.originalTabindex = O.E.attr('tabindex');
+          O.originalAriaHidden = O.E.attr('aria-hidden');
+          O.labelElements = O.getLabelElements();
+          O.labelText = O.getLabelText(O.labelElements);
+
+          O.E.wrap('<div class="SumoSelect">');
           selectedOptions.each((_, selectedOption) => { // Fix for IE resetting index to 0 when -1
             selectedOption.selected = true;
           });
@@ -134,11 +155,22 @@
             return;
           }
 
+          O.select.attr({
+            'tabindex': '0',
+            'role': O.is_multi ? 'button' : 'combobox',
+            'aria-expanded': 'false',
+            'aria-haspopup': 'listbox',
+            'aria-controls': O.listboxId
+          });
+          O.setAccessibleName();
+          O.E.addClass('SumoUnder').attr({
+            'tabindex': '-1',
+            'aria-hidden': 'true'
+          });
+          O.bindLabelEvents();
+
           // if there is a name attr in select add a class to container div
           if (O.E.attr('name')) O.select.addClass(`sumo_${O.E.attr('name').replace(/\[\]/, '')}`);
-
-          //hide original select
-          O.E.addClass('SumoUnder').attr('tabindex', '-1');
 
           //## Creating the list...
           O.optDiv = $(`<div class="optWrapper ${settings.up ? 'up' : ''}">`);
@@ -147,7 +179,11 @@
           O.floatingList();
 
           //Creating the markup for the available options
-          O.ul = $('<ul class="options">');
+          O.ul = $('<ul class="options">').attr({
+            'id': O.listboxId,
+            'role': 'listbox'
+          });
+          if (O.is_multi) O.ul.attr('aria-multiselectable', 'true');
           O.optDiv.append(O.ul);
 
           // Select all functionality
@@ -166,23 +202,35 @@
           O._handleMax();
           O.basicEvents();
           O.selAllState();
+          O.syncAria();
         },
 
         prepItems(opts, d) {
           const lis = [], O = this;
           $(opts).each((i, opt) => {       // parsing options to li
             const $opt = $(opt);
-            lis.push($opt.is('optgroup') ?
-              $(`<li class="group ${opt.disabled ? 'disabled' : ''}"><label></label><ul></ul></li>`)
-                .find('label')
-                .text($opt.attr('label'))
-                .end()
-                .find('ul')
-                .append(O.prepItems($opt.children(), opt.disabled))
-                .end()
-              :
-              O.createLi($opt, d)
-            );
+            if ($opt.is('optgroup')) {
+              const groupId = `${O.instanceId}-group-${O.groupId++}`;
+              const groupLabelId = `${groupId}-label`;
+              lis.push(
+                $(`<li class="group ${opt.disabled ? 'disabled' : ''}"><label></label><ul></ul></li>`)
+                  .attr({
+                    'id': groupId,
+                    'role': 'group',
+                    'aria-labelledby': groupLabelId
+                  })
+                  .find('label')
+                  .attr('id', groupLabelId)
+                  .text($opt.attr('label'))
+                  .end()
+                  .find('ul')
+                  .attr('role', 'presentation')
+                  .append(O.prepItems($opt.children(), opt.disabled))
+                  .end()
+              );
+            } else {
+              lis.push(O.createLi($opt, d));
+            }
           });
           return lis;
         },
@@ -193,14 +241,18 @@
           const O = this;
 
           if (!opt.attr('value')) opt.attr('value', opt.val());
-          const li = $(`<li class="opt"><label>${opt.html()}</label></li>`);
+          const li = $(`<li class="opt"><label>${opt.html()}</label></li>`).attr({
+            'id': `${O.instanceId}-option-${O.optionId++}`,
+            'role': 'option',
+            'aria-selected': opt[0].selected ? 'true' : 'false'
+          });
 
           li.data('opt', opt);    // store a direct reference to option.
           opt.data('li', li);    // store a direct reference to list item.
           if (O.is_multi) li.prepend('<span><i></i></span>');
 
-          if (opt[0].disabled || d)
-            li.addClass('disabled');
+          if (opt[0].disabled || d) li.addClass('disabled');
+          li.attr('aria-disabled', li.hasClass('disabled') ? 'true' : 'false');
 
           O.onOptClick(li);
 
@@ -216,6 +268,101 @@
             li.attr('title', opt.attr('title'));
 
           return settings.renderLi(li, opt);
+        },
+
+        getLabelElements() {
+          const O = this;
+          const select = O.E[0];
+          let labels = $();
+
+          if (select.labels) {
+            labels = $(select.labels);
+          } else {
+            if (select.id) {
+              labels = $('label[for]').filter((_, label) => $(label).attr('for') === select.id);
+            }
+            labels = labels.add(O.E.closest('label'));
+          }
+
+          return labels;
+        },
+
+        getLabelText(labels) {
+          return labels.map((_, label) => {
+            const clone = $(label).clone();
+            clone.find('select').remove();
+            return clone.text();
+          }).get().join(' ').replace(/\s+/g, ' ').trim();
+        },
+
+        setAccessibleName() {
+          const O = this;
+          const labelledBy = O.E.attr('aria-labelledby');
+          const ariaLabel = O.E.attr('aria-label');
+
+          O.select.removeAttr('aria-labelledby aria-label');
+          if (labelledBy) {
+            O.select.attr('aria-labelledby', labelledBy);
+          } else if (ariaLabel) {
+            O.select.attr('aria-label', ariaLabel);
+          } else if (O.labelText) {
+            O.select.attr('aria-label', O.labelText);
+          }
+        },
+
+        bindLabelEvents() {
+          const O = this;
+          O.labelElements.on(`click${O.eventNamespace}`, (event) => {
+            if (O.E.prop('disabled')) return;
+            event.preventDefault();
+            O.select.focus();
+          });
+          O.E.on(`focus${O.eventNamespace}`, () => O.select.focus());
+        },
+
+        syncControlAria() {
+          const O = this;
+          if (O.mob) return;
+
+          const disabled = O.E.prop('disabled');
+          O.select.attr('aria-disabled', disabled ? 'true' : 'false');
+          if (disabled) O.select.removeAttr('tabindex');
+          else O.select.attr('tabindex', '0');
+
+          if (O.E.prop('required')) O.select.attr('aria-required', 'true');
+          else O.select.removeAttr('aria-required');
+
+          ['aria-invalid', 'aria-describedby'].forEach(attribute => {
+            const value = O.E.attr(attribute);
+            if (value) O.select.attr(attribute, value);
+            else O.select.removeAttr(attribute);
+          });
+        },
+
+        syncOptionAria() {
+          const O = this;
+          if (O.mob) return;
+
+          O.selectedCount = 0;
+          O.ul.find('li.opt').each((_, optionElement) => {
+            const li = $(optionElement);
+            const option = li.data('opt')[0];
+            const selected = !!option.selected;
+            const disabled = !!option.disabled || li.closest('li.group').hasClass('disabled') || li.hasClass('temporary-disabled');
+
+            li.toggleClass('selected', selected).attr({
+              'aria-selected': selected ? 'true' : 'false',
+              'aria-disabled': disabled ? 'true' : 'false'
+            });
+            if (selected) O.selectedCount++;
+          });
+        },
+
+        syncAria() {
+          if (this.mob) return;
+          this.setAccessibleName();
+          this.syncControlAria();
+          this.syncOptionAria();
         },
 
         //## Returns the selected items as string in a Multiselect.
@@ -303,6 +450,7 @@
             O.ul.find('li.opt').eq(O.Pstate[i]).addClass('selected');
           }
           O.setText();
+          O.syncAria();
           O.selAllState();
         },
 
@@ -437,7 +585,7 @@
           else O.select.focus();
 
           // hide options on click outside.
-          $(document).on('click.sumo', (e) => {
+          $(document).on(`click${O.eventNamespace}`, (e) => {
             if (!O.select.is(e.target)                  // if the target of the click isn't the container...
               && O.select.has(e.target).length === 0) { // ... nor a descendant of the container
               if (!O.is_opened) return;
@@ -485,7 +633,7 @@
             O.is_opened = false;
             O.select.removeClass('open').attr('aria-expanded', 'false').find('ul li.sel').removeClass('sel');
             O.E.trigger('sumo:closed', O);
-            $(document).off('click.sumo');
+            $(document).off(O.eventNamespace);
             $('body').removeClass('sumoStopScroll');
 
             // clear the search
@@ -588,7 +736,7 @@
             e.preventDefault(); // prevent the default action (scroll / move caret)
           });
 
-          $(window).on('resize.sumo', () => {
+          $(window).on(`resize${O.eventNamespace}`, () => {
             O.floatingList();
           });
         },
@@ -620,6 +768,8 @@
               $li.data('opt')[0].selected = true;
               O.selectedCount = 1;
             }
+
+            O.syncAria();
 
             //branch for combined change event.
             if (!(O.is_multi && settings.triggerChangeCombined && (O.is_floating || settings.okCancelInMulti))) {
@@ -702,7 +852,7 @@
           const O = this;
           O.E.addClass('SelectClass');//.css('height', O.select.outerHeight());
           O.mob = true;
-          O.E.change(() => {
+          O.E.on(`change${O.eventNamespace}`, () => {
             O.setText();
           });
         },
@@ -754,6 +904,7 @@
               O.callChange();
               O.setPstate();
               O.setText();
+              O.syncAria();
               O.selAllState();
             }
           }
@@ -766,6 +917,7 @@
           if (c) O.E.find('option')[i].selected = false;
           if (!O.mob) O.optDiv.find('ul.options li.opt').eq(i).toggleClass('disabled', c).removeClass('selected');
           O.setText();
+          O.syncAria();
         },
 
         // toggle disable/enable on complete select control
@@ -782,6 +934,8 @@
             O.E.removeAttr('disabled');
             O.select.attr('tabindex', '0');
           }
+
+          O.syncControlAria();
 
           return O;
         },
@@ -833,6 +987,7 @@
             O.setText();
             O.setPstate();
           }
+          O.syncAria();
         },
 
         /* outside accessibility options
@@ -845,9 +1000,17 @@
 
         unload() {
           const O = this;
+          $(window).off(O.eventNamespace);
+          $(document).off(O.eventNamespace);
+          O.labelElements.off(O.eventNamespace);
+          O.E.off(O.eventNamespace);
           O.select.before(O.E);
           O.E.show();
           O.E[0].classList.remove('SumoUnder', 'SelectClass');
+          if (O.originalTabindex === undefined) O.E.removeAttr('tabindex');
+          else O.E.attr('tabindex', O.originalTabindex);
+          if (O.originalAriaHidden === undefined) O.E.removeAttr('aria-hidden');
+          else O.E.attr('aria-hidden', O.originalAriaHidden);
 
           if (settings.outputAsCSV && O.is_multi && O.select.find('input.HEMANT123').length) {
             O.E.attr('name', O.select.find('input.HEMANT123').attr('name')); // restore the name;
@@ -894,6 +1057,8 @@
             if (!O.mob) O.ul.find('li.opt').eq(index).before(O.createLi(opt));
           }
 
+          O.syncAria();
+
           return selObj;
         },
 
@@ -903,6 +1068,7 @@
           O.E.find('option').eq(i).remove();
           if (!O.mob) O.optDiv.find('ul.options li.opt').eq(i).remove();
           O.setText();
+          O.syncAria();
         },
 
         // removes all but the selected one
