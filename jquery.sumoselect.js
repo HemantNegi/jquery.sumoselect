@@ -166,16 +166,19 @@
           O.select.attr({
             'tabindex': '0',
             'role': O.is_multi ? 'button' : 'combobox',
-            'aria-expanded': 'false',
-            'aria-haspopup': 'listbox',
-            'aria-controls': O.listboxId
+            'aria-expanded': 'false'
           });
-          O.setAccessibleName();
-          O.E.addClass('SumoUnder').attr({
-            'tabindex': '-1',
-            'aria-hidden': 'true'
-          });
-          O.bindLabelEvents();
+          if (O.E.prop('disabled')) O.select.removeAttr('tabindex');
+          O.E.addClass('SumoUnder').attr('tabindex', '-1');
+          if (!O.is_multi) {
+            O.select.attr({
+              'aria-haspopup': 'listbox',
+              'aria-controls': O.listboxId
+            });
+            O.setAccessibleName();
+            O.E.attr('aria-hidden', 'true');
+            O.bindLabelEvents();
+          }
 
           // if there is a name attr in select add a class to container div
           if (O.E.attr('name')) O.select.addClass(`sumo_${O.E.attr('name').replace(/\[\]/, '')}`);
@@ -187,11 +190,13 @@
           O.floatingList();
 
           //Creating the markup for the available options
-          O.ul = $('<ul class="options">').attr({
-            'id': O.listboxId,
-            'role': 'listbox'
-          });
-          if (O.is_multi) O.ul.attr('aria-multiselectable', 'true');
+          O.ul = $('<ul class="options">');
+          if (!O.is_multi) {
+            O.ul.attr({
+              'id': O.listboxId,
+              'role': 'listbox'
+            });
+          }
           O.optDiv.append(O.ul);
 
           // Select all functionality
@@ -218,21 +223,24 @@
           $(opts).each((i, opt) => {       // parsing options to li
             const $opt = $(opt);
             if ($opt.is('optgroup')) {
-              const groupId = `${O.instanceId}-group-${O.groupId++}`;
-              const groupLabelId = `${groupId}-label`;
+              const group = $(`<li class="group ${opt.disabled ? 'disabled' : ''}"><label></label><ul></ul></li>`);
+              if (!O.is_multi) {
+                const groupId = `${O.instanceId}-group-${O.groupId++}`;
+                const groupLabelId = `${groupId}-label`;
+                group.attr({
+                  'id': groupId,
+                  'role': 'group',
+                  'aria-labelledby': groupLabelId
+                });
+                group.find('label').attr('id', groupLabelId);
+                group.find('ul').attr('role', 'presentation');
+              }
               lis.push(
-                $(`<li class="group ${opt.disabled ? 'disabled' : ''}"><label></label><ul></ul></li>`)
-                  .attr({
-                    'id': groupId,
-                    'role': 'group',
-                    'aria-labelledby': groupLabelId
-                  })
+                group
                   .find('label')
-                  .attr('id', groupLabelId)
                   .text($opt.attr('label'))
                   .end()
                   .find('ul')
-                  .attr('role', 'presentation')
                   .append(O.prepItems($opt.children(), opt.disabled))
                   .end()
               );
@@ -249,24 +257,13 @@
           const O = this;
 
           if (!opt.attr('value')) opt.attr('value', opt.val());
-          const li = $(`<li class="opt"><label>${opt.html()}</label></li>`).attr({
-            'id': `${O.instanceId}-option-${O.optionId++}`,
-            'role': 'option',
-            'aria-selected': opt[0].selected ? 'true' : 'false'
-          });
-
-          li.data('opt', opt);    // store a direct reference to option.
-          opt.data('li', li);    // store a direct reference to list item.
+          let li = $(`<li class="opt"><label>${opt.html()}</label></li>`);
           if (O.is_multi) li.prepend('<span><i></i></span>');
 
           if (opt[0].disabled || d) li.addClass('disabled');
-          li.attr('aria-disabled', li.hasClass('disabled') ? 'true' : 'false');
-
-          O.onOptClick(li);
 
           if (opt[0].selected) {
             li.addClass('selected');
-            O.selectedCount++;
           }
 
           if (opt.attr('class'))
@@ -275,10 +272,37 @@
           if (opt.attr('title'))
             li.attr('title', opt.attr('title'));
 
-          li.data('sumo-hidden', li.hasClass('hidden') || !!opt[0].hidden || opt.css('display') === 'none');
-          if (li.data('sumo-hidden')) li.addClass('hidden').attr('aria-hidden', 'true');
+          const renderedLi = settings.renderLi(li, opt);
+          if (renderedLi && $(renderedLi).length) li = $(renderedLi).first();
 
-          return settings.renderLi(li, opt);
+          // renderLi may return a replacement element. Apply the internal contract
+          // after rendering so data, events and accessibility state cannot be lost.
+          li.addClass('opt');
+          if (opt[0].disabled || d) li.addClass('disabled');
+          if (opt[0].selected) {
+            li.addClass('selected');
+            O.selectedCount++;
+          }
+          if (opt.attr('class')) li.addClass(opt.attr('class'));
+          if (opt.attr('title')) li.attr('title', opt.attr('title'));
+
+          li.data('opt', opt);    // store a direct reference to option.
+          opt.data('li', li);    // store a direct reference to list item.
+          li.data('sumo-hidden', li.hasClass('hidden') || !!opt[0].hidden || opt.css('display') === 'none');
+          if (li.data('sumo-hidden')) li.addClass('hidden');
+
+          if (!O.is_multi) {
+            li.attr({
+              'id': `${O.instanceId}-option-${O.optionId++}`,
+              'role': 'option',
+              'aria-selected': opt[0].selected ? 'true' : 'false',
+              'aria-disabled': li.hasClass('disabled') ? 'true' : 'false'
+            });
+            if (li.data('sumo-hidden')) li.attr('aria-hidden', 'true');
+          }
+
+          O.onOptClick(li);
+          return li;
         },
 
         getLabelElements() {
@@ -333,7 +357,7 @@
 
         syncControlAria() {
           const O = this;
-          if (O.mob) return;
+          if (O.mob || O.is_multi) return;
 
           const disabled = O.E.prop('disabled');
           O.select.attr('aria-disabled', disabled ? 'true' : 'false');
@@ -359,23 +383,27 @@
             const li = $(optionElement);
             const option = li.data('opt')[0];
             const selected = !!option.selected;
-            const disabled = !!option.disabled || li.closest('li.group').hasClass('disabled') || li.hasClass('temporary-disabled');
+            const disabled = !!option.disabled || li.closest('li.group').hasClass('disabled') || li.hasClass('disabled') || li.hasClass('temporary-disabled');
 
-            li.toggleClass('selected', selected).attr({
-              'aria-selected': selected ? 'true' : 'false',
-              'aria-disabled': disabled ? 'true' : 'false'
-            });
-            if (li.hasClass('hidden')) li.attr('aria-hidden', 'true');
-            else li.removeAttr('aria-hidden');
+            li.toggleClass('selected', selected);
+            if (!O.is_multi) {
+              li.attr({
+                'aria-selected': selected ? 'true' : 'false',
+                'aria-disabled': disabled ? 'true' : 'false'
+              });
+              if (li.hasClass('hidden')) li.attr('aria-hidden', 'true');
+              else li.removeAttr('aria-hidden');
+            }
             if (selected) O.selectedCount++;
           });
         },
 
         syncAria() {
           if (this.mob) return;
+          this.syncOptionAria();
+          if (this.is_multi) return;
           this.setAccessibleName();
           this.syncControlAria();
-          this.syncOptionAria();
           if (this.is_opened) this.ensureActiveOption();
         },
 
@@ -692,21 +720,23 @@
         Search() {
           const O = this,
             cc = O.CaptionCont.addClass('search'),
-            P = $('<p class="no-match">').attr({
+            P = $('<p class="no-match">'),
+            fn = typeof settings.searchFn === 'function' ? settings.searchFn : defaultOptions.searchFn;
+
+          if (!O.is_multi) {
+            P.attr({
               'role': 'status',
               'aria-live': 'polite',
               'aria-atomic': 'true'
-            }),
-            fn = typeof settings.searchFn === 'function' ? settings.searchFn : defaultOptions.searchFn;
+            });
+          }
 
           O.ftxt = $('<input type="search" class="search-txt" value="" autocomplete="off">')
-            .attr({
-              'aria-label': settings.searchLabel || settings.searchText,
-              'aria-controls': O.listboxId
-            })
+            .attr('aria-label', settings.searchLabel || settings.searchText)
             .on('click', (e) => {
               e.stopPropagation();
             });
+          if (!O.is_multi) O.ftxt.attr('aria-controls', O.listboxId);
           O.ftxt[0].placeholder = settings.searchText;
           cc.append(O.ftxt);
           O.optDiv.children('ul').after(P);
@@ -852,6 +882,11 @@
 
           O.select.on('keydown.sumo', (e) => {
             const searchTarget = !!O.ftxt && O.ftxt.is(e.target);
+            if (e.which === 65 && O.is_multi && !settings.max && e.ctrlKey) {
+              O.toggSelAll(!e.shiftKey, 1);
+              e.preventDefault();
+              return;
+            }
             switch (e.which) {
               case 38: // up
                 O.nav(true);
@@ -860,14 +895,6 @@
               case 40: // down
                 O.nav(false);
                 break;
-
-              case 65: // shortcut ctrl + a to select all and ctrl + shift + a to unselect all.
-                if (O.is_multi && !settings.max && e.ctrlKey) {
-                  O.toggSelAll(!e.shiftKey, 1);
-                  break;
-                }
-                else
-                  return;
 
               case 32: // space
                 if (searchTarget) return;

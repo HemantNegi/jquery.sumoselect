@@ -233,6 +233,28 @@ test('typeahead activates a multi-character prefix without changing the select',
   assert.equal(sumo.ul.find('li.opt').eq(1).attr('aria-selected'), 'true');
 });
 
+test('letter A reaches typeahead instead of the multiple-select Ctrl+A shortcut', () => {
+  const { select, sumo } = initialize(`
+    <select>
+      <option value="de" selected>Germany</option>
+      <option value="al">Allemagne</option>
+    </select>
+  `);
+  let changes = 0;
+  select.on('change', () => changes++);
+
+  press(sumo.select, 65, 'A');
+
+  assert.equal(sumo.is_opened, true);
+  assert.equal(sumo.ul.find('li.sel').text(), 'Allemagne');
+  assert.equal(select.val(), 'de');
+  assert.equal(changes, 0);
+
+  press(sumo.select, 13, 'Enter');
+  assert.equal(select.val(), 'al');
+  assert.equal(changes, 1);
+});
+
 test('Space validates the active option exactly once', () => {
   const { select, sumo } = initialize(`
     <select>
@@ -265,6 +287,35 @@ test('mouse selection synchronizes all states and emits one change', () => {
   assert.equal(sumo.ul.find('li.opt').eq(0).attr('aria-selected'), 'false');
   assert.equal(sumo.ul.find('li.opt').eq(1).hasClass('selected'), true);
   assert.equal(sumo.ul.find('li.opt').eq(1).attr('aria-selected'), 'true');
+  assert.equal(changes, 1);
+});
+
+test('restores the option contract when renderLi returns a replacement element', () => {
+  const { select, sumo } = initialize(`
+    <select>
+      <option value="fr" selected>France</option>
+      <option value="de">Germany</option>
+    </select>
+  `, 'select', {
+    renderLi(_li, option) {
+      return $('<li class="replacement"><strong></strong></li>')
+        .find('strong')
+        .text(option.text())
+        .end();
+    }
+  });
+  let changes = 0;
+  select.on('change', () => changes++);
+
+  const germany = sumo.ul.find('li.opt').eq(1);
+  assert.equal(germany.hasClass('replacement'), true);
+  assert.equal(germany.attr('role'), 'option');
+  assert.match(germany.attr('id'), /^sumoselect-\d+-option-\d+$/);
+  assert.equal(germany.data('opt')[0], select.find('option').eq(1)[0]);
+
+  germany.trigger('click');
+  assert.equal(select.val(), 'de');
+  assert.equal(germany.attr('aria-selected'), 'true');
   assert.equal(changes, 1);
 });
 
@@ -431,9 +482,26 @@ test('keeps elementary multiple-select behavior', () => {
   assert.equal(select.find('option').eq(1).prop('selected'), true);
   assert.equal(germany.hasClass('selected'), true);
   assert.equal(sumo.select.attr('role'), 'button');
-  assert.equal(sumo.ul.attr('role'), 'listbox');
-  assert.equal(sumo.ul.attr('aria-multiselectable'), 'true');
-  assert.equal(germany.attr('aria-selected'), 'true');
+  assert.equal(sumo.ul.attr('role'), undefined);
+  assert.equal(germany.attr('role'), undefined);
+  assert.equal(germany.attr('aria-selected'), undefined);
+  assert.equal(select.attr('aria-hidden'), undefined);
+
+  press(sumo.select, 65, 'a', { ctrlKey: true });
+  assert.equal(select.find('option:checked').length, 3);
+});
+
+test('keeps a disabled multiple select out of the tab order', () => {
+  const { select, sumo } = initialize(`
+    <select multiple disabled>
+      <option selected>France</option>
+      <option>Germany</option>
+    </select>
+  `);
+
+  assert.equal(sumo.select.attr('role'), 'button');
+  assert.equal(sumo.select.attr('tabindex'), undefined);
+  assert.equal(select.attr('aria-hidden'), undefined);
 });
 
 test('synchronizes disabled state and restores native attributes on unload', () => {
