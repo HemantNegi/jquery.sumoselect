@@ -108,7 +108,8 @@
           });
           O.select = O.E.parent();
           O.caption = $('<span>');
-          O.CaptionCont = $(`<p class="CaptionCont SelectBox ${O.E.attr('class')}" ><label><i></i></label></p>`)
+          O.CaptionCont = $('<p class="CaptionCont SelectBox"><label><i></i></label></p>')
+            .addClass(O.E.attr('class'))
             .attr('style', O.E.attr('style'))
             .prepend(O.caption);
           O.select.append(O.CaptionCont);
@@ -193,7 +194,8 @@
           const O = this;
 
           if (!opt.attr('value')) opt.attr('value', opt.val());
-          const li = $(`<li class="opt"><label>${opt.html()}</label></li>`);
+          const li = $('<li class="opt"><label></label></li>');
+          li.find('label').text(opt.text());
 
           li.data('opt', opt);    // store a direct reference to option.
           opt.data('li', li);    // store a direct reference to list item.
@@ -390,7 +392,8 @@
               }
             });
 
-            P.html(settings.noMatch.replace(/\{0\}/g, '<em></em>')).toggle(!hid.length);
+            P.text(settings.noMatch);
+            P.html(P.html().replace(/\{0\}/g, '<em></em>')).toggle(!hid.length);
             P.find('em').text(O.ftxt.val());
             O.selAllState();
           });
@@ -741,7 +744,7 @@
             opt = O.E.find('option')[i];
           }
           else {
-            opt = O.E.find(`option[value="${i}"]`)[0] || 0;
+            opt = O.E.find('option').filter(function () { return this.value === i; })[0] || 0;
           }
           if (!opt || opt.disabled)
             return;
@@ -875,7 +878,7 @@
             text = val;
           }
 
-          const opt = $("<option></option>").val(value).html(text);
+          const opt = $("<option></option>").val(value).text(text);
 
           if (attr && typeof attr === "object") {
             $.each(attr, (j, v) => {
