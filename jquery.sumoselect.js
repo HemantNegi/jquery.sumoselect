@@ -597,7 +597,7 @@
           const O = this;
           li.on('click', function () {
             const $li = $(this);
-            if ($li.hasClass('disabled')) return;
+            if (O.E.is(':disabled') || $li.hasClass('disabled')) return;
             if (O.is_multi) {
               $li.toggleClass('selected');
               $li.data('opt')[0].selected = $li.hasClass('selected');
